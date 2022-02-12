@@ -7,13 +7,13 @@ public class Bullet : MonoBehaviour
 {
     public float bulletSpeed;
 
-    private Transform player;
+    public GameObject player;
     private Rigidbody2D rb;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
 
-        player = transform.parent;
+        player = transform.parent.gameObject;
 
         transform.SetParent(null);
 
@@ -22,17 +22,32 @@ public class Bullet : MonoBehaviour
 
     public void StartMovement()
     {
-        transform.rotation = player.rotation;
+        transform.rotation = player.transform.rotation;
+        transform.SetParent(null);
         rb.AddForce(transform.right * bulletSpeed, ForceMode2D.Impulse);
         StartCoroutine(WaitToReturn());
+    }
+
+    // Función para parar la bala y que vuelva al jugador
+    private void ReturnToPlayer()
+    {
+        rb.velocity = new Vector2(0, 0);
+        transform.SetParent(player.transform);
+        transform.position = player.transform.position;
+        this.gameObject.SetActive(false);
     }
 
     IEnumerator WaitToReturn()
     {
         yield return new WaitForSeconds(1);
-        rb.velocity = new Vector2(0, 0);
-        transform.SetParent(player);
-        transform.position = player.position;
-        this.gameObject.SetActive(false);
+        ReturnToPlayer();
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (!other.CompareTag("Player"))
+        {
+            ReturnToPlayer();
+        }
     }
 }

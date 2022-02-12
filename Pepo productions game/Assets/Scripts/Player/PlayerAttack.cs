@@ -33,14 +33,20 @@ public class PlayerAttack : MonoBehaviour
 
         for (int i = 0; i < bulletsToInit; i++)
         {
-            // En esta parte creas el objeto de la bala, y lo haces hijo del jugador. También se desactiva para que no se vea 
+            /// En esta parte creas el objeto de la bala, y lo haces hijo del jugador. También se desactiva para que no se vea 
             bulletRepository[i] = Instantiate(bullet, transform.position, Quaternion.identity);
             bulletRepository[i].transform.SetParent(this.gameObject.transform);
             bulletRepository[i].SetActive(false);
 
-            // Aquí guardas el script de la bala que acabas de crear, para después no tener que hacer un GetComponent al disparar (y así ahorrar recursos)
+            /// Aquí guardas el script de la bala que acabas de crear, para después no tener que hacer un GetComponent al disparar (y así ahorrar recursos)
             bulletRepositoryScripts[i] = bulletRepository[i].GetComponent<Bullet>();
         }
+    }
+
+    void Start()
+    {
+        // Ponemos el número de balas que tenemos en el texto
+        ammoText.text = "" + ammo;
     }
 
     void Update()
@@ -78,6 +84,8 @@ public class PlayerAttack : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R))
         {
             ammo = bulletsToInit;
+
+            ammoText.text = "" + ammo;
         }
         #endregion
     }
