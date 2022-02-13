@@ -316,6 +316,7 @@ GameObject:
   - component: {fileID: 1027073997}
   - component: {fileID: 1027073999}
   - component: {fileID: 1027074001}
+  - component: {fileID: 1027074002}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -330,7 +331,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1027073995}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 504c0dfa8d819184e87ab7e72ceab756, type: 3}
   m_Name: 
@@ -466,6 +467,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyHP: 3
+--- !u!114 &1027074002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1027073995}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa167174786abcf4b90b07f9da268f9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemy: {fileID: 0}
+  visionAngle: -1
+  aux: 0
 --- !u!1 &1264178169
 GameObject:
   m_ObjectHideFlags: 0
