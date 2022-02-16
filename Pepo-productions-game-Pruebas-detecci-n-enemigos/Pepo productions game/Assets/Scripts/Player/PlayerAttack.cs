@@ -18,11 +18,17 @@ public class PlayerAttack : MonoBehaviour
     private Bullet[] bulletRepositoryScripts;
         /// Variable donde se marcan las balas que se crearán al inicio del código
     public int bulletsToInit;
+    private int actualBullet;
     // =======================================
 
+    public int bulletDamage;
+    public int bulletSpeed;
 
     // Texto en el que aparece el número de balas
     public Text ammoText;
+
+
+    private WeaponManager weaponManager;
 
     void Awake()
     {
@@ -47,6 +53,8 @@ public class PlayerAttack : MonoBehaviour
     {
         // Ponemos el número de balas que tenemos en el texto
         ammoText.text = "" + ammo;
+
+        weaponManager = GetComponent<WeaponManager>();
     }
 
     void Update()
@@ -70,16 +78,20 @@ public class PlayerAttack : MonoBehaviour
         #endregion
 
         #region Disparo del jugador
-        if (Input.GetKeyDown(KeyCode.E) && ammo > 0)
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            // Vuelves activo el gameObject de la bala para que se active su script
-            bulletRepository[ammo - 1].SetActive(true);
-                // Y aquí llamas a la función que le da movimiento a la bala
-            bulletRepositoryScripts[ammo - 1].StartMovement();
+            if (ammo <= 0) { return; }
+            actualBullet = ammo;
+
             ammo--;
-            
             // Cambias el texto al número de balas actual
             ammoText.text = "" + ammo;
+
+            // Vuelves activo el gameObject de la bala para que se active su script
+            bulletRepository[actualBullet - 1].SetActive(true);
+
+            // Y aquí llamas a la función que le da movimiento a la bala
+            bulletRepositoryScripts[actualBullet - 1].StartMovement();
         }
         if (Input.GetKeyDown(KeyCode.R))
         {
@@ -88,5 +100,15 @@ public class PlayerAttack : MonoBehaviour
             ammoText.text = "" + ammo;
         }
         #endregion
+
+    }
+
+    public void ChangeWeapon(int weaponID)
+    {
+        ammo = weaponManager.weapons[weaponID].weaponAmmo;
+        for (int i = 0; i < bulletsToInit; i++)
+        {
+            bulletRepositoryScripts[i].bulletSpeed = weaponManager.weapons[weaponID].bulletSpeed;
+        }
     }
 }
