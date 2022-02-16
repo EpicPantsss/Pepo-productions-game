@@ -20,9 +20,11 @@ public class WeaponManager : MonoBehaviour
 
     public int currentWeapon = 0;
 
+    private PlayerAttack playerAttack;
+
     private void Start()
     {
-        Debug.Log(weapons);
+        playerAttack = GetComponent<PlayerAttack>();
     }
 
     private void Update()
@@ -33,10 +35,13 @@ public class WeaponManager : MonoBehaviour
         if (mouseScroll.y == 1)
         {
             currentWeapon++;
+            playerAttack.ChangeWeapon(currentWeapon);
+            
         }
         if (mouseScroll.y == -1)
         {
             currentWeapon--;
+            playerAttack.ChangeWeapon(currentWeapon);
         }
     }
 
