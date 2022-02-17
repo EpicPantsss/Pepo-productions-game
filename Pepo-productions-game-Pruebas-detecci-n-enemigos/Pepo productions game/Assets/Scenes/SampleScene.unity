@@ -298,7 +298,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 2069756536}
-  cameraSpeed: 5
+  cameraSpeed: 8
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -448,7 +448,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 535785356}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.32, y: 0.32, z: 0.2}
@@ -635,7 +635,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.25, y: 0.5}
   m_EdgeRadius: 0
 --- !u!61 &1027073999
 BoxCollider2D:
@@ -661,7 +661,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.25, y: 0.5}
   m_EdgeRadius: 0
 --- !u!4 &1027074000
 Transform:
@@ -703,10 +703,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa167174786abcf4b90b07f9da268f9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemy: {fileID: 0}
-  player: {fileID: 0}
-  visionAngle: -1
-  aux: 0
+  detectionRadius: 5
+  detectionAngle: 90
+  player: {fileID: 2069756536}
+  toPlayer: {x: 0, y: 0}
+  playerDetected: 0
 --- !u!1 &1264178169
 GameObject:
   m_ObjectHideFlags: 0
@@ -969,7 +970,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -5389239073700941169, guid: 82e37d920fe72104bb009b3cc2115455, type: 3}
       propertyPath: m_Size.x
-      value: 1.5
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -5389239073700941169, guid: 82e37d920fe72104bb009b3cc2115455, type: 3}
+      propertyPath: m_Size.y
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: -5389239073700941169, guid: 82e37d920fe72104bb009b3cc2115455, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: -5389239073700941169, guid: 82e37d920fe72104bb009b3cc2115455, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
@@ -1029,7 +1038,15 @@ PrefabInstance:
       objectReference: {fileID: 132076406}
     - target: {fileID: 8120123512762690520, guid: 82e37d920fe72104bb009b3cc2115455, type: 3}
       propertyPath: m_Size.x
-      value: 1.5
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8120123512762690520, guid: 82e37d920fe72104bb009b3cc2115455, type: 3}
+      propertyPath: m_Size.y
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 8120123512762690520, guid: 82e37d920fe72104bb009b3cc2115455, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 8120123512762690520, guid: 82e37d920fe72104bb009b3cc2115455, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x

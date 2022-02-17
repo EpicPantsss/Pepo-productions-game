@@ -106,7 +106,6 @@ public class PlayerAttack : MonoBehaviour
         {
             timer += Time.deltaTime;
 
-            Debug.Log("Time: " + timer);
             if (timer > 1.5f)
             {
                 timer = 0;

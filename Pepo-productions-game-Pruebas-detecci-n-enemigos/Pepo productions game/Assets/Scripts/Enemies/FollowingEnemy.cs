@@ -11,19 +11,18 @@ public class FollowingEnemy : MonoBehaviour
     private float distanceToRotate;
     public LayerMask playerL;
 
+    private EnemyDetection enemyDetection;
+
     void Start()
     {
         player = GameObject.Find("Player");
+        enemyDetection = GetComponent<EnemyDetection>();
     }
 
     void FixedUpdate()
     {
-        RaycastHit2D rayToPlayer = Physics2D.Raycast(transform.position, player.transform.position - transform.position, playerL);
-        if (rayToPlayer)
+        if (enemyDetection.playerDetected)
         {
-            Debug.DrawRay(transform.position, player.transform.position - transform.position, Color.green);
-
-            
             distanceToRotate = getAngle(transform.position, player.transform.position);
             // =================
             // Rotación del enemigo
@@ -40,12 +39,6 @@ public class FollowingEnemy : MonoBehaviour
 
             // Con esto el enemigo se moverá hacia adelante
             transform.Translate(Vector2.right * enemySpeed * Time.deltaTime);
-            
-        }
-        else
-        {
-            Debug.DrawRay(transform.position, player.transform.position - transform.position, Color.red);
-
         }
     }
 }
