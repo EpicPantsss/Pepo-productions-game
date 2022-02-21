@@ -35,11 +35,8 @@ public class EnemyDetection : MonoBehaviour
         }
     }
 
-    public Mesh mesh;
-
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(transform.position, detectionRadius);
-        
     }
 }
