@@ -708,6 +708,7 @@ MonoBehaviour:
   player: {fileID: 2069756536}
   toPlayer: {x: 0, y: 0}
   playerDetected: 0
+  mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1264178169
 GameObject:
   m_ObjectHideFlags: 0
