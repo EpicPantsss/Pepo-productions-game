@@ -20,11 +20,13 @@ public class EnemyDetection : MonoBehaviour
 
         if (toPlayer.magnitude <= detectionRadius)
         {
-            Debug.Log(Vector3.Dot(toPlayer, Vector2.right));
-            if (Vector3.Dot(toPlayer, Vector2.right) >
-                Mathf.Cos(detectionAngle * player.position.x * player.position.y * 0.5f * Mathf.Deg2Rad))
+            if (Vector2.Angle(transform.right, player.position - transform.position) < detectionAngle)
             {
                 playerDetected = true;
+            }
+            else
+            {
+                playerDetected = false;
             }
         }
         else
@@ -33,8 +35,11 @@ public class EnemyDetection : MonoBehaviour
         }
     }
 
+    public Mesh mesh;
+
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(transform.position, detectionRadius);
+        
     }
 }
