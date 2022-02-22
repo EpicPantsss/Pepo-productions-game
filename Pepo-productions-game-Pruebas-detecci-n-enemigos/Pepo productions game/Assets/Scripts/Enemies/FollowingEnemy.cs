@@ -46,6 +46,16 @@ public class FollowingEnemy : MonoBehaviour
             // Con esto el enemigo se moverá hacia adelante
             transform.Translate(Vector2.right * enemySpeed * Time.deltaTime);
         }
+
+        if (enemyDetection.playerJustUndetected)
+        {
+            transform.Translate(Vector2.right * enemySpeed * Time.deltaTime);
+        }
+
+        if (enemyDetection.playerDetected || enemyDetection.playerJustUndetected)
+        {
+            anim.SetBool("Walking", true);
+        }
         else
         {
             anim.SetBool("Walking", false);

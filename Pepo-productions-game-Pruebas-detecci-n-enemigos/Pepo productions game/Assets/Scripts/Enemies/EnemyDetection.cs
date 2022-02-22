@@ -13,10 +13,11 @@ public class EnemyDetection : MonoBehaviour
 
     public bool playerDetected;
 
-    public LayerMask layer;
+    public float timer;
 
-    private float timer;
-    private bool playerJustUndetected;
+    [HideInInspector]
+    public bool playerJustUndetected;
+
 
     private void Update()
     {
@@ -27,15 +28,28 @@ public class EnemyDetection : MonoBehaviour
             if (Vector2.Angle(transform.right, player.position - transform.position) < detectionAngle)
             {
                 playerDetected = true;
+                playerJustUndetected = false;
+                timer = 0;
             }
             else
             {
+                // Si el enemigo estaba viendo al jugador y justo deja de verlo, pondrá en true a playerJustUndetected
+                if (playerDetected)
+                {
+                    playerJustUndetected = true;
+                }
+
                 playerDetected = false;
-                playerJustUndetected = true;
             }
         }
         else
         {
+            // Si el enemigo estaba viendo al jugador y justo deja de verlo, pondrá en true a playerJustUndetected
+            if (playerDetected)
+            {
+                playerJustUndetected = true;
+            }
+
             playerDetected = false;
         }
 
@@ -43,13 +57,10 @@ public class EnemyDetection : MonoBehaviour
         {
             timer += Time.deltaTime;
 
-            if (timer < 3)
+            if (timer >= 3)
             {
-                playerDetected = true;
-            }
-            else
-            {
-                playerDetected = false;
+                playerJustUndetected = false;
+                timer = 0;
             }
         }
     }
