@@ -37,6 +37,10 @@ public class PlayerAttack : MonoBehaviour
 
     float timer;
 
+    // Animación
+    [Header("Animación del ataque")]
+    public AnimationClip attackAnimation;
+
     void Awake()
     {
         bulletRepository = new GameObject[bulletsToInit];

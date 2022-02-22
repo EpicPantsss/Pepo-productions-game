@@ -148,6 +148,7 @@ MonoBehaviour:
   bulletSpeed: 0
   ammoText: {fileID: 132076406}
   shooting: 0
+  attackAnimation: {fileID: 0}
 --- !u!114 &88745475
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,6 +164,9 @@ MonoBehaviour:
   speed: 5
   anim: {fileID: 0}
   walking: 0
+  sneakImage: {fileID: 351162992}
+  agachado: 0
+  sneakSpeed: 2.5
 --- !u!114 &88745476
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -257,6 +261,81 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 132076404}
+  m_CullTransparentMesh: 1
+--- !u!1 &351162990
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 351162991}
+  - component: {fileID: 351162993}
+  - component: {fileID: 351162992}
+  m_Layer: 5
+  m_Name: Efecto de sigilo
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &351162991
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 351162990}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 40.88786, y: 22.718, z: 22.718}
+  m_Children: []
+  m_Father: {fileID: 2125652900}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -14}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &351162992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 351162990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.7372549}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: b1ffec59fb81b634e80e40c9d40c24b2, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &351162993
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 351162990}
   m_CullTransparentMesh: 1
 --- !u!1 &519420028
 GameObject:
@@ -368,7 +447,7 @@ GameObject:
   - component: {fileID: 535785357}
   - component: {fileID: 535785359}
   - component: {fileID: 535785360}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: BulletAmmo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -434,11 +513,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 535785356}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.09, z: 0}
+  m_LocalPosition: {x: 2.83, y: 4.08, z: 0}
   m_LocalScale: {x: 2.26373, y: 2.26373, z: 2.26373}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &535785359
 BoxCollider:
@@ -448,7 +527,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 535785356}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.32, y: 0.32, z: 0.2}
@@ -588,7 +667,7 @@ GameObject:
   - component: {fileID: 1027073999}
   - component: {fileID: 1027074001}
   - component: {fileID: 1027074002}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -676,7 +755,7 @@ Transform:
   m_Children:
   - {fileID: 1527288137}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1027074001
 MonoBehaviour:
@@ -708,7 +787,9 @@ MonoBehaviour:
   player: {fileID: 2069756536}
   toPlayer: {x: 0, y: 0}
   playerDetected: 0
-  mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+  layer:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!1 &1264178169
 GameObject:
   m_ObjectHideFlags: 0
@@ -773,7 +854,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1527288136
 GameObject:
@@ -785,7 +866,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1527288137}
   - component: {fileID: 1527288138}
-  m_Layer: 0
+  - component: {fileID: 1527288139}
+  m_Layer: 2
   m_Name: EnemySprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -857,6 +939,25 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &1527288139
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1527288136}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 50d22a74c97e93f499539b04aba5e618, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!4 &2069756536 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8120123512762690517, guid: 82e37d920fe72104bb009b3cc2115455, type: 3}
@@ -954,8 +1055,9 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 132076405}
+  - {fileID: 351162991}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -991,7 +1093,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8120123512762690517, guid: 82e37d920fe72104bb009b3cc2115455, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8120123512762690517, guid: 82e37d920fe72104bb009b3cc2115455, type: 3}
       propertyPath: m_LocalPosition.x

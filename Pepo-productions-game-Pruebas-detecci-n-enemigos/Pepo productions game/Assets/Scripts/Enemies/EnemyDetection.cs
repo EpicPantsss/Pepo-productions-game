@@ -13,10 +13,14 @@ public class EnemyDetection : MonoBehaviour
 
     public bool playerDetected;
 
+    public LayerMask layer;
+
+    private float timer;
+    private bool playerJustUndetected;
+
     private void Update()
     {
         toPlayer = player.localPosition - transform.localPosition;
-
 
         if (toPlayer.magnitude <= detectionRadius)
         {
@@ -27,19 +31,37 @@ public class EnemyDetection : MonoBehaviour
             else
             {
                 playerDetected = false;
+                playerJustUndetected = true;
             }
         }
         else
         {
             playerDetected = false;
         }
+
+        if (playerJustUndetected)
+        {
+            timer += Time.deltaTime;
+
+            if (timer < 3)
+            {
+                playerDetected = true;
+            }
+            else
+            {
+                playerDetected = false;
+            }
+        }
     }
 
-    public Mesh mesh;
 
     private void OnDrawGizmos()
     {
+        // Para solo dibujar el rango de detección si se selecciona el objeto
+        if (UnityEditor.Selection.activeGameObject != this.gameObject 
+            && UnityEditor.Selection.activeGameObject != this.gameObject.transform.GetChild(0).gameObject) { 
+            return; 
+        }
         Gizmos.DrawWireSphere(transform.position, detectionRadius);
-        
     }
 }

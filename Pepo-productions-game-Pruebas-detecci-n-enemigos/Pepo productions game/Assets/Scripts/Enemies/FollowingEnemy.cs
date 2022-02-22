@@ -13,16 +13,22 @@ public class FollowingEnemy : MonoBehaviour
 
     private EnemyDetection enemyDetection;
 
+    //Animación
+    private Animator anim;
+
     void Start()
     {
         player = GameObject.Find("Player");
         enemyDetection = GetComponent<EnemyDetection>();
+
+        anim = GetComponentInChildren<Animator>();
     }
 
     void FixedUpdate()
     {
         if (enemyDetection.playerDetected)
         {
+            anim.SetBool("Walking", true);
             distanceToRotate = getAngle(transform.position, player.transform.position);
             // =================
             // Rotación del enemigo
@@ -39,6 +45,10 @@ public class FollowingEnemy : MonoBehaviour
 
             // Con esto el enemigo se moverá hacia adelante
             transform.Translate(Vector2.right * enemySpeed * Time.deltaTime);
+        }
+        else
+        {
+            anim.SetBool("Walking", false);
         }
     }
 }
