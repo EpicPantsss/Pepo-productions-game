@@ -19,9 +19,9 @@ public class PlayerMovement : MonoBehaviour
     private PlayerAttack playerAttack;
 
     [Header("Sigilo/Agacharse")]
-    public Image sneakImage;
-    public bool agachado;
     public float sneakSpeed;
+    public bool agachado;
+    public Image sneakImage;
 
     private float aux;
 

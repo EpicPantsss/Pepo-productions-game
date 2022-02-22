@@ -7,6 +7,8 @@ public class EnemyDetection : MonoBehaviour
     public float detectionRadius = 10.0f;
     public float detectionAngle = 90.0f;
 
+    private float aux;
+
     public Transform player;
 
     public Vector2 toPlayer;
@@ -17,6 +19,9 @@ public class EnemyDetection : MonoBehaviour
 
     [HideInInspector]
     public bool playerJustUndetected;
+
+    public float distanceToWalk;
+    public Vector2 playerLastPositionSeen;
 
 
     private void Update()
@@ -30,6 +35,9 @@ public class EnemyDetection : MonoBehaviour
                 playerDetected = true;
                 playerJustUndetected = false;
                 timer = 0;
+                playerLastPositionSeen = player.position;
+
+
             }
             else
             {
@@ -56,11 +64,13 @@ public class EnemyDetection : MonoBehaviour
         if (playerJustUndetected)
         {
             timer += Time.deltaTime;
+            distanceToWalk = Vector2.Distance(transform.position, playerLastPositionSeen);
 
-            if (timer >= 3)
+            if (timer >= 3 || distanceToWalk <= 0)
             {
                 playerJustUndetected = false;
                 timer = 0;
+                distanceToWalk = 0;
             }
         }
     }
