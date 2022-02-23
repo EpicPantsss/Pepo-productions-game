@@ -392,9 +392,9 @@ GameObject:
   m_Component:
   - component: {fileID: 535785358}
   - component: {fileID: 535785357}
-  - component: {fileID: 535785359}
   - component: {fileID: 535785360}
-  m_Layer: 3
+  - component: {fileID: 535785359}
+  m_Layer: 6
   m_Name: BulletAmmo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -466,19 +466,32 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &535785359
-BoxCollider:
+--- !u!61 &535785359
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 535785356}
+  m_Enabled: 1
+  m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.32, y: 0.32}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.32, y: 0.32, z: 0.2}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.32, y: 0.32}
+  m_EdgeRadius: 0
 --- !u!95 &535785360
 Animator:
   serializedVersion: 3
@@ -510,9 +523,9 @@ GameObject:
   - component: {fileID: 1027073996}
   - component: {fileID: 1027073997}
   - component: {fileID: 1027073999}
+  - component: {fileID: 1027074003}
   - component: {fileID: 1027074001}
   - component: {fileID: 1027074002}
-  - component: {fileID: 1027074003}
   - component: {fileID: 1027073998}
   m_Layer: 2
   m_Name: Enemy
@@ -570,7 +583,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1027073995}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f2d9ab63a01c2844abd0e59e5dd606b1, type: 3}
   m_Name: 
@@ -579,6 +592,7 @@ MonoBehaviour:
   - {fileID: 1798101400}
   - {fileID: 1944000612}
   patrolOrder: 0
+  enemySpeed: 1
 --- !u!61 &1027073999
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -654,6 +668,9 @@ MonoBehaviour:
   playerJustUndetected: 0
   distanceToWalk: 0
   playerLastPositionSeen: {x: 0, y: 0}
+  layerDetection:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!50 &1027074003
 Rigidbody2D:
   serializedVersion: 4
@@ -867,7 +884,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1798101399}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4.596766, y: 4.3802066, z: 0}
+  m_LocalPosition: {x: 4.596766, y: 6.04, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -951,10 +968,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -1024,12 +1041,20 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5857497777866717717, guid: c7de63ba40a57464cb7dee66dc37a1b3, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5857497777866717717, guid: c7de63ba40a57464cb7dee66dc37a1b3, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5857497777866717717, guid: c7de63ba40a57464cb7dee66dc37a1b3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 4.02
       objectReference: {fileID: 0}
     - target: {fileID: 5857497777866717717, guid: c7de63ba40a57464cb7dee66dc37a1b3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 4.08
       objectReference: {fileID: 0}
     - target: {fileID: 5857497777866717717, guid: c7de63ba40a57464cb7dee66dc37a1b3, type: 3}
       propertyPath: m_LocalPosition.z

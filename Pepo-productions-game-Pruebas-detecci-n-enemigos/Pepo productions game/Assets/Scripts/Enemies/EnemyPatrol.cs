@@ -11,6 +11,8 @@ public class EnemyPatrol : MonoBehaviour
 
     private Rigidbody2D rb;
 
+    public float enemySpeed;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -20,9 +22,13 @@ public class EnemyPatrol : MonoBehaviour
 
     private void Update()
     {
-        if (Vector2.Distance(transform.position, objectives[patrolOrder].position) >= 0)
+        if (Vector2.Distance(transform.position, objectives[patrolOrder].position) > 0)
         {
-            
+            transform.Translate(transform.right * enemySpeed * Time.deltaTime);
+        }
+        else
+        {
+            SetDirection(objectives[patrolOrder]);
         }
     }
 
@@ -30,9 +36,27 @@ public class EnemyPatrol : MonoBehaviour
     {
         if (transform.position == objectives[patrolOrder].position)
         {
-            patrolOrder++;
+            if (patrolOrder < objectives.Capacity)
+            {
+                patrolOrder++;
+            }
+            else
+            {
+                patrolOrder = 0;
+            }
         }
-        rb.MovePosition(objective.position);
-        SetDirection(objectives[patrolOrder]);
+        float distanceToRotate = getAngle(transform.position, objectives[patrolOrder].position);
+
+        // Aplicas la rotación
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 0, distanceToRotate), 1);
+
+        // Función que calcula cuánto necesitas rotar
+        float getAngle(Vector2 position, Vector2 mousePosition)
+        {
+            float x = mousePosition.x - position.x;
+            float y = mousePosition.y - position.y;
+
+            return Mathf.Rad2Deg * Mathf.Atan2(y, x);
+        }
     }
 }
