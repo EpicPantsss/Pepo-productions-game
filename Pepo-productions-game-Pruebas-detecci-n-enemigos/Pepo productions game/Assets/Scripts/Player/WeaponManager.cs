@@ -13,12 +13,13 @@ public class WeaponManager : MonoBehaviour
         public int bulletSpeed;
     };
 
-    public Weapon[] weapons;
 
     [HideInInspector]
     public Vector2 mouseScroll;
 
     public int currentWeapon = 0;
+    public const int totalWeapons = 1;
+    public Weapon[] weapons = new Weapon[totalWeapons];
 
     private PlayerAttack playerAttack;
 

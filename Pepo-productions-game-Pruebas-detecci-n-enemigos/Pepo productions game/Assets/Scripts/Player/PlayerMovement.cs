@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -17,10 +18,19 @@ public class PlayerMovement : MonoBehaviour
 
     private PlayerAttack playerAttack;
 
+    [Header("Sigilo/Agacharse")]
+    public float sneakSpeed;
+    public bool agachado;
+    public Image sneakImage;
+
+    private float aux;
+
     void Start()
     {
         anim = gameObject.GetComponentInChildren<Animator>();
         playerAttack = GetComponent<PlayerAttack>();
+
+        aux = speed;
     }
 
     void Update()
@@ -64,6 +74,21 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             anim.SetBool("Walk", false);
+        }
+
+        // Agacharse
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            agachado = !agachado;
+            sneakImage.gameObject.SetActive(agachado);
+        }
+        if (agachado)
+        {
+            speed = sneakSpeed;
+        }
+        else
+        {
+            speed = aux;
         }
     }
 }
