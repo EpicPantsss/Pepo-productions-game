@@ -24,31 +24,74 @@ public class EnemyDetection : MonoBehaviour
     public Vector2 playerLastPositionSeen;
 
 
+    private EnemyPatrol enemyPatrol;
+    private bool hasPatrolScript;
+
+    private void Start()
+    {
+        // Intentas obtener el script de patrulla, y si el enemigo lo tiene, lo guarda en la variable y se marca hasPatrolScript como true
+        enemyPatrol = GetComponent<EnemyPatrol>();
+        if (enemyPatrol != null)
+        {
+            hasPatrolScript = true;
+        }
+    }
+
     private void Update()
     {
         toPlayer = player.localPosition - transform.localPosition;
 
         if (toPlayer.magnitude <= detectionRadius)
         {
-            if (Vector2.Angle(transform.right, player.position - transform.position) < detectionAngle)
+            // Raycast para detectar si hay un objeto delante del jugador
+            RaycastHit2D rayToPlayer = Physics2D.Raycast(transform.position, player.position - transform.position);
+            Debug.Log(rayToPlayer.transform);
+
+            if (rayToPlayer.collider.tag == "Player")
             {
-                playerDetected = true;
-                playerJustUndetected = false;
-                timer = 0;
-                playerLastPositionSeen = player.position;
+                Debug.DrawRay(transform.position, player.position - transform.position, Color.green);
 
+                if (Vector2.Angle(transform.right, player.position - transform.position) < detectionAngle)
+                {
+                    playerDetected = true;
+                    playerJustUndetected = false;
+                    timer = 0;
+                    playerLastPositionSeen = player.position;
 
+                    // Si el enemigo está patrullando, dejará de hacerlo
+                    if (hasPatrolScript)
+                        enemyPatrol.playerSaw = true;
+                }
+                else
+                {
+                    // Si el enemigo estaba viendo al jugador y justo deja de verlo, pondrá en true a playerJustUndetected
+                    if (playerDetected)
+                    {
+                        playerJustUndetected = true;
+                    }
+
+                    playerDetected = false;
+
+                    // Si el enemigo estaba patrullando y deja de ver al jugador, volverá a patrullar
+                    if (hasPatrolScript)
+                        enemyPatrol.playerSaw = false;
+                }
             }
             else
             {
-                // Si el enemigo estaba viendo al jugador y justo deja de verlo, pondrá en true a playerJustUndetected
+                Debug.DrawRay(transform.position, player.position - transform.position, Color.red);
                 if (playerDetected)
                 {
                     playerJustUndetected = true;
                 }
 
                 playerDetected = false;
+
+                // Si el enemigo estaba patrullando y deja de ver al jugador, volverá a patrullar
+                if (hasPatrolScript)
+                    enemyPatrol.playerSaw = false;
             }
+
         }
         else
         {
@@ -71,18 +114,36 @@ public class EnemyDetection : MonoBehaviour
                 playerJustUndetected = false;
                 timer = 0;
                 distanceToWalk = 0;
+
+                if (hasPatrolScript)
+                {
+                    enemyPatrol.ReturnToPatrol();
+                }
             }
         }
     }
 
 
     private void OnDrawGizmos()
-    {
+    {       
         // Para solo dibujar el rango de detección si se selecciona el objeto
         if (UnityEditor.Selection.activeGameObject != this.gameObject 
             && UnityEditor.Selection.activeGameObject != this.gameObject.transform.GetChild(0).gameObject) { 
             return; 
         }
         Gizmos.DrawWireSphere(transform.position, detectionRadius);
+
+        Gizmos.color = Color.gray;
+        float halfFOV = detectionAngle;
+        float coneDirection = 0;
+
+        Quaternion upRayRotation = Quaternion.AngleAxis(-halfFOV + coneDirection, Vector3.forward);
+        Quaternion downRayRotation = Quaternion.AngleAxis(halfFOV + coneDirection, Vector3.forward);
+
+        Vector3 upRayDirection = upRayRotation * transform.right * detectionRadius;
+        Vector3 downRayDirection = downRayRotation * transform.right * detectionRadius;
+
+        Gizmos.DrawRay(transform.position, upRayDirection);
+        Gizmos.DrawRay(transform.position, downRayDirection);
     }
 }
