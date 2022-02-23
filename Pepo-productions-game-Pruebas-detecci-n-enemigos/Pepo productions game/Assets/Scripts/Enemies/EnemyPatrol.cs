@@ -2,61 +2,60 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(EnemyDetection))]
 public class EnemyPatrol : MonoBehaviour
 {
     public List<Transform> objectives;
 
     public int patrolOrder;
 
-    private Rigidbody2D rb;
-
     public float enemySpeed;
+
+    public Vector2 direction;
+
+    private float xDirection;
+    private float yDirection;
+
+    public bool playerSaw;
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-        patrolOrder = 0;
-        SetDirection(objectives[patrolOrder]);
+        GetDirection();
     }
 
     private void Update()
     {
-        if (Vector2.Distance(transform.position, objectives[patrolOrder].position) > 0)
+        if (!playerSaw)
         {
             transform.Translate(transform.right * enemySpeed * Time.deltaTime);
-        }
-        else
-        {
-            SetDirection(objectives[patrolOrder]);
+
+            if (Vector2.Distance(transform.position, objectives[patrolOrder].position) <= 0.15f)
+            {
+                if (patrolOrder < objectives.Capacity - 1)
+                {
+                    patrolOrder++;
+                }
+                else
+                {
+                    patrolOrder = 0;
+                }
+                GetDirection();
+            }
         }
     }
 
-    void SetDirection(Transform objective)
+    public void GetDirection()
     {
-        if (transform.position == objectives[patrolOrder].position)
-        {
-            if (patrolOrder < objectives.Capacity)
-            {
-                patrolOrder++;
-            }
-            else
-            {
-                patrolOrder = 0;
-            }
-        }
-        float distanceToRotate = getAngle(transform.position, objectives[patrolOrder].position);
+        xDirection = Vector2.Angle(transform.position, objectives[patrolOrder].position);
+        yDirection = objectives[patrolOrder].position.y - transform.position.y;
 
-        // Aplicas la rotación
-        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 0, distanceToRotate), 1);
+        direction = new Vector2(xDirection, yDirection).normalized;
+    }
 
-        // Función que calcula cuánto necesitas rotar
-        float getAngle(Vector2 position, Vector2 mousePosition)
-        {
-            float x = mousePosition.x - position.x;
-            float y = mousePosition.y - position.y;
+    public void ReturnToPatrol()
+    {
+        playerSaw = false;
 
-            return Mathf.Rad2Deg * Mathf.Atan2(y, x);
-        }
+        transform.rotation = new Quaternion(0,0, Vector2.Angle(transform.position, objectives[patrolOrder].position), Vector2.Angle(transform.position, objectives[patrolOrder].position));
     }
 }

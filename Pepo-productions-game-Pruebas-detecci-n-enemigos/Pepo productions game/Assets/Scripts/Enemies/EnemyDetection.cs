@@ -23,7 +23,20 @@ public class EnemyDetection : MonoBehaviour
     public float distanceToWalk;
     public Vector2 playerLastPositionSeen;
 
-    [SerializeField] LayerMask layerDetection;
+
+    private EnemyPatrol enemyPatrol;
+    private bool hasPatrolScript;
+
+    private void Start()
+    {
+        // Intentas obtener el script de patrulla, y si el enemigo lo tiene, lo guarda en la variable y se marca hasPatrolScript como true
+        enemyPatrol = GetComponent<EnemyPatrol>();
+        if (enemyPatrol != null)
+        {
+            hasPatrolScript = true;
+        }
+    }
+
     private void Update()
     {
         toPlayer = player.localPosition - transform.localPosition;
@@ -33,6 +46,7 @@ public class EnemyDetection : MonoBehaviour
             // Raycast para detectar si hay un objeto delante del jugador
             RaycastHit2D rayToPlayer = Physics2D.Raycast(transform.position, player.position - transform.position);
             Debug.Log(rayToPlayer.transform);
+
             if (rayToPlayer.collider.tag == "Player")
             {
                 Debug.DrawRay(transform.position, player.position - transform.position, Color.green);
@@ -43,6 +57,10 @@ public class EnemyDetection : MonoBehaviour
                     playerJustUndetected = false;
                     timer = 0;
                     playerLastPositionSeen = player.position;
+
+                    // Si el enemigo está patrullando, dejará de hacerlo
+                    if (hasPatrolScript)
+                        enemyPatrol.playerSaw = true;
                 }
                 else
                 {
@@ -53,6 +71,10 @@ public class EnemyDetection : MonoBehaviour
                     }
 
                     playerDetected = false;
+
+                    // Si el enemigo estaba patrullando y deja de ver al jugador, volverá a patrullar
+                    if (hasPatrolScript)
+                        enemyPatrol.playerSaw = false;
                 }
             }
             else
@@ -64,6 +86,10 @@ public class EnemyDetection : MonoBehaviour
                 }
 
                 playerDetected = false;
+
+                // Si el enemigo estaba patrullando y deja de ver al jugador, volverá a patrullar
+                if (hasPatrolScript)
+                    enemyPatrol.playerSaw = false;
             }
 
         }
@@ -88,6 +114,11 @@ public class EnemyDetection : MonoBehaviour
                 playerJustUndetected = false;
                 timer = 0;
                 distanceToWalk = 0;
+
+                if (hasPatrolScript)
+                {
+                    enemyPatrol.ReturnToPatrol();
+                }
             }
         }
     }
