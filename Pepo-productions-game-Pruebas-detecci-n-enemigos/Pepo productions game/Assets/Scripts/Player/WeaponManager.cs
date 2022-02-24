@@ -18,14 +18,23 @@ public class WeaponManager : MonoBehaviour
     public Vector2 mouseScroll;
 
     public int currentWeapon = 0;
-    public const int totalWeapons = 1;
-    public Weapon[] weapons = new Weapon[totalWeapons];
+
+    [Header("Número de armas")]
+    public int weaponNumber;
+
+    public List<Weapon> weaponsEquipped;
+    private Weapon[] totalWeapons;
 
     private PlayerAttack playerAttack;
 
     private void Start()
     {
         playerAttack = GetComponent<PlayerAttack>();
+    }
+
+    void InitWeapons()
+    {
+        totalWeapons = new Weapon[weaponNumber];
     }
 
     private void Update()

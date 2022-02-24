@@ -524,7 +524,6 @@ GameObject:
   - component: {fileID: 1027073997}
   - component: {fileID: 1027073999}
   - component: {fileID: 1027074003}
-  - component: {fileID: 1027074004}
   - component: {fileID: 1027074001}
   - component: {fileID: 1027074002}
   - component: {fileID: 1027073998}
@@ -594,7 +593,7 @@ MonoBehaviour:
   - {fileID: 1944000612}
   - {fileID: 2037101100}
   patrolOrder: 0
-  enemySpeed: 5
+  enemySpeed: 3
   direction: {x: 0, y: 0}
   playerSaw: 0
 --- !u!61 &1027073999
@@ -631,7 +630,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1027073995}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 4.11, z: 0}
+  m_LocalPosition: {x: 1.87, y: 0.69, z: 0}
   m_LocalScale: {x: 3.2555, y: 3.2555, z: 3.2555}
   m_Children:
   - {fileID: 1527288137}
@@ -693,28 +692,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!195 &1027074004
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1027073995}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 2
-  m_BaseOffset: 0
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
 --- !u!1 &1264178169
 GameObject:
   m_ObjectHideFlags: 0
@@ -907,7 +884,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1798101399}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 7.11, y: 2.41, z: 0}
+  m_LocalPosition: {x: 2.9, y: 3.88, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -967,7 +944,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2037101099}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.652671, y: 2.69, z: 0}
+  m_LocalPosition: {x: -7.37, y: 0.63, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1103,11 +1080,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5857497777866717717, guid: c7de63ba40a57464cb7dee66dc37a1b3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.9
+      value: -4.49
       objectReference: {fileID: 0}
     - target: {fileID: 5857497777866717717, guid: c7de63ba40a57464cb7dee66dc37a1b3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.73
+      value: -2.45
       objectReference: {fileID: 0}
     - target: {fileID: 5857497777866717717, guid: c7de63ba40a57464cb7dee66dc37a1b3, type: 3}
       propertyPath: m_LocalPosition.z

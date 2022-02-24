@@ -117,7 +117,8 @@ public class EnemyDetection : MonoBehaviour
 
                 if (hasPatrolScript)
                 {
-                    enemyPatrol.ReturnToPatrol();
+                    enemyPatrol.playerSaw = false;
+                    enemyPatrol.GetDirection();
                 }
             }
         }
@@ -131,9 +132,10 @@ public class EnemyDetection : MonoBehaviour
             && UnityEditor.Selection.activeGameObject != this.gameObject.transform.GetChild(0).gameObject) { 
             return; 
         }
+        Gizmos.color = Color.gray;
         Gizmos.DrawWireSphere(transform.position, detectionRadius);
 
-        Gizmos.color = Color.gray;
+        Gizmos.color = Color.white;
         float halfFOV = detectionAngle;
         float coneDirection = 0;
 
