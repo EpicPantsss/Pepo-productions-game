@@ -8,15 +8,15 @@ public class EnemyPatrol : MonoBehaviour
     public List<Transform> objectives;
 
     public int patrolOrder;
+    public float distance;
 
     public float enemySpeed;
 
-    public Vector2 direction;
-
-    private float xDirection;
-    private float yDirection;
 
     public bool playerSaw;
+
+    private bool nearObjective;
+    public float nearDistance;
 
     private void Start()
     {
@@ -29,25 +29,43 @@ public class EnemyPatrol : MonoBehaviour
         {
             transform.Translate(Vector2.right * enemySpeed * Time.deltaTime);
 
-            if (Vector2.Distance(transform.position, objectives[patrolOrder].position) <= 0.15f)
+            distance = Vector2.Distance(transform.position, objectives[patrolOrder].position);
+
+            if (distance <= 0.15f)
             {
-                if (patrolOrder < objectives.Capacity - 1)
-                {
-                    patrolOrder++;
-                }
-                else
-                {
-                    patrolOrder = 0;
-                }
-                GetDirection();
+                ChangeObjective();
+            }
+
+            if (distance < nearDistance)
+            {
+                nearObjective = true;
+            }
+            else if (nearObjective && distance >= nearDistance)
+            {
+                ChangeObjective();
             }
         }
     }
 
+    private void ChangeObjective()
+    {
+        if (patrolOrder < objectives.Capacity - 1)
+        {
+            patrolOrder++;
+        }
+        else
+        {
+            patrolOrder = 0;
+        }
+        GetDirection();
+    }
+
     public void GetDirection()
     {
-        xDirection = objectives[patrolOrder].position.x - transform.position.x;
-        yDirection = objectives[patrolOrder].position.y - transform.position.y;
+        nearObjective = false;
+
+        distance = Vector2.Distance(transform.position, objectives[patrolOrder].position);
+        nearDistance = distance / 2;
 
         float distanceToRotate = getAngle(transform.position, objectives[patrolOrder].position);
         // Aplicas la rotación
@@ -61,8 +79,6 @@ public class EnemyPatrol : MonoBehaviour
 
             return Mathf.Rad2Deg * Mathf.Atan2(y, x);
         }
-
-        direction = new Vector2(xDirection, yDirection).normalized;
     }
 
     private void OnDrawGizmos()

@@ -26,6 +26,7 @@ public class PlayerAttack : MonoBehaviour
 
     public int bulletDamage;
     public int bulletSpeed;
+    public float fireRate;
 
     // Texto en el que aparece el número de balas
     public Text ammoText;
@@ -35,7 +36,7 @@ public class PlayerAttack : MonoBehaviour
 
     public bool shooting;
 
-    float timer;
+    private float timer;
 
     // Animación
     [Header("Animación del ataque")]
@@ -110,7 +111,7 @@ public class PlayerAttack : MonoBehaviour
         {
             timer += Time.deltaTime;
 
-            if (timer > 1.5f)
+            if (timer >= fireRate)
             {
                 timer = 0;
                 shooting = false;
@@ -128,10 +129,15 @@ public class PlayerAttack : MonoBehaviour
 
     public void ChangeWeapon(int weaponID)
     {
-        ammo = weaponManager.weapons[weaponID].weaponAmmo;
+        ammo = weaponManager.weaponsEquipped[weaponID].weaponAmmo;
+        ammoText.text = "" + ammo;
+
+        fireRate = weaponManager.weaponsEquipped[weaponID].weaponRecoil;
+
         for (int i = 0; i < bulletsToInit; i++)
         {
-            bulletRepositoryScripts[i].bulletSpeed = weaponManager.weapons[weaponID].bulletSpeed;
+            bulletRepositoryScripts[i].bulletSpeed = weaponManager.weaponsEquipped[weaponID].bulletSpeed;
+            bulletRepositoryScripts[i].bulletDamage = weaponManager.weaponsEquipped[weaponID].weaponDamage;
         }
     }
 }

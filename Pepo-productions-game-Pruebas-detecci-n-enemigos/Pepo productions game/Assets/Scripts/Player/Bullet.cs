@@ -6,6 +6,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public float bulletSpeed;
+    public float bulletDamage;
 
     public GameObject player;
     private Rigidbody2D rb;
