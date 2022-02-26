@@ -51,19 +51,8 @@ public class PlayerAttack : MonoBehaviour
     {
         bulletRepository = new GameObject[bulletsToInit];
         bulletRepositoryScripts = new Bullet[bulletsToInit];
-        // La munición es el número total de balas que se pueden disparar
-        ammo = bulletsToInit;
 
-        for (int i = 0; i < bulletsToInit; i++)
-        {
-            /// En esta parte creas el objeto de la bala, y lo haces hijo del jugador. También se desactiva para que no se vea 
-            bulletRepository[i] = Instantiate(bullet, transform.position, Quaternion.identity);
-            bulletRepository[i].transform.SetParent(this.gameObject.transform);
-            bulletRepository[i].SetActive(false);
-
-            /// Aquí guardas el script de la bala que acabas de crear, para después no tener que hacer un GetComponent al disparar (y así ahorrar recursos)
-            bulletRepositoryScripts[i] = bulletRepository[i].GetComponent<Bullet>();
-        }
+        GenerateBullets();
     }
 
     void Start()
@@ -74,7 +63,22 @@ public class PlayerAttack : MonoBehaviour
         actualBullet = bulletsToInit;
 
         weaponManager = GetComponent<WeaponManager>();
+        weaponManager.weaponsOnInventory = weapons.Capacity - 1;
         ChangeWeapon(0);
+    }
+
+    private void GenerateBullets()
+    {
+        for (int i = 0; i < bulletsToInit; i++)
+        {
+            /// En esta parte creas el objeto de la bala, y lo haces hijo del jugador. También se desactiva para que no se vea 
+            bulletRepository[i] = Instantiate(bullet, transform.position, Quaternion.identity);
+            bulletRepository[i].transform.SetParent(this.gameObject.transform);
+            bulletRepository[i].SetActive(false);
+
+            /// Aquí guardas el script de la bala que acabas de crear, para después no tener que hacer un GetComponent al disparar (y así ahorrar recursos)
+            bulletRepositoryScripts[i] = bulletRepository[i].GetComponent<Bullet>();
+        }
     }
 
     void Update()

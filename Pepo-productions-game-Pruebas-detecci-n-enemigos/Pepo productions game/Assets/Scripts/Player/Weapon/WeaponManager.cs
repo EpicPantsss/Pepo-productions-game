@@ -23,7 +23,7 @@ public class WeaponManager : MonoBehaviour
         // Detecta si el jugador está moviendo la rueda del ratón, y en que dirección
         mouseScroll = Input.mouseScrollDelta;
 
-        if (mouseScroll.y == 1 && currentWeapon < 3)
+        if (mouseScroll.y == 1 && currentWeapon < weaponsOnInventory)
         {
             currentWeapon++;
             playerAttack.ChangeWeapon(currentWeapon);
