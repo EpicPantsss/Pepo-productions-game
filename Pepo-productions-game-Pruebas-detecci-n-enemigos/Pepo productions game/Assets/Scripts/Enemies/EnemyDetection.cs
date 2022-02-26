@@ -45,7 +45,6 @@ public class EnemyDetection : MonoBehaviour
         {
             // Raycast para detectar si hay un objeto delante del jugador
             RaycastHit2D rayToPlayer = Physics2D.Raycast(transform.position, player.position - transform.position);
-            Debug.Log(rayToPlayer.transform);
 
             if (rayToPlayer.collider.tag == "Player")
             {

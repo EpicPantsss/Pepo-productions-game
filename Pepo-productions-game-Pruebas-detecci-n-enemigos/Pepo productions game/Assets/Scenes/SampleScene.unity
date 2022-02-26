@@ -593,9 +593,10 @@ MonoBehaviour:
   - {fileID: 1944000612}
   - {fileID: 2037101100}
   patrolOrder: 0
+  distance: 0
   enemySpeed: 3
-  direction: {x: 0, y: 0}
   playerSaw: 0
+  nearDistance: 0
 --- !u!61 &1027073999
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1066,6 +1067,22 @@ PrefabInstance:
       propertyPath: ammoText
       value: 
       objectReference: {fileID: 132076406}
+    - target: {fileID: 5857497777799070383, guid: c7de63ba40a57464cb7dee66dc37a1b3, type: 3}
+      propertyPath: weapons.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5857497777799070383, guid: c7de63ba40a57464cb7dee66dc37a1b3, type: 3}
+      propertyPath: weapons.Array.data[0]
+      value: 
+      objectReference: {fileID: 5890338483293668179, guid: 338f1caa96630a84c94cbf4842b85418, type: 3}
+    - target: {fileID: 5857497777799070383, guid: c7de63ba40a57464cb7dee66dc37a1b3, type: 3}
+      propertyPath: weapons.Array.data[1]
+      value: 
+      objectReference: {fileID: 1937215496671084530, guid: 0070d0c077bff5e42908df1ccb350324, type: 3}
+    - target: {fileID: 5857497777799070383, guid: c7de63ba40a57464cb7dee66dc37a1b3, type: 3}
+      propertyPath: weapons.Array.data[2]
+      value: 
+      objectReference: {fileID: 1937215496671084530, guid: 5f396bf0b959a574c9e9d5efcc970602, type: 3}
     - target: {fileID: 5857497777866717717, guid: c7de63ba40a57464cb7dee66dc37a1b3, type: 3}
       propertyPath: m_RootOrder
       value: 2

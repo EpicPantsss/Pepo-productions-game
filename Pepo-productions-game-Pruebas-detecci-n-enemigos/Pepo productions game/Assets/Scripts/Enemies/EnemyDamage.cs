@@ -8,6 +8,20 @@ public class EnemyDamage : MonoBehaviour
 
     private bool damaged;
 
+    private float timer;
+
+    private void Update()
+    {
+        if (damaged)
+        {
+            timer += Time.deltaTime;
+            if (timer > 0.1f)
+            {
+                damaged = false;
+                timer = 0;
+            }
+        }
+    }
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player") && !damaged)
@@ -17,14 +31,7 @@ public class EnemyDamage : MonoBehaviour
             {
                 Destroy(gameObject);
             }
-            StartCoroutine(ImmortalTime());
+            damaged = true;
         }
-    }
-
-    IEnumerator ImmortalTime()
-    {
-        damaged = true;
-        yield return new WaitForSeconds(0.01f);
-        damaged = false;
     }
 }

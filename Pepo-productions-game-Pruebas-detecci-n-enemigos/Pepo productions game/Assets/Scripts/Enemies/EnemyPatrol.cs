@@ -18,8 +18,14 @@ public class EnemyPatrol : MonoBehaviour
     private bool nearObjective;
     public float nearDistance;
 
+    public float rotateSpeed;
+
+    private Animator anim;
+
     private void Start()
     {
+        anim = GetComponentInChildren<Animator>();
+
         GetDirection();
     }
 
@@ -27,6 +33,8 @@ public class EnemyPatrol : MonoBehaviour
     {
         if (!playerSaw)
         {
+            anim.SetBool("Walking", true);
+
             transform.Translate(Vector2.right * enemySpeed * Time.deltaTime);
 
             distance = Vector2.Distance(transform.position, objectives[patrolOrder].position);
@@ -44,6 +52,10 @@ public class EnemyPatrol : MonoBehaviour
             {
                 ChangeObjective();
             }
+        }
+        else
+        {
+            anim.SetBool("Walking", false);
         }
     }
 

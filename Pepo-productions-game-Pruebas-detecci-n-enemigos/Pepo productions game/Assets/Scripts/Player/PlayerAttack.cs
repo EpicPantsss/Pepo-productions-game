@@ -21,6 +21,7 @@ public class PlayerAttack : MonoBehaviour
         /// Variable donde se marcan las balas que se crearán al inicio del código
     public int bulletsToInit;
     private int actualBullet;
+    private int aux;
     // =======================================
 
 
@@ -41,6 +42,10 @@ public class PlayerAttack : MonoBehaviour
     // Animación
     [Header("Animación del ataque")]
     public AnimationClip attackAnimation;
+
+    // Lista de las armas disponibles
+    [Header("Armas del personaje")]
+    public List<WeaponInfo> weapons;
 
     void Awake()
     {
@@ -66,7 +71,10 @@ public class PlayerAttack : MonoBehaviour
         // Ponemos el número de balas que tenemos en el texto
         ammoText.text = "" + ammo;
 
+        actualBullet = bulletsToInit;
+
         weaponManager = GetComponent<WeaponManager>();
+        ChangeWeapon(0);
     }
 
     void Update()
@@ -95,7 +103,10 @@ public class PlayerAttack : MonoBehaviour
         {
             shooting = true;
             if (ammo <= 0) { return; }
-            actualBullet = ammo;
+            if (actualBullet <= 0)
+            {
+                actualBullet = bulletsToInit;
+            }
 
             ammo--;
             // Cambias el texto al número de balas actual
@@ -106,6 +117,8 @@ public class PlayerAttack : MonoBehaviour
 
             // Y aquí llamas a la función que le da movimiento a la bala
             bulletRepositoryScripts[actualBullet - 1].StartMovement();
+
+            actualBullet--;
         }
         if (shooting)
         {
@@ -119,7 +132,8 @@ public class PlayerAttack : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.R))
         {
-            ammo = bulletsToInit;
+            ammo = weapons[weaponManager.currentWeapon].weaponAmmo;
+            actualBullet = bulletsToInit;
 
             ammoText.text = "" + ammo;
         }
@@ -129,15 +143,17 @@ public class PlayerAttack : MonoBehaviour
 
     public void ChangeWeapon(int weaponID)
     {
-        ammo = weaponManager.weaponsEquipped[weaponID].weaponAmmo;
+        if (weaponID > weapons.Capacity) { return; }
+
+        ammo = weapons[weaponID].weaponAmmo;
         ammoText.text = "" + ammo;
 
-        fireRate = weaponManager.weaponsEquipped[weaponID].weaponRecoil;
+        fireRate = weapons[weaponID].fireRecoil;
 
         for (int i = 0; i < bulletsToInit; i++)
         {
-            bulletRepositoryScripts[i].bulletSpeed = weaponManager.weaponsEquipped[weaponID].bulletSpeed;
-            bulletRepositoryScripts[i].bulletDamage = weaponManager.weaponsEquipped[weaponID].weaponDamage;
+            bulletRepositoryScripts[i].bulletSpeed = weapons[weaponID].bulletSpeed;
+            bulletRepositoryScripts[i].bulletDamage = weapons[weaponID].weaponDamage;
         }
     }
 }
