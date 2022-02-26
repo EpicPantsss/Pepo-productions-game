@@ -99,7 +99,7 @@ public class PlayerAttack : MonoBehaviour
         #endregion
 
         #region Disparo del jugador
-        if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Mouse0))
+        if ((Input.GetKey(KeyCode.E) || Input.GetKey(KeyCode.Mouse0)) && !shooting)
         {
             shooting = true;
             if (ammo <= 0) { return; }
@@ -143,7 +143,7 @@ public class PlayerAttack : MonoBehaviour
 
     public void ChangeWeapon(int weaponID)
     {
-        if (weaponID > weapons.Capacity) { return; }
+        if (weaponID > weapons.Capacity || weaponID < 0) { return; }
 
         ammo = weapons[weaponID].weaponAmmo;
         ammoText.text = "" + ammo;

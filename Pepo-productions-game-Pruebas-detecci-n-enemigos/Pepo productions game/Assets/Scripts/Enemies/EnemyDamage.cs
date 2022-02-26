@@ -10,12 +10,13 @@ public class EnemyDamage : MonoBehaviour
 
     private float timer;
 
+
     private void Update()
     {
         if (damaged)
         {
             timer += Time.deltaTime;
-            if (timer > 0.1f)
+            if (timer > 0.075f)
             {
                 damaged = false;
                 timer = 0;
@@ -26,7 +27,7 @@ public class EnemyDamage : MonoBehaviour
     {
         if (other.CompareTag("Player") && !damaged)
         {
-            enemyHP--;
+            enemyHP -= other.gameObject.GetComponent<Bullet>().bulletDamage;
             if (enemyHP <= 0)
             {
                 Destroy(gameObject);
