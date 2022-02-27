@@ -25,10 +25,13 @@ public class EnemyDetection : MonoBehaviour
 
 
     private EnemyPatrol enemyPatrol;
-    private bool hasPatrolScript;
+    private EnemyDamage enemyDamage;
+    [HideInInspector]
+    public bool hasPatrolScript;
 
     private void Start()
     {
+        enemyDamage = GetComponent<EnemyDamage>();
         // Intentas obtener el script de patrulla, y si el enemigo lo tiene, lo guarda en la variable y se marca hasPatrolScript como true
         enemyPatrol = GetComponent<EnemyPatrol>();
         if (enemyPatrol != null)
@@ -41,29 +44,46 @@ public class EnemyDetection : MonoBehaviour
     {
         toPlayer = player.localPosition - transform.localPosition;
 
-        if (toPlayer.magnitude <= detectionRadius)
+        if (!enemyDamage.called)
         {
-            // Raycast para detectar si hay un objeto delante del jugador
-            RaycastHit2D rayToPlayer = Physics2D.Raycast(transform.position, player.position - transform.position);
-
-            if (rayToPlayer.collider.tag == "Player")
+            if (toPlayer.magnitude <= detectionRadius)
             {
-                Debug.DrawRay(transform.position, player.position - transform.position, Color.green);
+                // Raycast para detectar si hay un objeto delante del jugador
+                RaycastHit2D rayToPlayer = Physics2D.Raycast(transform.position, player.position - transform.position);
 
-                if (Vector2.Angle(transform.right, player.position - transform.position) < detectionAngle)
+                if (rayToPlayer.collider.tag == "Player")
                 {
-                    playerDetected = true;
-                    playerJustUndetected = false;
-                    timer = 0;
-                    playerLastPositionSeen = player.position;
+                    Debug.DrawRay(transform.position, player.position - transform.position, Color.green);
 
-                    // Si el enemigo está patrullando, dejará de hacerlo
-                    if (hasPatrolScript)
-                        enemyPatrol.playerSaw = true;
+                    if (Vector2.Angle(transform.right, player.position - transform.position) < detectionAngle)
+                    {
+                        playerDetected = true;
+                        playerJustUndetected = false;
+                        timer = 0;
+                        playerLastPositionSeen = player.position;
+
+                        // Si el enemigo está patrullando, dejará de hacerlo
+                        if (hasPatrolScript)
+                            enemyPatrol.playerSaw = true;
+                    }
+                    else
+                    {
+                        // Si el enemigo estaba viendo al jugador y justo deja de verlo, pondrá en true a playerJustUndetected
+                        if (playerDetected)
+                        {
+                            playerJustUndetected = true;
+                        }
+
+                        playerDetected = false;
+
+                        // Si el enemigo estaba patrullando y deja de ver al jugador, volverá a patrullar
+                        if (hasPatrolScript)
+                            enemyPatrol.playerSaw = false;
+                    }
                 }
                 else
                 {
-                    // Si el enemigo estaba viendo al jugador y justo deja de verlo, pondrá en true a playerJustUndetected
+                    Debug.DrawRay(transform.position, player.position - transform.position, Color.red);
                     if (playerDetected)
                     {
                         playerJustUndetected = true;
@@ -75,32 +95,22 @@ public class EnemyDetection : MonoBehaviour
                     if (hasPatrolScript)
                         enemyPatrol.playerSaw = false;
                 }
+
             }
             else
             {
-                Debug.DrawRay(transform.position, player.position - transform.position, Color.red);
+                // Si el enemigo estaba viendo al jugador y justo deja de verlo, pondrá en true a playerJustUndetected
                 if (playerDetected)
                 {
                     playerJustUndetected = true;
                 }
 
                 playerDetected = false;
-
-                // Si el enemigo estaba patrullando y deja de ver al jugador, volverá a patrullar
-                if (hasPatrolScript)
-                    enemyPatrol.playerSaw = false;
             }
-
         }
         else
         {
-            // Si el enemigo estaba viendo al jugador y justo deja de verlo, pondrá en true a playerJustUndetected
-            if (playerDetected)
-            {
-                playerJustUndetected = true;
-            }
-
-            playerDetected = false;
+            playerDetected = true;
         }
 
         if (playerJustUndetected)

@@ -46,6 +46,6 @@ MonoBehaviour:
   weaponID: 2
   weaponName: AK
   weaponDamage: 1
-  fireRecoil: 0.25
+  fireRecoil: 0.05
   weaponAmmo: 30
-  bulletSpeed: 20
+  bulletSpeed: 40

@@ -10,7 +10,6 @@ public class FollowingEnemy : MonoBehaviour
     private GameObject player;
 
     private float distanceToRotate;
-    public LayerMask playerL;
 
     private EnemyDetection enemyDetection;
 
