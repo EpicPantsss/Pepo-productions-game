@@ -1,0 +1,190 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class PlayerAttack : MonoBehaviour
+{
+    // Variable para guardar la posición del mouse
+    public Vector2 mousePosition;
+
+
+    // =======================================
+    // Variables para poder disparar =========
+    public GameObject bullet;
+    public int ammo;
+
+        /// Variables donde se guardan las balas a disparar al inicio del código
+    private GameObject[] bulletRepository;
+    private Bullet[] bulletRepositoryScripts;
+
+        /// Variable donde se marcan las balas que se crearán al inicio del código
+    public int bulletsToInit;
+    private int actualBullet;
+    private int aux;
+    // =======================================
+
+    [Header("Habilidad definitiva")]
+    public GameObject definitiveAttack;
+    public bool definitiveCharged;
+    public Image definitiveImage;
+    public int definitiveCharge;
+
+    [HideInInspector]
+    public int bulletDamage;
+    [HideInInspector]
+    public int bulletSpeed;
+    [HideInInspector]
+    public float fireRate;
+
+    // Texto en el que aparece el número de balas
+    public Text ammoText;
+
+    /// Referencias a otros scripts del player
+    private WeaponManager weaponManager;
+
+    public bool shooting;
+
+    private float timer;
+
+    // Animación
+    [Header("Animación del ataque")]
+    public AnimationClip attackAnimation;
+
+    // Lista de las armas disponibles
+    [Header("Armas del personaje")]
+    public List<WeaponInfo> weapons;
+
+    void Awake()
+    {
+        bulletRepository = new GameObject[bulletsToInit];
+        bulletRepositoryScripts = new Bullet[bulletsToInit];
+
+        GenerateBullets();
+    }
+
+    void Start()
+    {
+        // Ponemos el número de balas que tenemos en el texto
+        ammoText.text = "" + ammo;
+
+        actualBullet = bulletsToInit;
+
+        weaponManager = GetComponent<WeaponManager>();
+        weaponManager.weaponsOnInventory = weapons.Capacity - 1;
+        ChangeWeapon(0);
+
+        StartCoroutine(DefinitiveCharge());
+    }
+
+    private void GenerateBullets()
+    {
+        for (int i = 0; i < bulletsToInit; i++)
+        {
+            /// En esta parte creas el objeto de la bala, y lo haces hijo del jugador. También se desactiva para que no se vea 
+            bulletRepository[i] = Instantiate(bullet, transform.position, Quaternion.identity);
+            bulletRepository[i].transform.SetParent(this.gameObject.transform);
+            bulletRepository[i].SetActive(false);
+
+            /// Aquí guardas el script de la bala que acabas de crear, para después no tener que hacer un GetComponent al disparar (y así ahorrar recursos)
+            bulletRepositoryScripts[i] = bulletRepository[i].GetComponent<Bullet>();
+        }
+    }
+
+    void Update()
+    {
+        #region Apuntado del jugador al ratón
+        // Aquí guardas la posición del mouse en el mapa
+        mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+        // Aquí calculas cuánto hay que rotar para que el objeto mire al mouse
+        float distanceToRotate = getAngle(transform.position, mousePosition);
+        // Aplicas la rotación
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 0, distanceToRotate), 1);
+
+        // Función que calcula cuánto necesitas rotar
+        float getAngle(Vector2 position, Vector2 mousePosition)
+        {
+            float x = mousePosition.x - position.x;
+            float y = mousePosition.y - position.y;
+
+            return Mathf.Rad2Deg * Mathf.Atan2(y, x);
+        }
+        #endregion
+
+        #region Disparo del jugador
+        if ((Input.GetKey(KeyCode.E) || Input.GetKey(KeyCode.Mouse0)) && !shooting)
+        {
+            shooting = true;
+            if (ammo <= 0) { return; }
+            if (actualBullet <= 0)
+            {
+                actualBullet = bulletsToInit;
+            }
+
+            ammo--;
+            // Cambias el texto al número de balas actual
+            ammoText.text = "" + ammo;
+
+            // Vuelves activo el gameObject de la bala para que se active su script
+            bulletRepository[actualBullet - 1].SetActive(true);
+
+            // Y aquí llamas a la función que le da movimiento a la bala
+            bulletRepositoryScripts[actualBullet - 1].StartMovement();
+
+            actualBullet--;
+        }
+        if (shooting)
+        {
+            timer += Time.deltaTime;
+
+            if (timer >= fireRate)
+            {
+                timer = 0;
+                shooting = false;
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.R) && !shooting)
+        {
+            ammo = weapons[weaponManager.currentWeapon].weaponAmmo;
+            actualBullet = bulletsToInit;
+
+            ammoText.text = "" + ammo;
+        }
+        #region Habilidad definitiva
+        // Habilidad definitiva
+        if (Input.GetKeyDown(KeyCode.Q) && definitiveCharge >= 100)
+        {
+            Instantiate(definitiveAttack, transform.position, transform.rotation);
+            definitiveImage.fillAmount = definitiveCharge * 0.01f;
+            definitiveCharge = 0;
+        }
+        #endregion
+        #endregion
+    }
+
+    public void ChangeWeapon(int weaponID)
+    {
+        if (weaponID > weapons.Capacity || weaponID < 0) { return; }
+
+        ammo = weapons[weaponID].weaponAmmo;
+        ammoText.text = "" + ammo;
+
+        fireRate = weapons[weaponID].fireRecoil;
+
+        for (int i = 0; i < bulletsToInit; i++)
+        {
+            bulletRepositoryScripts[i].bulletSpeed = weapons[weaponID].bulletSpeed;
+            bulletRepositoryScripts[i].bulletDamage = weapons[weaponID].weaponDamage;
+        }
+    }
+
+    IEnumerator DefinitiveCharge()
+    {
+        if (definitiveCharge < 100)
+            definitiveCharge += 25;
+        definitiveImage.fillAmount = definitiveCharge * 0.01f;
+        yield return new WaitForSeconds(1);
+        StartCoroutine(DefinitiveCharge());
+    }
+}
