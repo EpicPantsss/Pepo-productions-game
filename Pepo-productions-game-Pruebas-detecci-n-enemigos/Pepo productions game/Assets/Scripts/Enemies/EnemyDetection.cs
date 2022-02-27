@@ -28,6 +28,8 @@ public class EnemyDetection : MonoBehaviour
     private EnemyDamage enemyDamage;
     [HideInInspector]
     public bool hasPatrolScript;
+    [HideInInspector]
+    public bool knocked;
 
     private void Start()
     {
@@ -44,7 +46,7 @@ public class EnemyDetection : MonoBehaviour
     {
         toPlayer = player.localPosition - transform.localPosition;
 
-        if (!enemyDamage.called)
+        if (!enemyDamage.called || !knocked)
         {
             if (toPlayer.magnitude <= detectionRadius)
             {

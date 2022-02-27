@@ -24,9 +24,17 @@ public class PlayerAttack : MonoBehaviour
     private int aux;
     // =======================================
 
+    [Header("Habilidad definitiva")]
+    public GameObject definitiveAttack;
+    public bool definitiveCharged;
+    public Image definitiveImage;
+    public int definitiveCharge;
 
+    [HideInInspector]
     public int bulletDamage;
+    [HideInInspector]
     public int bulletSpeed;
+    [HideInInspector]
     public float fireRate;
 
     // Texto en el que aparece el número de balas
@@ -65,6 +73,8 @@ public class PlayerAttack : MonoBehaviour
         weaponManager = GetComponent<WeaponManager>();
         weaponManager.weaponsOnInventory = weapons.Capacity - 1;
         ChangeWeapon(0);
+
+        StartCoroutine(DefinitiveCharge());
     }
 
     private void GenerateBullets()
@@ -134,15 +144,23 @@ public class PlayerAttack : MonoBehaviour
                 shooting = false;
             }
         }
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R) && !shooting)
         {
             ammo = weapons[weaponManager.currentWeapon].weaponAmmo;
             actualBullet = bulletsToInit;
 
             ammoText.text = "" + ammo;
         }
+        #region Habilidad definitiva
+        // Habilidad definitiva
+        if (Input.GetKeyDown(KeyCode.Q) && definitiveCharge >= 100)
+        {
+            Instantiate(definitiveAttack, transform.position, transform.rotation);
+            definitiveImage.fillAmount = definitiveCharge * 0.01f;
+            definitiveCharge = 0;
+        }
         #endregion
-
+        #endregion
     }
 
     public void ChangeWeapon(int weaponID)
@@ -159,5 +177,14 @@ public class PlayerAttack : MonoBehaviour
             bulletRepositoryScripts[i].bulletSpeed = weapons[weaponID].bulletSpeed;
             bulletRepositoryScripts[i].bulletDamage = weapons[weaponID].weaponDamage;
         }
+    }
+
+    IEnumerator DefinitiveCharge()
+    {
+        if (definitiveCharge < 100)
+            definitiveCharge += 25;
+        definitiveImage.fillAmount = definitiveCharge * 0.01f;
+        yield return new WaitForSeconds(1);
+        StartCoroutine(DefinitiveCharge());
     }
 }

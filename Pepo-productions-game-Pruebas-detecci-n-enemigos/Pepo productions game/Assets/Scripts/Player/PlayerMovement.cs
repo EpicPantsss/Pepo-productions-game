@@ -13,8 +13,8 @@ public class PlayerMovement : MonoBehaviour
     public Animator anim;
 
     public bool walking;
-
-    private Vector2 directionToRotate;
+    [HideInInspector]
+    public Vector2 playerFront;
 
     private PlayerAttack playerAttack;
 
@@ -36,6 +36,8 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         walking = playerAttack.shooting;
+
+        playerFront = Vector2.right;
 
         if (Input.GetKey(KeyCode.D))
         {
