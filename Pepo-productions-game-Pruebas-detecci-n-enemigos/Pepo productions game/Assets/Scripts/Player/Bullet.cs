@@ -6,14 +6,18 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public float bulletSpeed;
+    public int bulletDamage;
 
     public GameObject player;
     private Rigidbody2D rb;
+
+    void Awake()
+    {
+        player = transform.parent.gameObject;
+    }
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-
-        player = transform.parent.gameObject;
 
         transform.SetParent(null);
 

@@ -45,7 +45,6 @@ public class EnemyDetection : MonoBehaviour
         {
             // Raycast para detectar si hay un objeto delante del jugador
             RaycastHit2D rayToPlayer = Physics2D.Raycast(transform.position, player.position - transform.position);
-            Debug.Log(rayToPlayer.transform);
 
             if (rayToPlayer.collider.tag == "Player")
             {
@@ -117,7 +116,8 @@ public class EnemyDetection : MonoBehaviour
 
                 if (hasPatrolScript)
                 {
-                    enemyPatrol.ReturnToPatrol();
+                    enemyPatrol.playerSaw = false;
+                    enemyPatrol.GetDirection();
                 }
             }
         }
@@ -131,9 +131,10 @@ public class EnemyDetection : MonoBehaviour
             && UnityEditor.Selection.activeGameObject != this.gameObject.transform.GetChild(0).gameObject) { 
             return; 
         }
+        Gizmos.color = Color.gray;
         Gizmos.DrawWireSphere(transform.position, detectionRadius);
 
-        Gizmos.color = Color.gray;
+        Gizmos.color = Color.white;
         float halfFOV = detectionAngle;
         float coneDirection = 0;
 
