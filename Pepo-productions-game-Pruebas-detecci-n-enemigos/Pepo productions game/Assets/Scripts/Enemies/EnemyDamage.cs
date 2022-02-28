@@ -12,12 +12,24 @@ public class EnemyDamage : MonoBehaviour
 
     private EnemyDetection enemyDetection;
 
+    private SpriteRenderer spriteRenderer;
+
+    private AudioSource audioSource;
+    public AudioClip deathSound;
+
     public bool called;
     bool hasPatrolScript;
+
+    private bool death;
+
 
     private void Start()
     {
         enemyDetection = GetComponent<EnemyDetection>();
+
+        audioSource = GetComponent<AudioSource>();
+
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 
         hasPatrolScript = enemyDetection.hasPatrolScript;
     }
@@ -42,6 +54,14 @@ public class EnemyDamage : MonoBehaviour
                 timer = 0;
             }
         }
+        if (death)
+        {
+            timer += Time.deltaTime;
+            if (timer > 1.5f)
+            {
+                Destroy(gameObject);
+            }
+        }
 
         if (called)
         {
@@ -60,7 +80,10 @@ public class EnemyDamage : MonoBehaviour
             }
             if (enemyHP <= 0)
             {
-                Destroy(gameObject);
+                audioSource.clip = deathSound;
+                audioSource.Play();
+                spriteRenderer.enabled = false;
+                death = true;
             }
             called = true;
             damaged = true;

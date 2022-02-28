@@ -10,7 +10,9 @@ public class PlayerMovement : MonoBehaviour
 
     public float speed;
 
-    public Animator anim;
+    public Animation anim;
+    public List<AnimationClip> animationClips;
+    private Animator animator;
 
     public bool walking;
     [HideInInspector]
@@ -34,7 +36,8 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-        anim = gameObject.GetComponentInChildren<Animator>();
+        anim = gameObject.GetComponentInChildren<Animation>();
+        animator = gameObject.GetComponentInChildren<Animator>();
         playerAttack = GetComponent<PlayerAttack>();
 
         aux = speed;
@@ -81,11 +84,11 @@ public class PlayerMovement : MonoBehaviour
 
         if (walking)
         {
-            anim.SetBool("Walk", true);
+            animator.SetBool("Walk", true);
         }
         else
         {
-            anim.SetBool("Walk", false);
+            animator.SetBool("Walk", false);
         }
 
         // Agacharse

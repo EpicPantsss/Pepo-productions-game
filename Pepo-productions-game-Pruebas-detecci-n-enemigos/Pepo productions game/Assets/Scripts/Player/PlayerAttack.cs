@@ -12,8 +12,10 @@ public class PlayerAttack : MonoBehaviour
     // =======================================
     // Variables para poder disparar =========
     public GameObject bullet;
-    public int ammo;
-
+    private int ammo;
+    public AudioClip shootSound;
+    public AudioClip reloadSound;
+    
         /// Variables donde se guardan las balas a disparar al inicio del código
     private GameObject[] bulletRepository;
     private Bullet[] bulletRepositoryScripts;
@@ -33,7 +35,7 @@ public class PlayerAttack : MonoBehaviour
     public GameObject passiveAbility;
 
     [HideInInspector]
-    public int bulletDamage;
+    public int bulletDamage = 1;
     [HideInInspector]
     public int bulletSpeed;
     [HideInInspector]
@@ -44,25 +46,35 @@ public class PlayerAttack : MonoBehaviour
 
     /// Referencias a otros scripts del player
     private WeaponManager weaponManager;
+    private PlayerMovement playerMovement;
 
     public bool shooting;
+    public bool reloading;
 
     private float timer;
 
     // Animación
     [Header("Animación del ataque")]
-    public AnimationClip attackAnimation;
+    public AnimationClip[] animations;
+    private Animator anim;
 
     // Lista de las armas disponibles
     [Header("Armas del personaje")]
     public List<WeaponInfo> weapons;
 
-    private GameManager gameManager;
+    ///private GameManager gameManager;
+
+    // Audio
+    private AudioSource audioSource;
 
     void Awake()
     {
         bulletRepository = new GameObject[bulletsToInit];
         bulletRepositoryScripts = new Bullet[bulletsToInit];
+
+        ///gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+
+        animations = new AnimationClip[2];
 
         GenerateBullets();
     }
@@ -74,13 +86,17 @@ public class PlayerAttack : MonoBehaviour
 
         actualBullet = bulletsToInit;
 
+        anim = GetComponentInChildren<Animator>();
+        audioSource = GetComponentInChildren<AudioSource>();
+
+        playerMovement = GetComponent<PlayerMovement>();
+
         weaponManager = GetComponent<WeaponManager>();
         weaponManager.weaponsOnInventory = weapons.Capacity - 1;
         ChangeWeapon(0);
 
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-
-        definitiveAttack = gameManager.definitive;
+       ///definitiveAttack = gameManager.definitive;
+       ///passiveAbility = gameManager.passive;
 
         StartCoroutine(DefinitiveCharge());
     }
@@ -121,14 +137,19 @@ public class PlayerAttack : MonoBehaviour
         #endregion
 
         #region Disparo del jugador
-        if ((Input.GetKey(KeyCode.E) || Input.GetKey(KeyCode.Mouse0)) && !shooting)
+        if ((Input.GetKey(KeyCode.E) || Input.GetKey(KeyCode.Mouse0)) && !shooting && !reloading)
         {
             shooting = true;
+
             if (ammo <= 0) { return; }
             if (actualBullet <= 0)
             {
                 actualBullet = bulletsToInit;
             }
+
+
+            audioSource.clip = shootSound;
+            audioSource.Play();
 
             ammo--;
             // Cambias el texto al número de balas actual
@@ -154,10 +175,17 @@ public class PlayerAttack : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.R) && !shooting)
         {
+            reloading = true;
+            audioSource.clip = reloadSound;
+            audioSource.Play();
             ammo = weapons[weaponManager.currentWeapon].weaponAmmo;
             actualBullet = bulletsToInit;
 
             ammoText.text = "" + ammo;
+        }
+        if (reloading && !audioSource.isPlaying)
+        {
+            reloading = false;
         }
         #region Habilidad definitiva
         // Habilidad definitiva
@@ -179,6 +207,8 @@ public class PlayerAttack : MonoBehaviour
         ammoText.text = "" + ammo;
 
         fireRate = weapons[weaponID].fireRecoil;
+        shootSound = weapons[weaponID].fireSound;
+        reloadSound = weapons[weaponID].reloadSound;
 
         for (int i = 0; i < bulletsToInit; i++)
         {
