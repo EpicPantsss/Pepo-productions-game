@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1499674471601054543}
   - component: {fileID: 5857497777799070383}
   - component: {fileID: 5857497777799070382}
+  - component: {fileID: 5498851874853479113}
   - component: {fileID: 5857497777799070377}
   - component: {fileID: 3742131187567800440}
   m_Layer: 0
@@ -135,6 +136,23 @@ MonoBehaviour:
   sneakSpeed: 2.5
   agachado: 0
   sneakImage: {fileID: 0}
+  mainCamera: {fileID: 0}
+  sneakCameraSize: 0
+  transitionSpeed: 0
+--- !u!114 &5498851874853479113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5857497777866717721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a989f1860c11ac4699934de6ad60432, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerHP: 10
+  hpImage: {fileID: 0}
 --- !u!114 &5857497777799070377
 MonoBehaviour:
   m_ObjectHideFlags: 0

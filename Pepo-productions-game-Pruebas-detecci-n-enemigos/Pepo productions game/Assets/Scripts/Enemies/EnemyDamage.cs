@@ -33,10 +33,20 @@ public class EnemyDamage : MonoBehaviour
                 timer = 0;
             }
         }
+        if (called)
+        {
+            timer += Time.deltaTime;
+            if (timer > 5)
+            {
+                called = false;
+                timer = 0;
+            }
+        }
 
         if (called)
         {
-            GetComponent<EnemyPatrol>().enabled = false;
+            if (hasPatrolScript)
+                GetComponent<EnemyPatrol>().enabled = false;
             enemyDetection.playerDetected = true;
         }
     }
@@ -44,11 +54,15 @@ public class EnemyDamage : MonoBehaviour
     {
         if (other.CompareTag("Player") && !damaged)
         {
-            enemyHP -= other.gameObject.GetComponent<Bullet>().bulletDamage;
+            if (other.transform.parent != null)
+            {
+                enemyHP -= other.gameObject.GetComponent<Bullet>().bulletDamage;
+            }
             if (enemyHP <= 0)
             {
                 Destroy(gameObject);
             }
+            called = true;
             damaged = true;
         }
 

@@ -29,6 +29,8 @@ public class PlayerAttack : MonoBehaviour
     public bool definitiveCharged;
     public Image definitiveImage;
     public int definitiveCharge;
+    [Header("Habilidad pasiva")]
+    public GameObject passiveAbility;
 
     [HideInInspector]
     public int bulletDamage;
@@ -55,6 +57,8 @@ public class PlayerAttack : MonoBehaviour
     [Header("Armas del personaje")]
     public List<WeaponInfo> weapons;
 
+    private GameManager gameManager;
+
     void Awake()
     {
         bulletRepository = new GameObject[bulletsToInit];
@@ -73,6 +77,10 @@ public class PlayerAttack : MonoBehaviour
         weaponManager = GetComponent<WeaponManager>();
         weaponManager.weaponsOnInventory = weapons.Capacity - 1;
         ChangeWeapon(0);
+
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+
+        definitiveAttack = gameManager.definitive;
 
         StartCoroutine(DefinitiveCharge());
     }

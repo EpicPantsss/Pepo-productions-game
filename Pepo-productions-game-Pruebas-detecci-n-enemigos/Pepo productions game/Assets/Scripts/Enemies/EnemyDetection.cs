@@ -31,7 +31,7 @@ public class EnemyDetection : MonoBehaviour
     [HideInInspector]
     public bool knocked;
 
-    private void Start()
+    private void Awake()
     {
         enemyDamage = GetComponent<EnemyDamage>();
         // Intentas obtener el script de patrulla, y si el enemigo lo tiene, lo guarda en la variable y se marca hasPatrolScript como true
@@ -46,7 +46,7 @@ public class EnemyDetection : MonoBehaviour
     {
         toPlayer = player.localPosition - transform.localPosition;
 
-        if (!enemyDamage.called || !knocked)
+        if (!enemyDamage.called && !knocked)
         {
             if (toPlayer.magnitude <= detectionRadius)
             {

@@ -46,6 +46,6 @@ MonoBehaviour:
   weaponID: 0
   weaponName: Pistol
   weaponDamage: 1
-  fireRecoil: 1
+  fireRecoil: 0.45
   weaponAmmo: 6
-  bulletSpeed: 20
+  bulletSpeed: 25

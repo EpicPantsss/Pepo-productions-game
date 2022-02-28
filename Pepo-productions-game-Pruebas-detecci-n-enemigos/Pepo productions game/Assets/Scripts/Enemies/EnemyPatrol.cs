@@ -53,10 +53,6 @@ public class EnemyPatrol : MonoBehaviour
                 ChangeObjective();
             }
         }
-        else
-        {
-            anim.SetBool("Walking", false);
-        }
     }
 
     private void ChangeObjective()
