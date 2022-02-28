@@ -24,6 +24,13 @@ public class PlayerMovement : MonoBehaviour
     public Image sneakImage;
 
     private float aux;
+    private float aux2;
+
+    [Header("Opciones de la camara")]
+    public Camera mainCamera;
+    private float normalCameraSize;
+    public float sneakCameraSize;
+    public float transitionSpeed;
 
     void Start()
     {
@@ -31,6 +38,9 @@ public class PlayerMovement : MonoBehaviour
         playerAttack = GetComponent<PlayerAttack>();
 
         aux = speed;
+
+        normalCameraSize = mainCamera.orthographicSize;
+        aux2 = normalCameraSize;
     }
 
     void Update()
@@ -83,14 +93,25 @@ public class PlayerMovement : MonoBehaviour
         {
             agachado = !agachado;
             sneakImage.gameObject.SetActive(agachado);
+
         }
         if (agachado)
         {
             speed = sneakSpeed;
+            if (aux2 < sneakCameraSize)
+            {
+                mainCamera.orthographicSize = aux2;
+                aux2 += Time.smoothDeltaTime * transitionSpeed;
+            }
         }
         else
         {
             speed = aux;
+            if (aux2 > normalCameraSize)
+            {
+                mainCamera.orthographicSize = aux2;
+                aux2 -= Time.smoothDeltaTime * transitionSpeed;
+            }
         }
     }
 }
