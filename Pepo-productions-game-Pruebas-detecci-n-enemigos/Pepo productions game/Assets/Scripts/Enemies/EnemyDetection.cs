@@ -148,6 +148,7 @@ public class EnemyDetection : MonoBehaviour
 
     private void OnDrawGizmos()
     {       
+        /*
         // Para solo dibujar el rango de detección si se selecciona el objeto
         if (UnityEditor.Selection.activeGameObject != this.gameObject 
             && UnityEditor.Selection.activeGameObject != this.gameObject.transform.GetChild(0).gameObject) { 
@@ -168,5 +169,6 @@ public class EnemyDetection : MonoBehaviour
 
         Gizmos.DrawRay(transform.position, upRayDirection);
         Gizmos.DrawRay(transform.position, downRayDirection);
+        */
     }
 }

@@ -21,11 +21,13 @@ public class VictoryMecanism : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+        /*
         if (UnityEditor.Selection.activeGameObject != this.gameObject)
         {
             return;
         }
 
         Gizmos.DrawWireSphere(transform.position, activationRange);
+        */
     }
 }

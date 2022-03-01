@@ -29,7 +29,7 @@ public class PlayerAnimations : MonoBehaviour
         {
             anim.Play("Player_walk");
         }
-        if (!playerAttack.shooting && !playerMovement.walking && !animationStarted)
+        else if (!playerAttack.shooting && !playerMovement.walking && !animationStarted)
         {
             anim.Play("Player_idle");
         }
@@ -49,12 +49,6 @@ public class PlayerAnimations : MonoBehaviour
         if (animationStarted)
         {
             timer += Time.deltaTime;
-
-            if (playerMovement.walking && !aux)
-            {
-                anim.Play(playerAttack.animations[1]);
-                aux = true;
-            }
 
             if (timer > 0.5f)
             {

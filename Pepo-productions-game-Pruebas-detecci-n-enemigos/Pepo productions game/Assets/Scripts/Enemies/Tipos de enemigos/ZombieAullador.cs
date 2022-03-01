@@ -11,9 +11,15 @@ public class ZombieAullador : MonoBehaviour
     private float detectionRange;
     private float aux;
 
+    private float distanceToRotate;
+
+    private GameObject player;
+
     private CircleCollider2D triggerZone;
     void Start()
     {
+        player = GameObject.Find("Player");
+
         enemyDetection = GetComponent<EnemyDetection>();
 
         detectionRange = enemyDetection.detectionRadius;
@@ -29,6 +35,21 @@ public class ZombieAullador : MonoBehaviour
         if (enemyDetection.playerDetected)
         {
             scream = true;
+
+            // =================
+            // Rotación del enemigo
+            distanceToRotate = getAngle(transform.position, player.transform.position);
+
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 0, distanceToRotate), 1);
+
+            float getAngle(Vector2 position, Vector2 mousePosition)
+            {
+                float x = mousePosition.x - position.x;
+                float y = mousePosition.y - position.y;
+
+                return Mathf.Rad2Deg * Mathf.Atan2(y, x);
+            }
+            // =================
 
             if (aux < detectionRange)
             {

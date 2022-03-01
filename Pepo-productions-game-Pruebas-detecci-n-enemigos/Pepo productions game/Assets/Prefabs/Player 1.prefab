@@ -235,7 +235,7 @@ MonoBehaviour:
   bullet: {fileID: 2460118127545321887, guid: 5ec33efd2982ca3409ff3b16dd69c075, type: 3}
   shootSound: {fileID: 0}
   reloadSound: {fileID: 0}
-  bulletsToInit: 10
+  bulletsToInit: 15
   definitiveAttack: {fileID: 0}
   definitiveCharged: 0
   definitiveImage: {fileID: 0}

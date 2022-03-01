@@ -21,6 +21,8 @@ public class EnemyDamage : MonoBehaviour
     bool hasPatrolScript;
     [HideInInspector]
     public bool death;
+    [HideInInspector]
+    public bool decreaseSpeed;
 
     private Rigidbody2D rb;
 
@@ -54,6 +56,16 @@ public class EnemyDamage : MonoBehaviour
             if (timer > 5)
             {
                 called = false;
+                timer = 0;
+            }
+        }
+        if (decreaseSpeed)
+        {
+            timer += Time.deltaTime;
+            if (timer > 1.5f)
+            {
+                decreaseSpeed = false;
+                rb.velocity = Vector2.zero;
                 timer = 0;
             }
         }
@@ -111,15 +123,6 @@ public class EnemyDamage : MonoBehaviour
             called = false;
             GetComponent<EnemyPatrol>().enabled = true;
             GetComponent<EnemyPatrol>().playerSaw = false;
-        }
-    }
-
-    public void DecreaseSpeed()
-    {
-        rb.velocity = new Vector2(rb.velocity.x - 5 * Time.deltaTime, rb.velocity.y - 5 * Time.deltaTime);
-        if (rb.velocity.x > 0 || rb.velocity.y > 0)
-        {
-            DecreaseSpeed();
         }
     }
 }

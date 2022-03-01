@@ -10,7 +10,7 @@ public class WinZone : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            // Cargar la escena de victoria
+            SceneManager.LoadScene("WinScene");
         }
     }
 }

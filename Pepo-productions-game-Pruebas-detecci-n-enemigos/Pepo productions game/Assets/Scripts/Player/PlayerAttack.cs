@@ -31,6 +31,7 @@ public class PlayerAttack : MonoBehaviour
     public bool definitiveCharged;
     public Image definitiveImage;
     public int definitiveCharge;
+    private Animator definitiveAnim;
     [Header("Habilidad pasiva")]
     public GameObject passiveAbility;
 
@@ -86,6 +87,8 @@ public class PlayerAttack : MonoBehaviour
         audioSource = transform.GetChild(1).GetComponent<AudioSource>();
 
         playerMovement = GetComponent<PlayerMovement>();
+
+        definitiveAnim = GameObject.Find("Definitive image").GetComponent<Animator>();
 
         weaponManager = GetComponent<WeaponManager>();
         weaponManager.weaponsOnInventory = weapons.Capacity - 1;
@@ -192,6 +195,7 @@ public class PlayerAttack : MonoBehaviour
             Instantiate(definitiveAttack, transform.position, transform.rotation);
             definitiveImage.fillAmount = definitiveCharge * 0.01f;
             definitiveCharge = 0;
+            definitiveAnim.SetFloat("DefinitiveCharge", definitiveCharge);
         }
         #endregion
         #endregion
@@ -222,7 +226,7 @@ public class PlayerAttack : MonoBehaviour
     {
         if (definitiveCharge < 100)
             definitiveCharge += 25;
-        definitiveImage.fillAmount = definitiveCharge * 0.01f;
+        definitiveAnim.SetFloat("DefinitiveCharge", definitiveCharge);
         yield return new WaitForSeconds(1);
         StartCoroutine(DefinitiveCharge());
     }

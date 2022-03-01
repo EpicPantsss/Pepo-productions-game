@@ -20,7 +20,7 @@ public class Empujón : MonoBehaviour
     void Update()
     {
         timer += Time.deltaTime;            
-        if (timer > 5)
+        if (timer > 1)
         {
             Destroy(this.gameObject);
         }
@@ -65,7 +65,7 @@ public class Empujón : MonoBehaviour
             #endregion
 
             enemyRB.AddForce(objective.transform.right * attackForce, ForceMode2D.Impulse);
-            objective.GetComponent<EnemyDamage>().DecreaseSpeed();
+            objective.GetComponent<EnemyDamage>().decreaseSpeed = true;
 
             StartCoroutine(WaitTime(objective));
         }
