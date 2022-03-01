@@ -65,6 +65,7 @@ public class Empujón : MonoBehaviour
             #endregion
 
             enemyRB.AddForce(objective.transform.right * attackForce, ForceMode2D.Impulse);
+            objective.GetComponent<EnemyDamage>().DecreaseSpeed();
 
             StartCoroutine(WaitTime(objective));
         }

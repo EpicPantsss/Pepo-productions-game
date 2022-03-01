@@ -13,6 +13,8 @@ public class PlayerAnimations : MonoBehaviour
     private bool animationStarted;
 
     private float timer;
+
+    private bool aux = false;
     void Start()
     {
         anim = GetComponentInChildren<Animator>();
@@ -48,9 +50,16 @@ public class PlayerAnimations : MonoBehaviour
         {
             timer += Time.deltaTime;
 
+            if (playerMovement.walking && !aux)
+            {
+                anim.Play(playerAttack.animations[1]);
+                aux = true;
+            }
+
             if (timer > 0.5f)
             {
                 animationStarted = false;
+                aux = false;
                 timer = 0;
             }
         }

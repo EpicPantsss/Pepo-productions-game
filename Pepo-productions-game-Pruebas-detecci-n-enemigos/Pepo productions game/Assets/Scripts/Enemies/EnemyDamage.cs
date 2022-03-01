@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+[RequireComponent(typeof(Rigidbody2D))]
 public class EnemyDamage : MonoBehaviour
 {
     public int enemyHP;
@@ -22,6 +22,7 @@ public class EnemyDamage : MonoBehaviour
     [HideInInspector]
     public bool death;
 
+    private Rigidbody2D rb;
 
     private void Start()
     {
@@ -30,6 +31,8 @@ public class EnemyDamage : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
 
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+
+        rb = GetComponent<Rigidbody2D>();
 
         hasPatrolScript = enemyDetection.hasPatrolScript;
     }
@@ -101,8 +104,6 @@ public class EnemyDamage : MonoBehaviour
             }
         }
     }
-
-
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag("Aullador"))
@@ -110,6 +111,15 @@ public class EnemyDamage : MonoBehaviour
             called = false;
             GetComponent<EnemyPatrol>().enabled = true;
             GetComponent<EnemyPatrol>().playerSaw = false;
+        }
+    }
+
+    public void DecreaseSpeed()
+    {
+        rb.velocity = new Vector2(rb.velocity.x - 5 * Time.deltaTime, rb.velocity.y - 5 * Time.deltaTime);
+        if (rb.velocity.x > 0 || rb.velocity.y > 0)
+        {
+            DecreaseSpeed();
         }
     }
 }
