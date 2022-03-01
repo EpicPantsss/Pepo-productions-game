@@ -5,9 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    [HideInInspector]
     public GameObject definitive;
-    [HideInInspector]
     public GameObject passive;
 
     public bool extra;
