@@ -54,8 +54,9 @@ public class EnemyDamage : MonoBehaviour
                 timer = 0;
             }
         }
-        if (death)
+        if (death || enemyHP <= 0)
         {
+            spriteRenderer.enabled = false;
             timer += Time.deltaTime;
             if (timer > 1.5f)
             {

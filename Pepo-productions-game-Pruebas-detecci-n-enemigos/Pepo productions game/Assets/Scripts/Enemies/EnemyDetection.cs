@@ -31,6 +31,9 @@ public class EnemyDetection : MonoBehaviour
     [HideInInspector]
     public bool knocked;
 
+    private float originalDetectionAngle;
+    private float playerDetectedAngle;
+
     private void Awake()
     {
         enemyDamage = GetComponent<EnemyDamage>();
@@ -40,6 +43,9 @@ public class EnemyDetection : MonoBehaviour
         {
             hasPatrolScript = true;
         }
+
+        originalDetectionAngle = detectionAngle;
+        playerDetectedAngle = detectionAngle + 20;
     }
 
     private void Update()
@@ -63,6 +69,8 @@ public class EnemyDetection : MonoBehaviour
                         playerJustUndetected = false;
                         timer = 0;
                         playerLastPositionSeen = player.position;
+                        // Aumentar el rango de visión del player
+                        detectionAngle = playerDetectedAngle;
 
                         // Si el enemigo está patrullando, dejará de hacerlo
                         if (hasPatrolScript)
@@ -125,6 +133,8 @@ public class EnemyDetection : MonoBehaviour
                 playerJustUndetected = false;
                 timer = 0;
                 distanceToWalk = 0;
+
+                detectionAngle = originalDetectionAngle;
 
                 if (hasPatrolScript)
                 {

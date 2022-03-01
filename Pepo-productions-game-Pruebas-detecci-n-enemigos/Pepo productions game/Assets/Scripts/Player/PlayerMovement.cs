@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
-    enum Direction { UP, DOWN, LEFT, RIGHT };
+    enum Direction { NONE, UP, DOWN, LEFT, RIGHT };
     Direction direction;
 
     public float speed;
@@ -33,12 +33,18 @@ public class PlayerMovement : MonoBehaviour
     private float normalCameraSize;
     public float sneakCameraSize;
     public float transitionSpeed;
+    [Header("Sonido")]
+    private AudioSource audioSource;
+    public AudioClip playerWalkSound;
+    private bool soundStarted;
 
     void Start()
     {
         anim = gameObject.GetComponentInChildren<Animation>();
         animator = gameObject.GetComponentInChildren<Animator>();
         playerAttack = GetComponent<PlayerAttack>();
+
+        audioSource = GetComponent<AudioSource>();
 
         aux = speed;
 
@@ -76,19 +82,29 @@ public class PlayerMovement : MonoBehaviour
             direction = Direction.DOWN;
             walking = true;
         }
-        if (!Input.anyKey)
+        if (!Input.anyKey && !Input.GetKeyDown(KeyCode.E) && !Input.GetKeyDown(KeyCode.Mouse0))
         {
             walking = false;
         }
 
 
-        if (walking)
+        if (walking && !Input.GetKeyDown(KeyCode.E) && !Input.GetKeyDown(KeyCode.Mouse0))
         {
             animator.SetBool("Walk", true);
+            if (!soundStarted)
+            {
+                audioSource.clip = playerWalkSound;
+                audioSource.volume = 0.4f;
+                audioSource.Play();
+                soundStarted = true;
+            }
         }
         else
         {
             animator.SetBool("Walk", false);
+            audioSource.Stop();
+            soundStarted = false;
+            direction = Direction.NONE;
         }
 
         // Agacharse

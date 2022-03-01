@@ -87,7 +87,7 @@ public class PlayerAttack : MonoBehaviour
         actualBullet = bulletsToInit;
 
         anim = GetComponentInChildren<Animator>();
-        audioSource = GetComponentInChildren<AudioSource>();
+        audioSource = transform.GetChild(1).GetComponent<AudioSource>();
 
         playerMovement = GetComponent<PlayerMovement>();
 
