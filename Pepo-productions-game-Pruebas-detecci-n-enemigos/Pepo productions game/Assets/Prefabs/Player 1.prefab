@@ -247,7 +247,9 @@ MonoBehaviour:
   ammoText: {fileID: 0}
   shooting: 0
   reloading: 0
-  animations: []
+  animations:
+  - 
+  - 
   weapons: []
 --- !u!114 &5857497777799070382
 MonoBehaviour:

@@ -19,8 +19,8 @@ public class EnemyDamage : MonoBehaviour
 
     public bool called;
     bool hasPatrolScript;
-
-    private bool death;
+    [HideInInspector]
+    public bool death;
 
 
     private void Start()
@@ -57,6 +57,7 @@ public class EnemyDamage : MonoBehaviour
         if (death || enemyHP <= 0)
         {
             spriteRenderer.enabled = false;
+            
             timer += Time.deltaTime;
             if (timer > 1.5f)
             {

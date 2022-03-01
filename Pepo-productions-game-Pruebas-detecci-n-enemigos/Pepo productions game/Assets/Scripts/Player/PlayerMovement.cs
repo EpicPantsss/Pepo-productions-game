@@ -10,9 +10,8 @@ public class PlayerMovement : MonoBehaviour
 
     public float speed;
 
-    public Animation anim;
+    public Animator anim;
     public List<AnimationClip> animationClips;
-    private Animator animator;
 
     public bool walking;
     [HideInInspector]
@@ -40,8 +39,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-        anim = gameObject.GetComponentInChildren<Animation>();
-        animator = gameObject.GetComponentInChildren<Animator>();
+        anim = gameObject.GetComponentInChildren<Animator>();
         playerAttack = GetComponent<PlayerAttack>();
 
         audioSource = GetComponent<AudioSource>();
@@ -82,7 +80,10 @@ public class PlayerMovement : MonoBehaviour
             direction = Direction.DOWN;
             walking = true;
         }
-        if (!Input.anyKey && !Input.GetKeyDown(KeyCode.E) && !Input.GetKeyDown(KeyCode.Mouse0))
+        if ((Input.GetKeyUp(KeyCode.W)
+            && Input.GetKeyUp(KeyCode.A)
+            && Input.GetKeyUp(KeyCode.D)
+            && Input.GetKeyUp(KeyCode.S)))
         {
             walking = false;
         }
@@ -90,7 +91,6 @@ public class PlayerMovement : MonoBehaviour
 
         if (walking && !Input.GetKeyDown(KeyCode.E) && !Input.GetKeyDown(KeyCode.Mouse0))
         {
-            animator.SetBool("Walk", true);
             if (!soundStarted)
             {
                 audioSource.clip = playerWalkSound;
@@ -101,7 +101,6 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            animator.SetBool("Walk", false);
             audioSource.Stop();
             soundStarted = false;
             direction = Direction.NONE;

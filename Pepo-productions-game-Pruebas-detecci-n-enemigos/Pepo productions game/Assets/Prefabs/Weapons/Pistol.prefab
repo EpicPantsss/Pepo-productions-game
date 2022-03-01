@@ -52,5 +52,5 @@ MonoBehaviour:
   fireSound: {fileID: 8300000, guid: 723a2a148c94487478079bc53da3d592, type: 3}
   reloadSound: {fileID: 8300000, guid: cef0fa03af5b747f0abe82cde0b2bccc, type: 3}
   animationNames:
-  - {fileID: 7400000, guid: 4ad730ff0de4e5043b2619181be3a525, type: 2}
-  - {fileID: 7400000, guid: 05441563a1d4ec2479d36555f42454a6, type: 2}
+  - shoot_pistol
+  - shoot_pistol_run

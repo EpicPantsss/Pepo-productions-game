@@ -51,3 +51,6 @@ MonoBehaviour:
   bulletSpeed: 40
   fireSound: {fileID: 8300000, guid: da6879da578df2f409cebc0c2162bd2d, type: 3}
   reloadSound: {fileID: 8300000, guid: 61a32e03339829c429f76488632021ce, type: 3}
+  animationNames:
+  - shoot_pistol
+  - shoot_pistol_run

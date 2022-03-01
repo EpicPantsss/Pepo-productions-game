@@ -12,5 +12,5 @@ public class WeaponInfo : MonoBehaviour
     public float bulletSpeed;
     public AudioClip fireSound;
     public AudioClip reloadSound;
-    public List<AnimationClip> animationNames;
+    public List<string> animationNames;
 }

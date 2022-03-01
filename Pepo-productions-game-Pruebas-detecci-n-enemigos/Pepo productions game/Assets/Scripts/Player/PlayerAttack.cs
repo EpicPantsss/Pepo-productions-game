@@ -55,8 +55,7 @@ public class PlayerAttack : MonoBehaviour
 
     // Animación
     [Header("Animación del ataque")]
-    public AnimationClip[] animations;
-    private Animator anim;
+    public List<string> animations;
 
     // Lista de las armas disponibles
     [Header("Armas del personaje")]
@@ -74,8 +73,6 @@ public class PlayerAttack : MonoBehaviour
 
         ///gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 
-        animations = new AnimationClip[2];
-
         GenerateBullets();
     }
 
@@ -86,13 +83,13 @@ public class PlayerAttack : MonoBehaviour
 
         actualBullet = bulletsToInit;
 
-        anim = GetComponentInChildren<Animator>();
         audioSource = transform.GetChild(1).GetComponent<AudioSource>();
 
         playerMovement = GetComponent<PlayerMovement>();
 
         weaponManager = GetComponent<WeaponManager>();
         weaponManager.weaponsOnInventory = weapons.Capacity - 1;
+        animations.Capacity = 2;
         ChangeWeapon(0);
 
        ///definitiveAttack = gameManager.definitive;
@@ -150,6 +147,7 @@ public class PlayerAttack : MonoBehaviour
 
             audioSource.clip = shootSound;
             audioSource.Play();
+
 
             ammo--;
             // Cambias el texto al número de balas actual
@@ -209,6 +207,9 @@ public class PlayerAttack : MonoBehaviour
         fireRate = weapons[weaponID].fireRecoil;
         shootSound = weapons[weaponID].fireSound;
         reloadSound = weapons[weaponID].reloadSound;
+
+        animations[0] = weapons[weaponID].animationNames[0];
+        animations[1] = weapons[weaponID].animationNames[1];
 
         for (int i = 0; i < bulletsToInit; i++)
         {

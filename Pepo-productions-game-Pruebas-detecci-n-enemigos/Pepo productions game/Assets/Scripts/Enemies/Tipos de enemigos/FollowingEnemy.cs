@@ -12,6 +12,7 @@ public class FollowingEnemy : MonoBehaviour
     private float distanceToRotate;
 
     private EnemyDetection enemyDetection;
+    private EnemyDamage enemyDamage;
 
     //Animación
     private Animator anim;
@@ -20,13 +21,14 @@ public class FollowingEnemy : MonoBehaviour
     {
         player = GameObject.Find("Player");
         enemyDetection = GetComponent<EnemyDetection>();
+        enemyDamage = GetComponent<EnemyDamage>();
 
         anim = GetComponentInChildren<Animator>();
     }
 
     void FixedUpdate()
     {
-        if (enemyDetection.playerDetected)
+        if (enemyDetection.playerDetected && !enemyDamage.death)
         {
             anim.SetBool("Walking", true);
             distanceToRotate = getAngle(transform.position, player.transform.position);

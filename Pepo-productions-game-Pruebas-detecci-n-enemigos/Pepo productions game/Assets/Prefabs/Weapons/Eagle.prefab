@@ -51,3 +51,6 @@ MonoBehaviour:
   bulletSpeed: 20
   fireSound: {fileID: 8300000, guid: 1241adc5ae3543d43ad86a8b175fac07, type: 3}
   reloadSound: {fileID: 8300000, guid: 65d4b10b34b5fae469f58d96469855af, type: 3}
+  animationNames:
+  - shoot_eagle
+  - shoot_eagle_run
