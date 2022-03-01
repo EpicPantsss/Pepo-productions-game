@@ -19,6 +19,11 @@ public class EnemyPatrol : MonoBehaviour
     public float nearDistance;
 
     public float rotateSpeed;
+    [Header("Modos de patrulla")]
+    public bool normalPatrol;
+    public bool invertedReturn;
+    private int actualDirection = 1;
+    public bool randomPatrol;
 
     private Animator anim;
 
@@ -57,13 +62,49 @@ public class EnemyPatrol : MonoBehaviour
 
     private void ChangeObjective()
     {
-        if (patrolOrder < objectives.Capacity - 1)
+        if (normalPatrol)
         {
-            patrolOrder++;
+            if (patrolOrder < objectives.Capacity - 1)
+            {
+                patrolOrder++;
+            }
+            else
+            {
+                patrolOrder = 0;
+            }
+        }
+        else if (invertedReturn)
+        {
+            if (actualDirection == 1)
+            {
+                if (patrolOrder < objectives.Capacity - 1)
+                {
+                    patrolOrder++;
+                }
+                else
+                {
+                    actualDirection = -actualDirection;
+                }
+            }
+            else
+            {
+                if (patrolOrder >= 1)
+                {
+                    patrolOrder--;
+                }
+                else
+                {
+                    patrolOrder = 0;
+                }
+                if (patrolOrder == 0)
+                {
+                    actualDirection = -actualDirection;
+                }
+            }
         }
         else
         {
-            patrolOrder = 0;
+            patrolOrder = Random.Range(0, objectives.Capacity);
         }
         GetDirection();
     }
@@ -103,6 +144,7 @@ public class EnemyPatrol : MonoBehaviour
         {
             Gizmos.DrawLine(objectives[i].position, objectives[i + 1].position);
         }
-        Gizmos.DrawLine(objectives[objectives.Capacity - 1].position, objectives[0].position);
+        if (!invertedReturn)
+            Gizmos.DrawLine(objectives[objectives.Capacity - 1].position, objectives[0].position);
     }
 }

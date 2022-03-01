@@ -10,4 +10,7 @@ public class WeaponInfo : MonoBehaviour
     public float fireRecoil = 0.1f;
     public int weaponAmmo = 6;
     public float bulletSpeed;
+    public AudioClip fireSound;
+    public AudioClip reloadSound;
+    public List<AnimationClip> animationNames;
 }
