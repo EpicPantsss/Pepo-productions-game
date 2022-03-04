@@ -8,11 +8,17 @@ public class CameraMovement : MonoBehaviour
 
     public float cameraSpeed;
 
+    public float rotation;
+
+    private Vector2 mousePosition;
     void Update()
     {
-        float xDistance = target.position.x - transform.position.x;
-        float yDistance = target.position.y - transform.position.y;
+        mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 destiny = (mousePosition - (Vector2)target.position) / 5;
 
-        transform.Translate(xDistance * cameraSpeed * Time.deltaTime, yDistance * cameraSpeed * Time.deltaTime, 0);
+        float xdistanceToDestiny = (destiny.x - transform.position.x) + target.position.x;
+        float ydistanceToDestiny = (destiny.y - transform.position.y) + target.position.y;
+
+        transform.Translate(xdistanceToDestiny * cameraSpeed * Time.deltaTime, ydistanceToDestiny * cameraSpeed * Time.deltaTime, 0);
     }
 }

@@ -72,7 +72,7 @@ public class PlayerAttack : MonoBehaviour
         bulletRepository = new GameObject[bulletsToInit];
         bulletRepositoryScripts = new Bullet[bulletsToInit];
 
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        //gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 
         GenerateBullets();
     }
@@ -95,8 +95,8 @@ public class PlayerAttack : MonoBehaviour
         animations.Capacity = 2;
         ChangeWeapon(0);
 
-        definitiveAttack = gameManager.definitive;
-        passiveAbility = gameManager.passive;
+        //definitiveAttack = gameManager.definitive;
+        //passiveAbility = gameManager.passive;
 
         StartCoroutine(DefinitiveCharge());
     }
