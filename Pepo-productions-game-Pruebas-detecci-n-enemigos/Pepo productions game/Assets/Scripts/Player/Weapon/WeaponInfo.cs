@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class WeaponInfo : MonoBehaviour
 {
+    public enum AmmoType { PISTOL, DEAGLE, AK };
+
     public int weaponID = 0;
     public string weaponName = "";
     public int weaponDamage = 1;
@@ -13,4 +15,5 @@ public class WeaponInfo : MonoBehaviour
     public AudioClip fireSound;
     public AudioClip reloadSound;
     public List<string> animationNames;
+    public AmmoType ammoType;
 }

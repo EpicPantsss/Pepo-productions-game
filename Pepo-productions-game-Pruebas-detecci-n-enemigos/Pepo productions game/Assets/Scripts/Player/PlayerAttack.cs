@@ -15,6 +15,10 @@ public class PlayerAttack : MonoBehaviour
     private int ammo;
     public AudioClip shootSound;
     public AudioClip reloadSound;
+    /// Tipos de munición
+    [HideInInspector]
+    private int ammoType;
+    public List<int> ammoInventory;
     
         /// Variables donde se guardan las balas a disparar al inicio del código
     private GameObject[] bulletRepository;
@@ -118,6 +122,7 @@ public class PlayerAttack : MonoBehaviour
     void Update()
     {
         #region Apuntado del jugador al ratón
+
         // Aquí guardas la posición del mouse en el mapa
         mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
@@ -137,11 +142,12 @@ public class PlayerAttack : MonoBehaviour
         #endregion
 
         #region Disparo del jugador
+
         if ((Input.GetKey(KeyCode.E) || Input.GetKey(KeyCode.Mouse0)) && !shooting && !reloading)
         {
             shooting = true;
 
-            if (ammo <= 0) { return; }
+            if (ammo <= 0 || ammoInventory[ammoType] <= 0) { return; }
             if (actualBullet <= 0)
             {
                 actualBullet = bulletsToInit;
@@ -204,19 +210,23 @@ public class PlayerAttack : MonoBehaviour
     public void ChangeWeapon(int weaponID)
     {
         if (weaponID > weapons.Capacity || weaponID < 0) { return; }
-
+        // Munición de la arma
         ammo = weapons[weaponID].weaponAmmo;
         ammoText.text = "" + ammo;
-
+        // Velocidad de disparo
         fireRate = weapons[weaponID].fireRecoil;
+        // Sonidos
         shootSound = weapons[weaponID].fireSound;
         reloadSound = weapons[weaponID].reloadSound;
-
+        // Animaciones
         animations[0] = weapons[weaponID].animationNames[0];
         animations[1] = weapons[weaponID].animationNames[1];
+        // Tipo de munición
+        ammoType = (int)weapons[weaponID].ammoType;
 
         for (int i = 0; i < bulletsToInit; i++)
         {
+            // Velocidad de la bala y daño del arma
             bulletRepositoryScripts[i].bulletSpeed = weapons[weaponID].bulletSpeed;
             bulletRepositoryScripts[i].bulletDamage = weapons[weaponID].weaponDamage;
         }
@@ -224,6 +234,7 @@ public class PlayerAttack : MonoBehaviour
 
     IEnumerator DefinitiveCharge()
     {
+        // Carga de la definitiva con el tiempo
         if (definitiveCharge < 100)
             definitiveCharge += 25;
         definitiveAnim.SetFloat("DefinitiveCharge", definitiveCharge);
