@@ -54,3 +54,4 @@ MonoBehaviour:
   animationNames:
   - shoot_eagle
   - shoot_eagle_run
+  ammoType: 1

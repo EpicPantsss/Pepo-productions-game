@@ -54,3 +54,4 @@ MonoBehaviour:
   animationNames:
   - shoot_ak
   - shoot_ak_run
+  ammoType: 2

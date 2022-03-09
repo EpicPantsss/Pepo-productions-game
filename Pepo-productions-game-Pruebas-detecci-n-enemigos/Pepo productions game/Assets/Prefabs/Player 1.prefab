@@ -306,6 +306,10 @@ MonoBehaviour:
   mouseScroll: {x: 0, y: 0}
   weaponsOnInventory: 1
   currentWeapon: 0
+  allWeapons:
+  - {fileID: 5890338483293668179, guid: 338f1caa96630a84c94cbf4842b85418, type: 3}
+  - {fileID: 1937215496671084530, guid: 0070d0c077bff5e42908df1ccb350324, type: 3}
+  - {fileID: 1937215496671084530, guid: 5f396bf0b959a574c9e9d5efcc970602, type: 3}
 --- !u!50 &3742131187567800440
 Rigidbody2D:
   serializedVersion: 4

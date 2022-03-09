@@ -132,7 +132,7 @@ public class EnemyPatrol : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        /*
+       
         // Para solo dibujar la ruta del enemigo cuando lo selecciones
         if (UnityEditor.Selection.activeGameObject != this.gameObject
             && UnityEditor.Selection.activeGameObject != this.gameObject.transform.GetChild(0).gameObject)
@@ -147,6 +147,6 @@ public class EnemyPatrol : MonoBehaviour
         }
         if (!invertedReturn)
             Gizmos.DrawLine(objectives[objectives.Capacity - 1].position, objectives[0].position);
-        */
+        
     }
 }

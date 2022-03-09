@@ -18,7 +18,8 @@ public class PlayerAttack : MonoBehaviour
     /// Tipos de munición
     [HideInInspector]
     private int ammoType;
-    public List<int> ammoInventory;
+    private int[] ammoInventory;
+    private int[] currentAmmoValue;
     
         /// Variables donde se guardan las balas a disparar al inicio del código
     private GameObject[] bulletRepository;
@@ -27,9 +28,10 @@ public class PlayerAttack : MonoBehaviour
         /// Variable donde se marcan las balas que se crearán al inicio del código
     public int bulletsToInit;
     private int actualBullet;
-    private int aux;
     // =======================================
 
+
+    // Habilidades definitivas y pasivas
     [Header("Habilidad definitiva")]
     public GameObject definitiveAttack;
     public bool definitiveCharged;
@@ -39,8 +41,9 @@ public class PlayerAttack : MonoBehaviour
     [Header("Habilidad pasiva")]
     public GameObject passiveAbility;
 
+    // Stats del arma que estás usando, se actualizan al cambiar de arma
     [HideInInspector]
-    public int bulletDamage = 1;
+    public int bulletDamage;
     [HideInInspector]
     public int bulletSpeed;
     [HideInInspector]
@@ -51,7 +54,6 @@ public class PlayerAttack : MonoBehaviour
 
     /// Referencias a otros scripts del player
     private WeaponManager weaponManager;
-    private PlayerMovement playerMovement;
 
     public bool shooting;
     public bool reloading;
@@ -76,7 +78,10 @@ public class PlayerAttack : MonoBehaviour
         bulletRepository = new GameObject[bulletsToInit];
         bulletRepositoryScripts = new Bullet[bulletsToInit];
 
-        //gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+       // gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+
+        ammoInventory = new int[(int)WeaponManager.AmmoTypes.LAST_NO_USE];
+        currentAmmoValue = new int[weapons.Capacity];
 
         GenerateBullets();
     }
@@ -84,13 +89,11 @@ public class PlayerAttack : MonoBehaviour
     void Start()
     {
         // Ponemos el número de balas que tenemos en el texto
-        ammoText.text = "" + ammo;
+        ammoText.text = "" + ammo + " | " + ammoInventory[ammoType];
 
         actualBullet = bulletsToInit;
 
         audioSource = transform.GetChild(1).GetComponent<AudioSource>();
-
-        playerMovement = GetComponent<PlayerMovement>();
 
         definitiveAnim = GameObject.Find("Definitive image").GetComponent<Animator>();
 
@@ -99,8 +102,8 @@ public class PlayerAttack : MonoBehaviour
         animations.Capacity = 2;
         ChangeWeapon(0);
 
-        //definitiveAttack = gameManager.definitive;
-        //passiveAbility = gameManager.passive;
+       // definitiveAttack = gameManager.definitive;
+       // passiveAbility = gameManager.passive;
 
         StartCoroutine(DefinitiveCharge());
     }
@@ -143,11 +146,11 @@ public class PlayerAttack : MonoBehaviour
 
         #region Disparo del jugador
 
-        if ((Input.GetKey(KeyCode.E) || Input.GetKey(KeyCode.Mouse0)) && !shooting && !reloading)
+        if (Input.GetKey(KeyCode.Mouse0) && !shooting && !reloading)
         {
             shooting = true;
 
-            if (ammo <= 0 || ammoInventory[ammoType] <= 0) { return; }
+            if (ammo <= 0 || (ammo <= 0 && ammoInventory[ammoType] <= 0)) { return; }
             if (actualBullet <= 0)
             {
                 actualBullet = bulletsToInit;
@@ -159,8 +162,10 @@ public class PlayerAttack : MonoBehaviour
 
 
             ammo--;
+            // Guardar el valor de la munición que tienes
+            currentAmmoValue[ammoType] = ammo;
             // Cambias el texto al número de balas actual
-            ammoText.text = "" + ammo;
+            ammoText.text = "" + ammo + " | " + ammoInventory[ammoType];
 
             // Vuelves activo el gameObject de la bala para que se active su script
             bulletRepository[actualBullet - 1].SetActive(true);
@@ -169,6 +174,7 @@ public class PlayerAttack : MonoBehaviour
             bulletRepositoryScripts[actualBullet - 1].StartMovement();
 
             actualBullet--;
+
         }
         if (shooting)
         {
@@ -180,21 +186,37 @@ public class PlayerAttack : MonoBehaviour
                 shooting = false;
             }
         }
+        // Recargar
         if (Input.GetKeyDown(KeyCode.R) && !shooting)
         {
+            if (ammoInventory[ammoType] <= 0) { return; }
+
             reloading = true;
+            // Suma a ammo y resta a la munición que tengas, hasta que tengas el cargador lleno o se acabe la munición
+            for (int i = 0;
+                ammo < weapons[weaponManager.currentWeapon].weaponAmmo && ammoInventory[ammoType] > 0;
+                i++)
+            {
+                ammo++;
+                ammoInventory[ammoType]--;
+            }
+
             audioSource.clip = reloadSound;
             audioSource.Play();
-            ammo = weapons[weaponManager.currentWeapon].weaponAmmo;
+            // Actualizar el texto
+            ammoText.text = "" + ammo + " | " + ammoInventory[ammoType];
+            // Poner que la próxima bala que se dispare sea la última, para evitar problemas
             actualBullet = bulletsToInit;
 
-            ammoText.text = "" + ammo;
+            // Guardar el valor de la munición que tienes
+            currentAmmoValue[ammoType] = ammo;
         }
         if (reloading && !audioSource.isPlaying)
         {
             reloading = false;
         }
-        #region Habilidad definitiva
+
+             #region Habilidad definitiva
         // Habilidad definitiva
         if (Input.GetKeyDown(KeyCode.Q) && definitiveCharge >= 100)
         {
@@ -210,9 +232,11 @@ public class PlayerAttack : MonoBehaviour
     public void ChangeWeapon(int weaponID)
     {
         if (weaponID > weapons.Capacity || weaponID < 0) { return; }
+        // Tipo de munición
+        ammoType = (int)weapons[weaponID].ammoType;
         // Munición de la arma
-        ammo = weapons[weaponID].weaponAmmo;
-        ammoText.text = "" + ammo;
+        ammo = currentAmmoValue[ammoType];
+        ammoText.text = "" + ammo + " | " + ammoInventory[ammoType];
         // Velocidad de disparo
         fireRate = weapons[weaponID].fireRecoil;
         // Sonidos
@@ -221,8 +245,6 @@ public class PlayerAttack : MonoBehaviour
         // Animaciones
         animations[0] = weapons[weaponID].animationNames[0];
         animations[1] = weapons[weaponID].animationNames[1];
-        // Tipo de munición
-        ammoType = (int)weapons[weaponID].ammoType;
 
         for (int i = 0; i < bulletsToInit; i++)
         {
@@ -240,5 +262,16 @@ public class PlayerAttack : MonoBehaviour
         definitiveAnim.SetFloat("DefinitiveCharge", definitiveCharge);
         yield return new WaitForSeconds(1);
         StartCoroutine(DefinitiveCharge());
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("AmmoBox"))
+        {
+            int type = (int)other.gameObject.GetComponent<AmmoBox>().ammoType;
+
+            ammoInventory[type] += weaponManager.allWeapons[type].weaponAmmo;
+            ammoText.text = "" + ammo + " | " + ammoInventory[type];
+        }
     }
 }
