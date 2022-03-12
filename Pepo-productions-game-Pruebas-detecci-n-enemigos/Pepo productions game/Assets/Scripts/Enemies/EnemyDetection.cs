@@ -11,7 +11,7 @@ public class EnemyDetection : MonoBehaviour
 
     public Transform player;
 
-    public Vector2 toPlayer;
+    public float toPlayer;
 
     public bool playerDetected;
 
@@ -50,11 +50,11 @@ public class EnemyDetection : MonoBehaviour
 
     private void Update()
     {
-        toPlayer = player.localPosition - transform.localPosition;
+        toPlayer = Vector2.Distance(player.localPosition, transform.position);
 
         if (!enemyDamage.called && !knocked)
         {
-            if (toPlayer.magnitude <= detectionRadius)
+            if (toPlayer <= detectionRadius)
             {
                 // Raycast para detectar si hay un objeto delante del jugador
                 RaycastHit2D rayToPlayer = Physics2D.Raycast(transform.position, player.position - transform.position);
@@ -148,7 +148,7 @@ public class EnemyDetection : MonoBehaviour
 
     private void OnDrawGizmos()
     {       
-        /*
+        
         // Para solo dibujar el rango de detección si se selecciona el objeto
         if (UnityEditor.Selection.activeGameObject != this.gameObject 
             && UnityEditor.Selection.activeGameObject != this.gameObject.transform.GetChild(0).gameObject) { 
@@ -169,6 +169,6 @@ public class EnemyDetection : MonoBehaviour
 
         Gizmos.DrawRay(transform.position, upRayDirection);
         Gizmos.DrawRay(transform.position, downRayDirection);
-        */
+        
     }
 }

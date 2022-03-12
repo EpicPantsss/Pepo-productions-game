@@ -73,6 +73,10 @@ public class PlayerAttack : MonoBehaviour
     // Audio
     private AudioSource audioSource;
 
+    // ============================
+    // Modo de ataque
+    private int attackMode = 0;
+
     void Awake()
     {
         bulletRepository = new GameObject[bulletsToInit];
@@ -144,37 +148,46 @@ public class PlayerAttack : MonoBehaviour
         }
         #endregion
 
-        #region Disparo del jugador
+        #region Ataque del jugador
 
         if (Input.GetKey(KeyCode.Mouse0) && !shooting && !reloading)
         {
             shooting = true;
 
-            if (ammo <= 0 || (ammo <= 0 && ammoInventory[ammoType] <= 0)) { return; }
-            if (actualBullet <= 0)
+            switch (attackMode)
             {
-                actualBullet = bulletsToInit;
+                case 0:// Puños
+
+                    break;
+
+
+                case 1:// Arma
+                    if (ammo <= 0 || (ammo <= 0 && ammoInventory[ammoType] <= 0)) { return; }
+                    if (actualBullet <= 0)
+                    {
+                        actualBullet = bulletsToInit;
+                    }
+
+
+                    audioSource.clip = shootSound;
+                    audioSource.Play();
+
+
+                    ammo--;
+                    // Guardar el valor de la munición que tienes
+                    currentAmmoValue[ammoType] = ammo;
+                    // Cambias el texto al número de balas actual
+                    ammoText.text = "" + ammo + " | " + ammoInventory[ammoType];
+
+                    // Vuelves activo el gameObject de la bala para que se active su script
+                    bulletRepository[actualBullet - 1].SetActive(true);
+
+                    // Y aquí llamas a la función que le da movimiento a la bala
+                    bulletRepositoryScripts[actualBullet - 1].StartMovement();
+
+                    actualBullet--;
+                    break;
             }
-
-
-            audioSource.clip = shootSound;
-            audioSource.Play();
-
-
-            ammo--;
-            // Guardar el valor de la munición que tienes
-            currentAmmoValue[ammoType] = ammo;
-            // Cambias el texto al número de balas actual
-            ammoText.text = "" + ammo + " | " + ammoInventory[ammoType];
-
-            // Vuelves activo el gameObject de la bala para que se active su script
-            bulletRepository[actualBullet - 1].SetActive(true);
-
-            // Y aquí llamas a la función que le da movimiento a la bala
-            bulletRepositoryScripts[actualBullet - 1].StartMovement();
-
-            actualBullet--;
-
         }
         if (shooting)
         {
