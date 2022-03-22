@@ -102,9 +102,8 @@ public class PlayerAttack : MonoBehaviour
         definitiveAnim = GameObject.Find("Definitive image").GetComponent<Animator>();
 
         weaponManager = GetComponent<WeaponManager>();
-        weaponManager.weaponsOnInventory = weapons.Capacity - 1;
+
         animations.Capacity = 2;
-        ChangeWeapon(0);
 
        // definitiveAttack = gameManager.definitive;
        // passiveAbility = gameManager.passive;
@@ -244,7 +243,7 @@ public class PlayerAttack : MonoBehaviour
 
     public void ChangeWeapon(int weaponID)
     {
-        if (weaponID > weapons.Capacity || weaponID < 0) { return; }
+        if (weaponID > weapons.Capacity || weaponID < 0 || weapons.Capacity <= 0) { return; }
         // Tipo de munición
         ammoType = (int)weapons[weaponID].ammoType;
         // Munición de la arma
