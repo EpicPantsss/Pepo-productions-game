@@ -2,13 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System.IO;
 
 public class ConversationSystem : MonoBehaviour
 {
     [Header("UI")]
     public Image textBox;
     public Text text;
+    public Canvas canvas;
+    private Text styleText;
+
     [Header("Frases que dirá el personaje")]
     public List<string> textToShow;
     [Header("Velocidad del texto")]
@@ -17,9 +19,17 @@ public class ConversationSystem : MonoBehaviour
     private int currentLine;
     private bool textEnded;
 
+    private int originalTextSize;
+
     void Start()
     {
         textEnded = true;
+
+        originalTextSize = text.fontSize;
+
+        text.text = "";
+        
+        styleText = Instantiate(text, textBox.transform);
 
         GetPhrase(0);
         StartText(0);
@@ -30,9 +40,13 @@ public class ConversationSystem : MonoBehaviour
         // Limpiar el vector para poner las nuevas frases
         textToShow.Clear();
 
-        StringReader reader = new StringReader("text" + textID.ToString() + ".txt");
-        string a = reader.ReadLine();
-        textToShow.Add(reader.ReadToEnd());
+        TextAsset t = Resources.Load("Phrases/text" + textID) as TextAsset;
+
+        string[] textList = t.text.Split('\n');
+        for (int i = 0; i < textList.Length; i++)
+        {
+            textToShow.Add(textList[i]);
+        }
     }
 
     void Update()
@@ -44,18 +58,24 @@ public class ConversationSystem : MonoBehaviour
                 currentLine++;
                 StartText(currentLine);
             }
+            else
+            {
+                // Vaciar el texto si se intenta avanzar cuando este ha acabado
+                text.text = "";
+            }
         }
     }
     //! Vacía el texto y empieza el efecto del texto con la frase actual
     public void StartText(int phrase)
     {
         text.text = "";
-        AppearWordsEffect(textToShow[phrase]);
+        StartCoroutine(AppearWordsEffect(textToShow[phrase]));
     }
+
     IEnumerator AppearWordsEffect(string line)
     {
         textEnded = false;
-        string textStyle = "";
+
         for (int i = 0; i < line.Length; i++)
         {
             if (line[i] == '#')
@@ -63,15 +83,22 @@ public class ConversationSystem : MonoBehaviour
                 i++;
                 // Estilo del texto
                 LetterTypeComprober(line[i]);
+
+                i++;/// Volver a sumar para que no se escriba el comando de estilo
+
                 // Escribe la palabra con el nuevo estilo hasta que se encuentra un espacio o se llega al final de la frase
                 while (i < line.Length - 1 && line[i] != ' ')
                 {
-                    text.text += line[i];
+                    styleText.text += line[i];
+                    text.text += "  ";
                     i++;
                     yield return new WaitForSeconds(textSpeed);
                 }
             }
+            else
+                styleText.text += "";
 
+            // Escribir el texto letra por letra
             text.text += line[i];
             yield return new WaitForSeconds(textSpeed);
         }
@@ -86,19 +113,19 @@ public class ConversationSystem : MonoBehaviour
                 break;
 
             case 'b':
-                text.fontStyle = FontStyle.Bold;
+                styleText.fontStyle = FontStyle.Bold;
                 break;
 
             case 'i':
-                text.fontStyle = FontStyle.Italic;
+                styleText.fontStyle = FontStyle.Italic;
                 break;
 
             case '+':
-                text.fontSize += 5;
+                styleText.fontSize += 5;
                 break;
 
             case '-':
-                text.fontSize -= 5;
+                styleText.fontSize -= 5;
                 break;
         }
         return true;
