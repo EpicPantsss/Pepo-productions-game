@@ -12,7 +12,7 @@ public class ConversationSystem : MonoBehaviour
     [Header("Frases que dirá el personaje")]
     public List<string> textToShow;
     [Header("Velocidad del texto")]
-    public int textSpeed;
+    public float textSpeed;
 
     private int currentLine;
     private bool textEnded;
@@ -20,7 +20,9 @@ public class ConversationSystem : MonoBehaviour
     void Start()
     {
         textEnded = true;
+
         GetPhrase(0);
+        StartText(0);
     }
 
     void GetPhrase(int textID)
@@ -61,7 +63,7 @@ public class ConversationSystem : MonoBehaviour
                 i++;
                 // Estilo del texto
                 LetterTypeComprober(line[i]);
-
+                // Escribe la palabra con el nuevo estilo hasta que se encuentra un espacio o se llega al final de la frase
                 while (i < line.Length - 1 && line[i] != ' ')
                 {
                     text.text += line[i];

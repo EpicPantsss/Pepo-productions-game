@@ -8,7 +8,7 @@ public class WeaponManager : MonoBehaviour
 
     [HideInInspector]
     public Vector2 mouseScroll;
-    public int weaponsOnInventory = 1;
+    public int weaponsOnInventory = 0;
 
     public int currentWeapon = 0;
     [Header("IMPORTANTE: Orden de las armas igual que el enum")]
