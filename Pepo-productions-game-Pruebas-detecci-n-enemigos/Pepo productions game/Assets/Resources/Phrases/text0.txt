@@ -1,4 +1,8 @@
-#iLorem ipsum dolor sit amet, consectetur adipiscing elit, 
-#+sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-#-Etiam sit amet nisl purus. 
-#bTincidunt eget nullam non nisi est sit.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
+sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+Etiam sit amet nisl purus. 
+Tincidunt eget nullam non nisi est sit.
+{ 1
+	Opción algo rara->2
+	Olvidonaaaa->1
+}
