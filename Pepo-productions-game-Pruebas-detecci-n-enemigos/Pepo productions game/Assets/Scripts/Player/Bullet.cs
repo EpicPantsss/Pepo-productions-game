@@ -10,6 +10,16 @@ public class Bullet : MonoBehaviour
 
     public GameObject player;
     private Rigidbody2D rb;
+    [HideInInspector]
+    public bool sanguinary;
+
+    public bool enemyHitted;
+
+    private PlayerDamage playerDamage;
+    private PlayerAttack playerAttack;
+
+    private GameObject passive;
+    private Sanguinario sanguinario;
 
     void Awake()
     {
@@ -17,6 +27,14 @@ public class Bullet : MonoBehaviour
     }
     void Start()
     {
+        playerAttack = player.GetComponent<PlayerAttack>();
+        playerDamage = player.GetComponent<PlayerDamage>();
+        // Habilidad pasiva
+        passive = player.GetComponent<PlayerAttack>().passiveAbility;
+        if (passive.TryGetComponent<Sanguinario>(out sanguinario))
+            sanguinario = passive.GetComponent<Sanguinario>();
+
+
         rb = GetComponent<Rigidbody2D>();
 
         transform.SetParent(null);
@@ -26,7 +44,8 @@ public class Bullet : MonoBehaviour
 
     public void StartMovement()
     {
-        transform.rotation = player.transform.rotation;
+        // Le asignamos la rotación a la bala
+        transform.rotation = playerAttack.rotationAngle;
         transform.SetParent(null);
         rb.AddForce(transform.right * bulletSpeed, ForceMode2D.Impulse);
         StartCoroutine(WaitToReturn());
@@ -35,9 +54,15 @@ public class Bullet : MonoBehaviour
     // Función para parar la bala y que vuelva al jugador
     public void ReturnToPlayer()
     {
+        enemyHitted = false;
+        /// Frenar la bala
         rb.velocity = new Vector2(0, 0);
+        /// Poner la bala como hija del player, y poner esta en la posición de este
         transform.SetParent(player.transform);
         transform.position = player.transform.position;
+
+        enemyHitted = false;
+
         this.gameObject.SetActive(false);
     }
 
@@ -49,6 +74,12 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (other.CompareTag("Enemy") && sanguinary && !enemyHitted)
+        {
+            playerDamage.playerHP += sanguinario.healAmount;
+            enemyHitted = true;
+        }
+
         if (!other.CompareTag("Player") && !other.CompareTag("Aullador"))
         {
             ReturnToPlayer();

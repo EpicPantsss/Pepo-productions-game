@@ -15,6 +15,8 @@ public class PlayerAttack : MonoBehaviour
     private int ammo;
     public AudioClip shootSound;
     public AudioClip reloadSound;
+    [HideInInspector]
+    public Quaternion rotationAngle;
     /// Tipos de munición
     [HideInInspector]
     private int ammoType;
@@ -23,7 +25,8 @@ public class PlayerAttack : MonoBehaviour
     
         /// Variables donde se guardan las balas a disparar al inicio del código
     private GameObject[] bulletRepository;
-    private Bullet[] bulletRepositoryScripts;
+    [HideInInspector]
+    public Bullet[] bulletRepositoryScripts;
 
         /// Variable donde se marcan las balas que se crearán al inicio del código
     public int bulletsToInit;
@@ -139,7 +142,7 @@ public class PlayerAttack : MonoBehaviour
         // Aquí calculas cuánto hay que rotar para que el objeto mire al mouse
         float distanceToRotate = getAngle(transform.position, mousePosition);
         // Aplicas la rotación
-        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 0, distanceToRotate), 1);
+        rotationAngle = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 0, distanceToRotate), 1);
 
         // Función que calcula cuánto necesitas rotar
         float getAngle(Vector2 position, Vector2 mousePosition)
@@ -266,7 +269,7 @@ public class PlayerAttack : MonoBehaviour
 
     public void ChangeWeapon(int weaponID)
     {
-        if (weaponID > weapons.Capacity || weaponID < 0 || weapons.Capacity <= 0) { return; }
+        if (weaponID >= weapons.Count || weaponID < 0 || weapons.Count <= 0) { return; }
 
         GetWeaponStats(weaponID);
     }

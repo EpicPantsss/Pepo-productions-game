@@ -235,6 +235,7 @@ MonoBehaviour:
   bullet: {fileID: 2460118127545321887, guid: 5ec33efd2982ca3409ff3b16dd69c075, type: 3}
   shootSound: {fileID: 0}
   reloadSound: {fileID: 0}
+  bulletRepositoryScripts: []
   bulletsToInit: 15
   definitiveAttack: {fileID: 0}
   definitiveCharged: 0
@@ -304,7 +305,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mouseScroll: {x: 0, y: 0}
-  weaponsOnInventory: 1
+  weaponsOnInventory: 0
   currentWeapon: 0
   allWeapons:
   - {fileID: 5890338483293668179, guid: 338f1caa96630a84c94cbf4842b85418, type: 3}
@@ -438,7 +439,6 @@ GameObject:
   - component: {fileID: 5857497778393324348}
   - component: {fileID: 5857497778393324351}
   - component: {fileID: 5857497778393324350}
-  - component: {fileID: 3921460024783820312}
   m_Layer: 0
   m_Name: PlayerSprite
   m_TagString: Untagged
@@ -530,18 +530,3 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!111 &3921460024783820312
-Animation:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5857497778393324349}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 0}
-  m_Animations: []
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 0

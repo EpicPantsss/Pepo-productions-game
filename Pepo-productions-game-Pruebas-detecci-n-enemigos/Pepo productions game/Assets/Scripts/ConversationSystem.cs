@@ -15,8 +15,8 @@ public class ConversationSystem : MonoBehaviour
 
     [Header("Frases que dirá el personaje")]
     public List<string> textToShow;
-    public List<List<string>> optionsList;// Aquí se guarda la lista con todas las opciones
-    private List<string> optionsToChoose;
+    public string[][] optionsList;// Aquí se guarda la lista con todas las opciones
+    private List<string> optionsToChoose = new List<string>();
 
     [Header("Velocidad del texto")]
     public float textSpeed;
@@ -35,8 +35,10 @@ public class ConversationSystem : MonoBehaviour
         originalTextSize = text.fontSize;
 
         text.text = "";
-        
+
         //--------------styleText = Instantiate(text, textBox.transform);
+
+        optionsBox.enabled = false;
 
         GetText(0);
         StartText('0');
@@ -46,7 +48,6 @@ public class ConversationSystem : MonoBehaviour
     {
         // Limpiar el vector para poner las nuevas frases y opciones
         textToShow.Clear();
-        optionsList.Clear();
 
         TextAsset t = Resources.Load("Phrases/text" + textID) as TextAsset;
 
@@ -55,6 +56,7 @@ public class ConversationSystem : MonoBehaviour
 
         bool optionsHere = false;
         int optionsNumber = 0;
+        int[] aux = new int[0];// Número de opciones a elegir
         for (int i = 0; i < textList.Length; i++)
         {
             if (textList[i] != "")// Si el texto está vacío no se guardará en la lista
@@ -67,15 +69,28 @@ public class ConversationSystem : MonoBehaviour
                 {
                     optionsHere = true;
                     optionsNumber++;
+                    aux = new int[optionsNumber];
                 }
                 else if (textList[i][0] == '}')
+                {
                     optionsHere = false;
+                }
+                else if (optionsHere)
+                {
+                    aux[optionsNumber - 1]++;
+                }
+                    
             }
         }
 
-        optionsList.Capacity = optionsNumber;
+        optionsList = new string[optionsNumber][];
+        for (int i = 0; i < optionsNumber; i++)
+        {
+            optionsList[i] = new string[aux[i]];
+        }
 
-
+        optionsNumber = 0;
+        int aux2 = 0;
         // Opciones
             /// Guardar las opciones en listas para organizarlas
         for (int i = 0; i < textList.Length; i++)
@@ -95,8 +110,10 @@ public class ConversationSystem : MonoBehaviour
                         /// Si se encuentra el '}', se romperá el bucle y se añadirán las opciones a la 
                         /// lista, y se limpiará el vector con el texto de las opciones para poder 
                         /// volverlo a usar
-                        optionsList.Add(optionsToChoose);
+                        for (int j = 0; j < optionsToChoose.Count; j++)
+                            optionsList[optionsNumber][j] = optionsToChoose[j];
                         optionsToChoose.Clear();
+                        
                         break; 
                     }
 
@@ -121,6 +138,12 @@ public class ConversationSystem : MonoBehaviour
                 text.text = "";
             }
         }
+        else if (Input.GetKeyDown(KeyCode.Space) && !textEnded)
+        {
+            text.text = textToShow[currentLine];
+            StopAllCoroutines();
+            textEnded = true;
+        }
     }
 
     // Vacia el texto y empieza el efecto del texto con la frase actual
@@ -140,7 +163,7 @@ public class ConversationSystem : MonoBehaviour
     private void OptionChoose(int optionsID)
     {
         optionsBox.enabled = true;
-        for (int i = 0; i < optionsList[optionsID].Capacity; i++)
+        for (int i = 0; i < optionsList[currentLine][optionsID].Length; i++)
         {
             // Creas tantos botones como opciones haya, unity ya lo sitúa en una buena posición por el componente de optionsBox
             Button newButton = Instantiate(optionButton, optionsBox.rectTransform);

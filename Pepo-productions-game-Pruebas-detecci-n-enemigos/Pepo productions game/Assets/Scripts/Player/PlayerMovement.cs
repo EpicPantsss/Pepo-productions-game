@@ -37,8 +37,11 @@ public class PlayerMovement : MonoBehaviour
     public AudioClip playerWalkSound;
     private bool soundStarted;
 
+    private Rigidbody2D rb;
+
     void Start()
     {
+        rb = GetComponent<Rigidbody2D>();
         anim = gameObject.GetComponentInChildren<Animator>();
         playerAttack = GetComponent<PlayerAttack>();
 
@@ -58,33 +61,31 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetKey(KeyCode.D))
         {
-            transform.position = new Vector2(transform.position.x + speed * Time.deltaTime, transform.position.y);
+            rb.velocity = new Vector2(speed * Time.deltaTime * 10, rb.velocity.y);
             direction = Direction.RIGHT;
             walking = true;
         }
         if (Input.GetKey(KeyCode.A))
         {
-            transform.position = new Vector2(transform.position.x - speed * Time.deltaTime, transform.position.y);
+            rb.velocity = new Vector2(-speed * Time.deltaTime * 10, rb.velocity.y);
             direction = Direction.LEFT;
             walking = true;
         }
         if (Input.GetKey(KeyCode.W))
         {
-            transform.position = new Vector2(transform.position.x, transform.position.y + speed * Time.deltaTime);
+            rb.velocity = new Vector2(rb.velocity.x, speed * Time.deltaTime * 10);
             direction = Direction.UP;
             walking = true;
         }
         if (Input.GetKey(KeyCode.S))
         {
-            transform.position = new Vector2(transform.position.x, transform.position.y - speed * Time.deltaTime);
+            rb.velocity = new Vector2(rb.velocity.x, -speed * Time.deltaTime * 10);
             direction = Direction.DOWN;
             walking = true;
         }
-        if ((Input.GetKeyUp(KeyCode.W)
-            && Input.GetKeyUp(KeyCode.A)
-            && Input.GetKeyUp(KeyCode.D)
-            && Input.GetKeyUp(KeyCode.S)))
+        if (!Input.anyKey)
         {
+            rb.velocity = new Vector2(0, 0);
             walking = false;
         }
 
