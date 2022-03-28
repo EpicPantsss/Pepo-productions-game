@@ -5,8 +5,9 @@ using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
-    enum Direction { NONE, UP, DOWN, LEFT, RIGHT };
-    Direction direction;
+    public enum Direction { NONE, UP, DOWN, LEFT, RIGHT };
+    [HideInInspector]
+    public Direction direction;
 
     public float speed;
 
@@ -39,6 +40,9 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody2D rb;
 
+    private KeyCode horizontalKeyPressed;
+    private KeyCode verticalKeyPressed;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -55,40 +59,44 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        walking = playerAttack.shooting;
+        walking = !playerAttack.shooting;
 
         playerFront = Vector2.right;
 
+        // Control de inputs
         if (Input.GetKey(KeyCode.D))
         {
-            rb.velocity = new Vector2(speed * Time.deltaTime * 10, rb.velocity.y);
+            rb.velocity = new Vector2(speed, rb.velocity.y);
             direction = Direction.RIGHT;
-            walking = true;
+            horizontalKeyPressed = KeyCode.D;
         }
         if (Input.GetKey(KeyCode.A))
         {
-            rb.velocity = new Vector2(-speed * Time.deltaTime * 10, rb.velocity.y);
+            rb.velocity = new Vector2(-speed, rb.velocity.y);
             direction = Direction.LEFT;
-            walking = true;
+            horizontalKeyPressed = KeyCode.A;
         }
         if (Input.GetKey(KeyCode.W))
         {
-            rb.velocity = new Vector2(rb.velocity.x, speed * Time.deltaTime * 10);
+            rb.velocity = new Vector2(rb.velocity.x, speed);
             direction = Direction.UP;
-            walking = true;
+            verticalKeyPressed = KeyCode.W;
         }
         if (Input.GetKey(KeyCode.S))
         {
-            rb.velocity = new Vector2(rb.velocity.x, -speed * Time.deltaTime * 10);
+            rb.velocity = new Vector2(rb.velocity.x, -speed);
             direction = Direction.DOWN;
-            walking = true;
+            verticalKeyPressed = KeyCode.S;
         }
-        if (!Input.anyKey)
+        // Comprobar si se ha dejado de pulsar la última tecla pulsada de cada eje
+        if (Input.GetKeyUp(horizontalKeyPressed))
         {
-            rb.velocity = new Vector2(0, 0);
-            walking = false;
+            rb.velocity = new Vector2(0, rb.velocity.y);
         }
-
+        if (Input.GetKeyUp(verticalKeyPressed))
+        {
+            rb.velocity = new Vector2(rb.velocity.x, 0);
+        }
 
         if (walking && !Input.GetKeyDown(KeyCode.E) && !Input.GetKeyDown(KeyCode.Mouse0))
         {

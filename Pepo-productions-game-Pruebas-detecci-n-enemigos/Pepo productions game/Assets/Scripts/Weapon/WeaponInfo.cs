@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WeaponInfo : MonoBehaviour
 {
-    public int weaponID = 0;
+    public uint weaponID = 0;
     public string weaponName = "";
     public int weaponDamage = 1;
     public float fireRecoil = 0.1f;

@@ -9,6 +9,7 @@ public class PlayerAttack : MonoBehaviour
     public Vector2 mousePosition;
 
 
+    #region Variables de disparo
     // =======================================
     // Variables para poder disparar =========
     public GameObject bullet;
@@ -32,8 +33,9 @@ public class PlayerAttack : MonoBehaviour
     public int bulletsToInit;
     private int actualBullet;
     // =======================================
+    #endregion
 
-
+    #region Definitivas y pasivas
     // Habilidades definitivas y pasivas
     [Header("Habilidad definitiva")]
     public GameObject definitiveAttack;
@@ -43,6 +45,7 @@ public class PlayerAttack : MonoBehaviour
     private Animator definitiveAnim;
     [Header("Habilidad pasiva")]
     public GameObject passiveAbility;
+    #endregion
 
     // Stats del arma que estás usando, se actualizan al cambiar de arma
     [HideInInspector]
@@ -80,6 +83,8 @@ public class PlayerAttack : MonoBehaviour
     // ============================
     // Modo de ataque
     private int attackMode = 0;
+        // Ataque cuepro a cuerpo
+    private MeleeAttack meleeAttack;
 
     private int lastWeaponInserted;
     private bool weaponPicked;
@@ -109,6 +114,8 @@ public class PlayerAttack : MonoBehaviour
         definitiveAnim = GameObject.Find("Definitive image").GetComponent<Animator>();
 
         weaponManager = GetComponent<WeaponManager>();
+
+        meleeAttack = GetComponentInChildren<MeleeAttack>();
 
         animations.Capacity = 2;
 
@@ -163,7 +170,7 @@ public class PlayerAttack : MonoBehaviour
             switch (attackMode)
             {
                 case 0:// Puños
-
+                    meleeAttack.Attack();
                     break;
 
 
@@ -238,10 +245,7 @@ public class PlayerAttack : MonoBehaviour
         // Cambiar el modo de ataque
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            if (attackMode == 0)
-                attackMode = 1;
-            else
-                attackMode = 0;
+            ChangeAttackMode();
         }
 
         #region Habilidad definitiva
@@ -267,6 +271,26 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
+    void ChangeAttackMode()
+    {
+        if (attackMode == 0)
+        {
+            attackMode = 1;
+            ChangeWeapon(weaponManager.currentWeapon);
+        }
+        else
+        {
+            attackMode = 0;
+            ammoText.text = "Punch";
+            // Stats del arma
+            fireRate = meleeAttack.meleeWeaponInfo.attackRecoil;
+            shootSound = meleeAttack.meleeWeaponInfo.attackSound;
+            reloadSound = meleeAttack.meleeWeaponInfo.recoverSound;
+
+            animations[0] = meleeAttack.meleeWeaponInfo.animationNames[0];
+            animations[1] = meleeAttack.meleeWeaponInfo.animationNames[1];
+        }
+    }
     public void ChangeWeapon(int weaponID)
     {
         if (weaponID >= weapons.Count || weaponID < 0 || weapons.Count <= 0) { return; }
