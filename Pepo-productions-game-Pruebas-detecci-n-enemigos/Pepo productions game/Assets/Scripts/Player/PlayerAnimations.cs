@@ -27,7 +27,7 @@ public class PlayerAnimations : MonoBehaviour
     private float timer;
     public float rotation;
 
-    void Start()
+    void Awake()
     {
         anim = GetComponentInChildren<Animator>();
 
@@ -67,17 +67,16 @@ public class PlayerAnimations : MonoBehaviour
             spriteRenderer.flipX = false;
             anim.Play(animNames[(int)AnimNames.STILL]);
         }
-
     }
     void Update()
     {
         if (!animationStarted)
         {
             rotation = playerAttack.rotationAngle.z * 360;
-            // Ratón a la izquierda
+            // Ratón a la derecha
             if (rotation < 145 && rotation >= -145)
             {
-                playerMovement.direction = PlayerMovement.Direction.LEFT;
+                playerMovement.direction = PlayerMovement.Direction.RIGHT;
                 GetMovementAnimations(leftAnimations);
             }
             // Ratón abajo
@@ -86,32 +85,40 @@ public class PlayerAnimations : MonoBehaviour
                 playerMovement.direction = PlayerMovement.Direction.DOWN;
                 GetMovementAnimations(downAnimations);
             }
-            // Ratón a la derecha
+            // Ratón a la izquierda
             if (rotation < -345 || rotation >= 345)
             {
-                playerMovement.direction = PlayerMovement.Direction.RIGHT;
+                playerMovement.direction = PlayerMovement.Direction.LEFT;
                 GetMovementAnimations(rightAnimations);
             }
             // Ratón arriba
             if (rotation < 345 && rotation >= 145)
             {
+                playerMovement.direction = PlayerMovement.Direction.UP;
                 GetMovementAnimations(upAnimations);
             }
         }
 
 
-        if (Input.GetKey(KeyCode.Mouse0) && !playerMovement.walking)
+        if (Input.GetKey(KeyCode.Mouse0))
         {
-            anim.Play(playerAttack.animations[0]);
-            animationStarted = true;
+            if (rb.velocity.x > 0.1f || rb.velocity.x < -0.1f
+                || rb.velocity.y > 0.1f || rb.velocity.y < -0.1f)
+            {
+                anim.Play(playerAttack.animations[1]);
+                animationStarted = true;
+            }
+            else
+            {
+                anim.Play(playerAttack.animations[0]);
+                animationStarted = true;
+            }
         }
-        else if (Input.GetKey(KeyCode.Mouse0) && playerMovement.walking && !animationStarted)
+        else
         {
-            anim.Play(playerAttack.animations[1]);
-            animationStarted = true;
-            timer = 0;
+            animationStarted = false;
         }
-
+        /*
         if (animationStarted)
         {
             timer += Time.deltaTime;
@@ -122,5 +129,6 @@ public class PlayerAnimations : MonoBehaviour
                 timer = 0;
             }
         }
+        */
     }
 }

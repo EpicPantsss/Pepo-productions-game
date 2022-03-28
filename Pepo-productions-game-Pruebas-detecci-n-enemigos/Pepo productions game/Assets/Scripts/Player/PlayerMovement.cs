@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class PlayerMovement : MonoBehaviour
 {
     public enum Direction { NONE, UP, DOWN, LEFT, RIGHT };
-    [HideInInspector]
     public Direction direction;
 
     public float speed;
@@ -59,8 +58,6 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        walking = !playerAttack.shooting;
-
         playerFront = Vector2.right;
 
         // Control de inputs
@@ -112,7 +109,6 @@ public class PlayerMovement : MonoBehaviour
         {
             audioSource.Stop();
             soundStarted = false;
-            direction = Direction.NONE;
         }
 
         // Agacharse

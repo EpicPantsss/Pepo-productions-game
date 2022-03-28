@@ -12,6 +12,8 @@ public class WeaponInfo : MonoBehaviour
     public float bulletSpeed;
     public AudioClip fireSound;
     public AudioClip reloadSound;
-    public List<string> animationNames;
+    public string[] leftAnimations = new string[2];
+    public string[] rightAnimations = new string[2];
+    public string[] downAnimations = new string[2];
     public WeaponManager.AmmoTypes ammoType;
 }

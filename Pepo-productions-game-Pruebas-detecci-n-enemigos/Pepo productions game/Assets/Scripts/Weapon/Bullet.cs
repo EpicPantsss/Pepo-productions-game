@@ -21,12 +21,10 @@ public class Bullet : MonoBehaviour
     private GameObject passive;
     private Sanguinario sanguinario;
 
-    void Awake()
+    public void InitBullet()
     {
         player = transform.parent.gameObject;
-    }
-    void Start()
-    {
+
         playerAttack = player.GetComponent<PlayerAttack>();
         playerDamage = player.GetComponent<PlayerDamage>();
         // Habilidad pasiva
@@ -36,10 +34,6 @@ public class Bullet : MonoBehaviour
 
 
         rb = GetComponent<Rigidbody2D>();
-
-        transform.SetParent(null);
-
-        StartMovement();
     }
 
     public void StartMovement()
