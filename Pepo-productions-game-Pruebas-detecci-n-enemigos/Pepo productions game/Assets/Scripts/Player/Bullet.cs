@@ -33,7 +33,7 @@ public class Bullet : MonoBehaviour
     }
 
     // Función para parar la bala y que vuelva al jugador
-    private void ReturnToPlayer()
+    public void ReturnToPlayer()
     {
         rb.velocity = new Vector2(0, 0);
         transform.SetParent(player.transform);

@@ -59,6 +59,7 @@ public class PlayerAttack : MonoBehaviour
     public bool reloading;
 
     private float timer;
+    private float weaponTimer;
 
     // Animación
     [Header("Animación del ataque")]
@@ -77,6 +78,9 @@ public class PlayerAttack : MonoBehaviour
     // Modo de ataque
     private int attackMode = 0;
 
+    private int lastWeaponInserted;
+    private bool weaponPicked;
+
     void Awake()
     {
         bulletRepository = new GameObject[bulletsToInit];
@@ -85,7 +89,7 @@ public class PlayerAttack : MonoBehaviour
        // gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 
         ammoInventory = new int[(int)WeaponManager.AmmoTypes.LAST_NO_USE];
-        currentAmmoValue = new int[weapons.Capacity];
+        currentAmmoValue = new int[ammoInventory.Length];
 
         GenerateBullets();
     }
@@ -212,6 +216,8 @@ public class PlayerAttack : MonoBehaviour
                 ammo++;
                 ammoInventory[ammoType]--;
             }
+            // Guardar el valor de la munición que tienes
+            currentAmmoValue[ammoType] = ammo;
 
             audioSource.clip = reloadSound;
             audioSource.Play();
@@ -220,17 +226,24 @@ public class PlayerAttack : MonoBehaviour
             // Poner que la próxima bala que se dispare sea la última, para evitar problemas
             actualBullet = bulletsToInit;
 
-            // Guardar el valor de la munición que tienes
-            currentAmmoValue[ammoType] = ammo;
         }
         if (reloading && !audioSource.isPlaying)
         {
             reloading = false;
         }
 
-             #region Habilidad definitiva
+        // Cambiar el modo de ataque
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            if (attackMode == 0)
+                attackMode = 1;
+            else
+                attackMode = 0;
+        }
+
+        #region Habilidad definitiva
         // Habilidad definitiva
-        if (Input.GetKeyDown(KeyCode.Q) && definitiveCharge >= 100)
+        if (Input.GetKeyDown(KeyCode.Z) && definitiveCharge >= 100)
         {
             Instantiate(definitiveAttack, transform.position, transform.rotation);
             definitiveImage.fillAmount = definitiveCharge * 0.01f;
@@ -239,11 +252,26 @@ public class PlayerAttack : MonoBehaviour
         }
         #endregion
         #endregion
+
+        if (weaponPicked)
+        {
+            weaponTimer += Time.deltaTime;
+            if (weaponTimer >= 0.1f)
+            {
+                weaponPicked = false;
+                weaponTimer = 0;
+            }
+        }
     }
 
     public void ChangeWeapon(int weaponID)
     {
         if (weaponID > weapons.Capacity || weaponID < 0 || weapons.Capacity <= 0) { return; }
+
+        GetWeaponStats(weaponID);
+    }
+    void GetWeaponStats(int weaponID)
+    {
         // Tipo de munición
         ammoType = (int)weapons[weaponID].ammoType;
         // Munición de la arma
@@ -265,6 +293,19 @@ public class PlayerAttack : MonoBehaviour
             bulletRepositoryScripts[i].bulletDamage = weapons[weaponID].weaponDamage;
         }
     }
+    void AddWeapon(string weaponName)
+    {
+        weaponPicked = true;
+
+        GameObject weapon = Resources.Load("Prefabs/Weapons/" + weaponName) as GameObject;
+        WeaponInfo weaponToAdd = weapon.GetComponent<WeaponInfo>();
+
+        weapons.Add(weaponToAdd);
+
+        lastWeaponInserted++;
+
+        weaponManager.weaponsOnInventory++;
+    }
 
     IEnumerator DefinitiveCharge()
     {
@@ -284,6 +325,11 @@ public class PlayerAttack : MonoBehaviour
 
             ammoInventory[type] += weaponManager.allWeapons[type].weaponAmmo;
             ammoText.text = "" + ammo + " | " + ammoInventory[type];
+        }
+        if (other.CompareTag("Weapon") && !weaponPicked)
+        {
+            AddWeapon(other.name);
+            Destroy(other.gameObject);
         }
     }
 }
