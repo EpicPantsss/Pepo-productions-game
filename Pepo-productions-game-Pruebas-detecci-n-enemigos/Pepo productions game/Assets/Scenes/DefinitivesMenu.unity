@@ -391,7 +391,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -150, y: -20}
+  m_AnchoredPosition: {x: -145, y: -26}
   m_SizeDelta: {x: 130, y: 130}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1006512492
@@ -439,7 +439,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1042647561}
-        m_TargetAssemblyTypeName: PassiveMenu, Assembly-CSharp
+        m_TargetAssemblyTypeName: DefinitivesMenu, Assembly-CSharp
         m_MethodName: EscenaJuego
         m_Mode: 1
         m_Arguments:
@@ -605,7 +605,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1042647560}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a2a26e24505365e4e959b66b9a8c64bd, type: 3}
+  m_Script: {fileID: 11500000, guid: 95dce2ac300fb82429281eb603636baa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &1042647562
@@ -650,7 +650,7 @@ RectTransform:
   m_GameObject: {fileID: 1599181766}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.75, y: 0.75, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1021595848}
   m_Father: {fileID: 224526151}
@@ -658,7 +658,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -166.8}
+  m_AnchoredPosition: {x: 0, y: -178.8}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1599181768
@@ -789,8 +789,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0.0020294}
-  m_SizeDelta: {x: 800, y: 377.12}
+  m_AnchoredPosition: {x: 0, y: 0.00052834}
+  m_SizeDelta: {x: 800, y: 450}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1661357593
 MonoBehaviour:
@@ -931,7 +931,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 150, y: -19.999996}
+  m_AnchoredPosition: {x: 145, y: -26.000006}
   m_SizeDelta: {x: 130, y: 130}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1969376591
@@ -979,7 +979,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1042647561}
-        m_TargetAssemblyTypeName: PassiveMenu, Assembly-CSharp
+        m_TargetAssemblyTypeName: DefinitivesMenu, Assembly-CSharp
         m_MethodName: EscenaJuego
         m_Mode: 1
         m_Arguments:
@@ -1074,7 +1074,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 85}
+  m_AnchoredPosition: {x: 0, y: 121.4}
   m_SizeDelta: {x: 388.2107, y: 64.497}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2074895209
