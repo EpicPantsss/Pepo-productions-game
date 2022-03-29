@@ -14,7 +14,7 @@ public class MeleeAttack : MonoBehaviour// COSAS POR MEJORAR ABAJO
 
     private Animator anim;
 
-    private PlayerMovement playerMovement;
+    private PlayerAnimations playerAnimations;
 
     private bool animationStarted;
 
@@ -23,12 +23,12 @@ public class MeleeAttack : MonoBehaviour// COSAS POR MEJORAR ABAJO
 
     void Start()
     {
-        playerMovement = transform.parent.GetComponent<PlayerMovement>();
+        playerAnimations = transform.parent.GetComponent<PlayerAnimations>();
 
         triggerZone = GetComponent<BoxCollider2D>();
         triggerZone.enabled = false;
 
-        anim = transform.parent.GetComponent<PlayerAnimations>().anim;
+        anim = playerAnimations.anim;
     }
     void Update()
     {
@@ -50,7 +50,7 @@ public class MeleeAttack : MonoBehaviour// COSAS POR MEJORAR ABAJO
             }
         }
 
-        switch (playerMovement.direction)
+        switch (playerAnimations.facingDirection)
         {
             case PlayerMovement.Direction.UP:
                 transform.rotation = new Quaternion(0, 0, 0, 0);

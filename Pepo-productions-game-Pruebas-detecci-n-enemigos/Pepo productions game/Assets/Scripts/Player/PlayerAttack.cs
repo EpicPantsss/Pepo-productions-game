@@ -71,6 +71,7 @@ public class PlayerAttack : MonoBehaviour
     [Header("Animación del ataque")]
     public string[] upAnimations = new string[2];
     public List<string> animations;
+    private PlayerAnimations playerAnimations;
 
     // Lista de las armas disponibles
     [Header("Armas del personaje")]
@@ -119,6 +120,7 @@ public class PlayerAttack : MonoBehaviour
         weaponManager = GetComponent<WeaponManager>();
         meleeAttack = GetComponentInChildren<MeleeAttack>();
         playerMovement = GetComponent<PlayerMovement>();
+        playerAnimations = GetComponent<PlayerAnimations>();
 
 
         animations.Capacity = 2;
@@ -188,7 +190,7 @@ public class PlayerAttack : MonoBehaviour
 
 
                 case 1:// Arma
-                    if (ammo <= 0 || (ammo <= 0 && ammoInventory[ammoType] <= 0)) { return; }
+                    if (ammo <= 0 || (ammo <= 0 && ammoInventory[ammoType] <= 0) || weapons.Count <= 0) { return; }
                     if (actualBullet <= 0)
                     {
                         actualBullet = bulletsToInit;
@@ -274,29 +276,6 @@ public class PlayerAttack : MonoBehaviour
         #endregion
 
 
-        if (weapons.Count > 0)
-        {
-            switch (playerMovement.direction)
-            {
-                case PlayerMovement.Direction.DOWN:
-                    animations[0] = weapons[weaponManager.currentWeapon].downAnimations[0];
-                    animations[1] = weapons[weaponManager.currentWeapon].downAnimations[1];
-                    break;
-                case PlayerMovement.Direction.UP:
-                    animations[0] = upAnimations[0];
-                    animations[1] = upAnimations[1];
-                    break;
-                case PlayerMovement.Direction.RIGHT:
-                    animations[0] = weapons[weaponManager.currentWeapon].rightAnimations[0];
-                    animations[1] = weapons[weaponManager.currentWeapon].rightAnimations[1];
-                    break;
-                case PlayerMovement.Direction.LEFT:
-                    animations[0] = weapons[weaponManager.currentWeapon].leftAnimations[0];
-                    animations[1] = weapons[weaponManager.currentWeapon].leftAnimations[1];
-                    break;
-            }
-        }
-
 
         if (weaponPicked)
         {
@@ -328,6 +307,34 @@ public class PlayerAttack : MonoBehaviour
             animations[0] = meleeAttack.meleeWeaponInfo.animationNames[0];
             animations[1] = meleeAttack.meleeWeaponInfo.animationNames[1];
         }
+    }
+
+    private void LateUpdate()
+    {
+        if (weapons.Count > 0)
+        {
+            // Poner la animación en su dirección correspondente
+            switch (playerAnimations.facingDirection)
+            {
+                case PlayerMovement.Direction.DOWN:
+                    animations[0] = weapons[weaponManager.currentWeapon].downAnimations[0];
+                    animations[1] = weapons[weaponManager.currentWeapon].downAnimations[1];
+                    break;
+                case PlayerMovement.Direction.UP:
+                    animations[0] = upAnimations[0];
+                    animations[1] = upAnimations[1];
+                    break;
+                case PlayerMovement.Direction.RIGHT:
+                    animations[0] = weapons[weaponManager.currentWeapon].rightAnimations[0];
+                    animations[1] = weapons[weaponManager.currentWeapon].rightAnimations[1];
+                    break;
+                case PlayerMovement.Direction.LEFT:
+                    animations[0] = weapons[weaponManager.currentWeapon].leftAnimations[0];
+                    animations[1] = weapons[weaponManager.currentWeapon].leftAnimations[1];
+                    break;
+            }
+        }
+
     }
     public void ChangeWeapon(int weaponID)
     {
