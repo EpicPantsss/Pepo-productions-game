@@ -11,5 +11,7 @@ public class MeleeWeaponInfo : MonoBehaviour
     public float attackSpeed;
     public AudioClip attackSound;
     public AudioClip recoverSound;
-    public List<string> animationNames;
+    public string[] leftAnimations = new string[2];
+    public string[] rightAnimations = new string[2];
+    public string[] downAnimations = new string[2];
 }
