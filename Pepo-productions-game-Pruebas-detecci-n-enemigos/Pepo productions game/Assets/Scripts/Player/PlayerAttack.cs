@@ -139,6 +139,10 @@ public class PlayerAttack : MonoBehaviour
 
         GenerateBullets();
 
+        attackMode = 1;
+        ChangeAttackMode();
+
+
         StartCoroutine(DefinitiveCharge());
     }
 
@@ -192,6 +196,8 @@ public class PlayerAttack : MonoBehaviour
             switch (attackMode)
             {
                 case 0:// Puños
+                    audioSource.clip = shootSound;
+                    audioSource.Play();
                     meleeAttack.Attack();
                     break;
 
@@ -265,7 +271,7 @@ public class PlayerAttack : MonoBehaviour
         }
 
         // Cambiar el modo de ataque
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q) && weapons.Count > 0)
         {
             ChangeAttackMode();
         }
