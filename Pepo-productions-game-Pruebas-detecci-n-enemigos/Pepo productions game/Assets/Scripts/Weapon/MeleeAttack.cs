@@ -18,12 +18,16 @@ public class MeleeAttack : MonoBehaviour// COSAS POR MEJORAR ABAJO
 
     private bool animationStarted;
 
+    private Transform player;
+
 
     public MeleeWeaponInfo meleeWeaponInfo;
 
     void Start()
     {
-        playerAnimations = transform.parent.GetComponent<PlayerAnimations>();
+        player = transform.parent;
+
+        playerAnimations = player.gameObject.GetComponent<PlayerAnimations>();
 
         triggerZone = GetComponent<BoxCollider2D>();
         triggerZone.enabled = false;
@@ -60,11 +64,11 @@ public class MeleeAttack : MonoBehaviour// COSAS POR MEJORAR ABAJO
                 transform.rotation = new Quaternion(0, 0, 0, 0);
                 transform.position = new Vector2(transform.parent.position.x, transform.parent.position.y - 1.7f);
                 break;
-            case PlayerMovement.Direction.RIGHT:
+            case PlayerMovement.Direction.LEFT:
                 transform.rotation = new Quaternion(0, 0, -1, -1);
                 transform.position = new Vector2(transform.parent.position.x - 1, transform.parent.position.y);
                 break;
-            case PlayerMovement.Direction.LEFT:
+            case PlayerMovement.Direction.RIGHT:
                 transform.rotation = new Quaternion(0, 0, 1, 1);
                 transform.position = new Vector2(transform.parent.position.x + 1.7f, transform.parent.position.y);
                 break;
@@ -73,8 +77,10 @@ public class MeleeAttack : MonoBehaviour// COSAS POR MEJORAR ABAJO
     public void Attack()
     {
         if (onRecoil) { return; }
-
+        // Activar la zona de ataque
+        transform.SetParent(null);
         triggerZone.enabled = true;
+        transform.SetParent(player);
 
         anim.Play(meleeWeaponInfo.animationNames[0]);
 

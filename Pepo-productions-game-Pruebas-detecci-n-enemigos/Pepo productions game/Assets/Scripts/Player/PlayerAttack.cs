@@ -31,7 +31,8 @@ public class PlayerAttack : MonoBehaviour
 
         /// Variable donde se marcan las balas que se crearán al inicio del código
     public int bulletsToInit;
-    private int actualBullet;
+    [HideInInspector]
+    public int actualBullet;
     // =======================================
     #endregion
 
@@ -303,6 +304,7 @@ public class PlayerAttack : MonoBehaviour
             fireRate = meleeAttack.meleeWeaponInfo.attackRecoil;
             shootSound = meleeAttack.meleeWeaponInfo.attackSound;
             reloadSound = meleeAttack.meleeWeaponInfo.recoverSound;
+            bulletDamage = meleeAttack.meleeWeaponInfo.weaponDamage;
 
             animations[0] = meleeAttack.meleeWeaponInfo.animationNames[0];
             animations[1] = meleeAttack.meleeWeaponInfo.animationNames[1];

@@ -140,7 +140,7 @@ GameObject:
   - component: {fileID: 955058162514817593}
   m_Layer: 0
   m_Name: MeleeAttack
-  m_TagString: Player
+  m_TagString: MeleeWeapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -541,6 +541,7 @@ MonoBehaviour:
   - RPGPlayer_walk_up
   - RPGPlayer_walk_down
   rotation: 0
+  facingDirection: 0
 --- !u!114 &6572900915444594139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -575,6 +576,7 @@ MonoBehaviour:
   - RPGPlayer_walk_up
   - RPGPlayer_walk_down
   rotation: 0
+  facingDirection: 0
 --- !u!1 &5857497778393324349
 GameObject:
   m_ObjectHideFlags: 0

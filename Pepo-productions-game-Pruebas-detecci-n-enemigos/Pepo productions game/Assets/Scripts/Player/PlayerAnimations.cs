@@ -130,6 +130,7 @@ public class PlayerAnimations : MonoBehaviour
                 if (timer > 0.3f || stillNrunning)
                 {
                     animationStarted = false;
+                    stillNrunning = false;
                     timer = 0;
                 }
             }
