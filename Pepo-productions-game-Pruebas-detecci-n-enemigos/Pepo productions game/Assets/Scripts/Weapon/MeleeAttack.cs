@@ -116,6 +116,7 @@ public class MeleeAttack : MonoBehaviour// COSAS POR MEJORAR ABAJO
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Enemy")) {
+            //Suma a la carga de la definitiva
             playerAttack.definitiveCharge += 5;
 
             if (hasSanguinary)
