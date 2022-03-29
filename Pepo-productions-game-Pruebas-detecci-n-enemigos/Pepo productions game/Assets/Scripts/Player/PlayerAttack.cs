@@ -58,6 +58,8 @@ public class PlayerAttack : MonoBehaviour
 
     // Texto en el que aparece el número de balas
     public Text ammoText;
+    public Image weaponImage;
+    public Sprite meleeImage;
 
     /// Referencias a otros scripts del player
     private WeaponManager weaponManager;
@@ -104,12 +106,20 @@ public class PlayerAttack : MonoBehaviour
         ammoInventory = new int[(int)WeaponManager.AmmoTypes.LAST_NO_USE];
         currentAmmoValue = new int[ammoInventory.Length];
 
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+
+        definitiveAttack = gameManager.definitive;
+        passiveAbility = gameManager.passive;
     }
 
     void Start()
     {
         // Ponemos el número de balas que tenemos en el texto
         ammoText.text = "" + ammo + " | " + ammoInventory[ammoType];
+
+
+        weaponImage.sprite = meleeImage;
+
 
         actualBullet = bulletsToInit;
 
@@ -126,10 +136,6 @@ public class PlayerAttack : MonoBehaviour
 
         animations.Capacity = 2;
 
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-
-        definitiveAttack = gameManager.definitive;
-        passiveAbility = gameManager.passive;
 
         GenerateBullets();
 
@@ -306,6 +312,8 @@ public class PlayerAttack : MonoBehaviour
             reloadSound = meleeAttack.meleeWeaponInfo.recoverSound;
             bulletDamage = meleeAttack.meleeWeaponInfo.weaponDamage;
 
+            weaponImage.sprite = meleeImage;
+
             animations[0] = meleeAttack.meleeWeaponInfo.animationNames[0];
             animations[1] = meleeAttack.meleeWeaponInfo.animationNames[1];
         }
@@ -313,7 +321,7 @@ public class PlayerAttack : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (weapons.Count > 0)
+        if (weapons.Count > 0 && weaponManager.currentWeapon >= 0)
         {
             // Poner la animación en su dirección correspondente
             switch (playerAnimations.facingDirection)
@@ -357,6 +365,8 @@ public class PlayerAttack : MonoBehaviour
         // Sonidos
         shootSound = weapons[weaponID].fireSound;
         reloadSound = weapons[weaponID].reloadSound;
+
+        weaponImage.sprite = weapons[weaponID].weaponSprite;
 
 
         for (int i = 0; i < bulletsToInit; i++)

@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using UnityEngine.SceneManagement;
+[RequireComponent(typeof(AudioSource))]
 public class ConversationSystem : MonoBehaviour
 {
     [Header("UI")]
@@ -28,8 +29,14 @@ public class ConversationSystem : MonoBehaviour
 
     private int originalTextSize;
 
+    private AudioSource audioSource;
+
+    bool endText;
+
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
+        audioSource.loop = true;
         textEnded = true;
 
         originalTextSize = text.fontSize;
@@ -41,7 +48,7 @@ public class ConversationSystem : MonoBehaviour
         optionsBox.enabled = false;
 
         GetText(0);
-        StartText('0');
+        StartText(0);
     }
 
     void GetText(int textID)
@@ -53,7 +60,7 @@ public class ConversationSystem : MonoBehaviour
 
         // Diálogos
         string[] textList = t.text.Split('\n');
-
+        
         bool optionsHere = false;
         int optionsNumber = 0;
         int[] aux = new int[0];// Número de opciones a elegir
@@ -81,8 +88,9 @@ public class ConversationSystem : MonoBehaviour
                 }
                     
             }
+        
         }
-
+        /*
         optionsList = new string[optionsNumber][];
         for (int i = 0; i < optionsNumber; i++)
         {
@@ -121,6 +129,7 @@ public class ConversationSystem : MonoBehaviour
                 }
             }
         }
+        */
     }
 
     void Update()
@@ -130,6 +139,8 @@ public class ConversationSystem : MonoBehaviour
             if (currentLine < textToShow.Capacity - 1)
             {
                 currentLine++;
+                if (currentLine >= textToShow.Count)
+                    SceneManager.LoadScene("Level1");
                 StartText(currentLine);
             }
             else
@@ -149,7 +160,9 @@ public class ConversationSystem : MonoBehaviour
     // Vacia el texto y empieza el efecto del texto con la frase actual
     public void StartText(int phrase)
     {
+        audioSource.Play();
         text.text = "";
+        /*
         if (textToShow[phrase][0] == '{')
         {
             for (int i = 0; i < textToShow[phrase].Length; i++) // Busca el número que esté cerca al '{' (para hacer más flexible la escritura de las conversaciones) - Números permitidos 0-9
@@ -157,6 +170,7 @@ public class ConversationSystem : MonoBehaviour
                     OptionChoose(textToShow[phrase][i]);
         }
         else
+        */
             StartCoroutine(AppearWordsEffect(textToShow[phrase]));
     }
 
@@ -217,6 +231,7 @@ public class ConversationSystem : MonoBehaviour
             text.text += line[i];
             yield return new WaitForSeconds(textSpeed);
         }
+        audioSource.Stop();
         textEnded = true;
     }
     /*

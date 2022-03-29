@@ -323,6 +323,8 @@ MonoBehaviour:
   bulletSpeed: 0
   fireRate: 0
   ammoText: {fileID: 0}
+  weaponImage: {fileID: 0}
+  meleeImage: {fileID: 0}
   shooting: 0
   reloading: 0
   upAnimations:
