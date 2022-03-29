@@ -8,6 +8,7 @@ TagManager:
   - Aullador
   - AmmoBox
   - Weapon
+  - MeleeWeapon
   layers:
   - Default
   - TransparentFX

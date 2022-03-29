@@ -26,6 +26,8 @@ public class EnemyDamage : MonoBehaviour
 
     private Rigidbody2D rb;
 
+    private PlayerAttack playerAttack;
+
     private void Start()
     {
         enemyDetection = GetComponent<EnemyDetection>();
@@ -35,6 +37,8 @@ public class EnemyDamage : MonoBehaviour
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 
         rb = GetComponent<Rigidbody2D>();
+
+        playerAttack = GameObject.Find("Player").GetComponent<PlayerAttack>();
 
         hasPatrolScript = enemyDetection.hasPatrolScript;
     }
@@ -93,7 +97,11 @@ public class EnemyDamage : MonoBehaviour
         {
             if (other.transform.parent != null)
             {
-                enemyHP -= other.gameObject.GetComponent<Bullet>().bulletDamage;
+                enemyHP -= playerAttack.bulletRepositoryScripts[playerAttack.actualBullet].bulletDamage;
+            }
+            else if (other.CompareTag("MeleeWeapon"))
+            {
+                enemyHP -= playerAttack.bulletDamage;
             }
             if (enemyHP <= 0)
             {
