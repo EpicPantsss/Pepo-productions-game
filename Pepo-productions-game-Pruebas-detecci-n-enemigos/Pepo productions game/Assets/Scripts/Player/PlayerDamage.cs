@@ -26,6 +26,17 @@ public class PlayerDamage : MonoBehaviour
         }
     }
 
+    public void IncreaseHP(int amount)
+    {
+        if (!damaged)
+        {
+            playerHP += amount * 2;
+            hpImage.fillAmount = playerHP * 0.1f;
+
+            damaged = true;
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Enemy") && !damaged)

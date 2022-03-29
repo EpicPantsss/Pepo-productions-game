@@ -45,11 +45,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponID: 0
   weaponName: Punchh
-  weaponDamage: 1
+  weaponDamage: 3
   attackRecoil: 1
   attackSpeed: 0.2
   attackSound: {fileID: 0}
   recoverSound: {fileID: 0}
   animationNames:
-  - a
-  - b
+  - RPGPlayer_eagle_still_down
+  - RPGPlayer_eagle_still_right

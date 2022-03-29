@@ -34,6 +34,8 @@ public class EnemyDetection : MonoBehaviour
     private float originalDetectionAngle;
     private float playerDetectedAngle;
 
+    private StopEnemy stopEnemy;
+
     private void Awake()
     {
         enemyDamage = GetComponent<EnemyDamage>();
@@ -46,39 +48,58 @@ public class EnemyDetection : MonoBehaviour
 
         originalDetectionAngle = detectionAngle;
         playerDetectedAngle = detectionAngle + 20;
+
+        stopEnemy = GetComponent<StopEnemy>();
     }
 
     private void Update()
     {
         toPlayer = Vector2.Distance(player.localPosition, transform.position);
 
-        if (!enemyDamage.called && !knocked)
+        if (!stopEnemy.stop)
         {
-            if (toPlayer <= detectionRadius)
+            if (!enemyDamage.called && !knocked)
             {
-                // Raycast para detectar si hay un objeto delante del jugador
-                RaycastHit2D rayToPlayer = Physics2D.Raycast(transform.position, player.position - transform.position);
-
-                if (rayToPlayer.collider.tag == "Player")
+                if (toPlayer <= detectionRadius)
                 {
-                    Debug.DrawRay(transform.position, player.position - transform.position, Color.green);
+                    // Raycast para detectar si hay un objeto delante del jugador
+                    RaycastHit2D rayToPlayer = Physics2D.Raycast(transform.position, player.position - transform.position);
 
-                    if (Vector2.Angle(transform.right, player.position - transform.position) < detectionAngle)
+                    if (rayToPlayer.collider.tag == "Player")
                     {
-                        playerDetected = true;
-                        playerJustUndetected = false;
-                        timer = 0;
-                        playerLastPositionSeen = player.position;
-                        // Aumentar el rango de visión del player
-                        detectionAngle = playerDetectedAngle;
+                        Debug.DrawRay(transform.position, player.position - transform.position, Color.green);
 
-                        // Si el enemigo está patrullando, dejará de hacerlo
-                        if (hasPatrolScript)
-                            enemyPatrol.playerSaw = true;
+                        if (Vector2.Angle(transform.right, player.position - transform.position) < detectionAngle)
+                        {
+                            playerDetected = true;
+                            playerJustUndetected = false;
+                            timer = 0;
+                            playerLastPositionSeen = player.position;
+                            // Aumentar el rango de visión del player
+                            detectionAngle = playerDetectedAngle;
+
+                            // Si el enemigo está patrullando, dejará de hacerlo
+                            if (hasPatrolScript)
+                                enemyPatrol.playerSaw = true;
+                        }
+                        else
+                        {
+                            // Si el enemigo estaba viendo al jugador y justo deja de verlo, pondrá en true a playerJustUndetected
+                            if (playerDetected)
+                            {
+                                playerJustUndetected = true;
+                            }
+
+                            playerDetected = false;
+
+                            // Si el enemigo estaba patrullando y deja de ver al jugador, volverá a patrullar
+                            if (hasPatrolScript)
+                                enemyPatrol.playerSaw = false;
+                        }
                     }
                     else
                     {
-                        // Si el enemigo estaba viendo al jugador y justo deja de verlo, pondrá en true a playerJustUndetected
+                        Debug.DrawRay(transform.position, player.position - transform.position, Color.red);
                         if (playerDetected)
                         {
                             playerJustUndetected = true;
@@ -90,56 +111,42 @@ public class EnemyDetection : MonoBehaviour
                         if (hasPatrolScript)
                             enemyPatrol.playerSaw = false;
                     }
+
                 }
                 else
                 {
-                    Debug.DrawRay(transform.position, player.position - transform.position, Color.red);
+                    // Si el enemigo estaba viendo al jugador y justo deja de verlo, pondrá en true a playerJustUndetected
                     if (playerDetected)
                     {
                         playerJustUndetected = true;
                     }
 
                     playerDetected = false;
-
-                    // Si el enemigo estaba patrullando y deja de ver al jugador, volverá a patrullar
-                    if (hasPatrolScript)
-                        enemyPatrol.playerSaw = false;
                 }
-
             }
             else
             {
-                // Si el enemigo estaba viendo al jugador y justo deja de verlo, pondrá en true a playerJustUndetected
-                if (playerDetected)
-                {
-                    playerJustUndetected = true;
-                }
-
-                playerDetected = false;
+                playerDetected = true;
             }
-        }
-        else
-        {
-            playerDetected = true;
-        }
 
-        if (playerJustUndetected)
-        {
-            timer += Time.deltaTime;
-            distanceToWalk = Vector2.Distance(transform.position, playerLastPositionSeen);
-
-            if (timer >= 3 || distanceToWalk <= 0)
+            if (playerJustUndetected)
             {
-                playerJustUndetected = false;
-                timer = 0;
-                distanceToWalk = 0;
+                timer += Time.deltaTime;
+                distanceToWalk = Vector2.Distance(transform.position, playerLastPositionSeen);
 
-                detectionAngle = originalDetectionAngle;
-
-                if (hasPatrolScript)
+                if (timer >= 3 || distanceToWalk <= 0)
                 {
-                    enemyPatrol.playerSaw = false;
-                    enemyPatrol.GetDirection();
+                    playerJustUndetected = false;
+                    timer = 0;
+                    distanceToWalk = 0;
+
+                    detectionAngle = originalDetectionAngle;
+
+                    if (hasPatrolScript)
+                    {
+                        enemyPatrol.playerSaw = false;
+                        enemyPatrol.GetDirection();
+                    }
                 }
             }
         }

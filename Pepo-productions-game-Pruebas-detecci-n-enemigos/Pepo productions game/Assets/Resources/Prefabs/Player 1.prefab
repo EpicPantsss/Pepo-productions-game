@@ -217,6 +217,7 @@ GameObject:
   - component: {fileID: 3786859851667865240}
   - component: {fileID: 9129437885120220278}
   - component: {fileID: 6572900915444594139}
+  - component: {fileID: 3605758090083129614}
   m_Layer: 0
   m_Name: Player 1
   m_TagString: Player
@@ -312,6 +313,7 @@ MonoBehaviour:
   rotationAngle: {x: 0, y: 0, z: 0, w: 0}
   bulletRepositoryScripts: []
   bulletsToInit: 15
+  actualBullet: 0
   definitiveAttack: {fileID: 2772822686785223058, guid: 051bb9f8236564141b8cff9991972d1c, type: 3}
   definitiveCharged: 0
   definitiveImage: {fileID: 0}
@@ -577,6 +579,19 @@ MonoBehaviour:
   - RPGPlayer_walk_down
   rotation: 0
   facingDirection: 0
+--- !u!114 &3605758090083129614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5857497777866717721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3467c74f301c2f843a3e01b148607389, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  appearSpeed: 23
 --- !u!1 &5857497778393324349
 GameObject:
   m_ObjectHideFlags: 0
