@@ -26,12 +26,6 @@ public class EnemyDamage : MonoBehaviour
 
     private Rigidbody2D rb;
 
-    private GameObject player;
-    private PlayerAttack playerAttack;
-    private PlayerDamage playerDamage;
-
-    private bool hasSanguinary;
-
     private void Start()
     {
         enemyDetection = GetComponent<EnemyDetection>();
@@ -41,17 +35,6 @@ public class EnemyDamage : MonoBehaviour
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 
         rb = GetComponent<Rigidbody2D>();
-
-
-        player = GameObject.Find("Player");
-
-        playerAttack = player.GetComponent<PlayerAttack>();
-        playerDamage = player.GetComponent<PlayerDamage>();
-
-        if (playerAttack.passiveAbility.name == "Sanguinario")
-        {
-            hasSanguinary = true;
-        }
 
         hasPatrolScript = enemyDetection.hasPatrolScript;
     }
@@ -110,7 +93,7 @@ public class EnemyDamage : MonoBehaviour
         {
             if (other.transform.parent != null)
             {
-                enemyHP -= playerAttack.bulletRepositoryScripts[playerAttack.actualBullet].bulletDamage;
+                enemyHP -= other.gameObject.GetComponent<Bullet>().bulletDamage;
             }
             if (enemyHP <= 0)
             {
@@ -122,11 +105,6 @@ public class EnemyDamage : MonoBehaviour
             called = true;
             damaged = true;
         }
-        if (other.CompareTag("MeleeWeapon"))
-        {
-            enemyHP -= playerAttack.bulletDamage;
-        }
-
 
         if (other.CompareTag("Aullador"))
         {
@@ -137,10 +115,6 @@ public class EnemyDamage : MonoBehaviour
                 GetComponent<EnemyPatrol>().playerSaw = false;
             }
         }
-        if (other.CompareTag("Infiltrado"))
-        {
-            GetComponent<StopEnemy>().stop = true;
-        }
     }
     private void OnTriggerExit2D(Collider2D other)
     {
@@ -149,10 +123,6 @@ public class EnemyDamage : MonoBehaviour
             called = false;
             GetComponent<EnemyPatrol>().enabled = true;
             GetComponent<EnemyPatrol>().playerSaw = false;
-        }
-        if (other.CompareTag("Infiltrado"))
-        {
-            GetComponent<StopEnemy>().stop = false;
         }
     }
 }

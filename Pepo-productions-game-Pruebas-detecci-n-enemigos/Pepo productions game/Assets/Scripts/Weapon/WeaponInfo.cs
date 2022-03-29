@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WeaponInfo : MonoBehaviour
 {
-    public uint weaponID = 0;
+    public int weaponID = 0;
     public string weaponName = "";
     public int weaponDamage = 1;
     public float fireRecoil = 0.1f;
@@ -12,9 +12,6 @@ public class WeaponInfo : MonoBehaviour
     public float bulletSpeed;
     public AudioClip fireSound;
     public AudioClip reloadSound;
-    public Sprite weaponSprite;
-    public string[] leftAnimations = new string[2];
-    public string[] rightAnimations = new string[2];
-    public string[] downAnimations = new string[2];
+    public List<string> animationNames;
     public WeaponManager.AmmoTypes ammoType;
 }

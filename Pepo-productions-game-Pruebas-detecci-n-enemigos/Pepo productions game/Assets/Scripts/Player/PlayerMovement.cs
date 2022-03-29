@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public enum Direction { NONE, UP, DOWN, LEFT, RIGHT };
-    public Direction direction;
+    enum Direction { NONE, UP, DOWN, LEFT, RIGHT };
+    Direction direction;
 
     public float speed;
 
@@ -37,14 +37,8 @@ public class PlayerMovement : MonoBehaviour
     public AudioClip playerWalkSound;
     private bool soundStarted;
 
-    private Rigidbody2D rb;
-
-    private KeyCode horizontalKeyPressed;
-    private KeyCode verticalKeyPressed;
-
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
         anim = gameObject.GetComponentInChildren<Animator>();
         playerAttack = GetComponent<PlayerAttack>();
 
@@ -58,42 +52,42 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        walking = playerAttack.shooting;
+
         playerFront = Vector2.right;
 
-        // Control de inputs
         if (Input.GetKey(KeyCode.D))
         {
-            rb.velocity = new Vector2(speed, rb.velocity.y);
+            transform.position = new Vector2(transform.position.x + speed * Time.deltaTime, transform.position.y);
             direction = Direction.RIGHT;
-            horizontalKeyPressed = KeyCode.D;
+            walking = true;
         }
         if (Input.GetKey(KeyCode.A))
         {
-            rb.velocity = new Vector2(-speed, rb.velocity.y);
+            transform.position = new Vector2(transform.position.x - speed * Time.deltaTime, transform.position.y);
             direction = Direction.LEFT;
-            horizontalKeyPressed = KeyCode.A;
+            walking = true;
         }
         if (Input.GetKey(KeyCode.W))
         {
-            rb.velocity = new Vector2(rb.velocity.x, speed);
+            transform.position = new Vector2(transform.position.x, transform.position.y + speed * Time.deltaTime);
             direction = Direction.UP;
-            verticalKeyPressed = KeyCode.W;
+            walking = true;
         }
         if (Input.GetKey(KeyCode.S))
         {
-            rb.velocity = new Vector2(rb.velocity.x, -speed);
+            transform.position = new Vector2(transform.position.x, transform.position.y - speed * Time.deltaTime);
             direction = Direction.DOWN;
-            verticalKeyPressed = KeyCode.S;
+            walking = true;
         }
-        // Comprobar si se ha dejado de pulsar la última tecla pulsada de cada eje
-        if (Input.GetKeyUp(horizontalKeyPressed))
+        if ((Input.GetKeyUp(KeyCode.W)
+            && Input.GetKeyUp(KeyCode.A)
+            && Input.GetKeyUp(KeyCode.D)
+            && Input.GetKeyUp(KeyCode.S)))
         {
-            rb.velocity = new Vector2(0, rb.velocity.y);
+            walking = false;
         }
-        if (Input.GetKeyUp(verticalKeyPressed))
-        {
-            rb.velocity = new Vector2(rb.velocity.x, 0);
-        }
+
 
         if (walking && !Input.GetKeyDown(KeyCode.E) && !Input.GetKeyDown(KeyCode.Mouse0))
         {
@@ -109,6 +103,7 @@ public class PlayerMovement : MonoBehaviour
         {
             audioSource.Stop();
             soundStarted = false;
+            direction = Direction.NONE;
         }
 
         // Agacharse

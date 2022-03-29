@@ -127,77 +127,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!1 &3903255277235912452
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2739350428315180888}
-  - component: {fileID: 351706361564210197}
-  - component: {fileID: 955058162514817593}
-  m_Layer: 0
-  m_Name: MeleeAttack
-  m_TagString: MeleeWeapon
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2739350428315180888
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3903255277235912452}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 5857497777866717717}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &351706361564210197
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3903255277235912452}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.36662152}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 2.344839}
-  m_EdgeRadius: 0
---- !u!114 &955058162514817593
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3903255277235912452}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e83145c8bad1ea4b9ce8ee0dca75b53, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  meleeWeaponInfo: {fileID: 7223786929374519454, guid: 5f4d45bd83fe7d446a2f9d234f317b75, type: 3}
 --- !u!1 &5857497777866717721
 GameObject:
   m_ObjectHideFlags: 0
@@ -215,9 +144,6 @@ GameObject:
   - component: {fileID: 5857497777799070377}
   - component: {fileID: 3742131187567800440}
   - component: {fileID: 3786859851667865240}
-  - component: {fileID: 9129437885120220278}
-  - component: {fileID: 6572900915444594139}
-  - component: {fileID: 3605758090083129614}
   m_Layer: 0
   m_Name: Player 1
   m_TagString: Player
@@ -238,7 +164,6 @@ Transform:
   m_Children:
   - {fileID: 5857497778393324348}
   - {fileID: 7403301381411306856}
-  - {fileID: 2739350428315180888}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -310,26 +235,18 @@ MonoBehaviour:
   bullet: {fileID: 2460118127545321887, guid: 5ec33efd2982ca3409ff3b16dd69c075, type: 3}
   shootSound: {fileID: 0}
   reloadSound: {fileID: 0}
-  rotationAngle: {x: 0, y: 0, z: 0, w: 0}
-  bulletRepositoryScripts: []
   bulletsToInit: 15
-  actualBullet: 0
-  definitiveAttack: {fileID: 2772822686785223058, guid: 051bb9f8236564141b8cff9991972d1c, type: 3}
+  definitiveAttack: {fileID: 0}
   definitiveCharged: 0
   definitiveImage: {fileID: 0}
   definitiveCharge: 0
-  passiveAbility: {fileID: 7246357514779151714, guid: 526cf4aa28d1abb4db0c0d43b5e41991, type: 3}
+  passiveAbility: {fileID: 0}
   bulletDamage: 0
   bulletSpeed: 0
   fireRate: 0
   ammoText: {fileID: 0}
-  weaponImage: {fileID: 0}
-  meleeImage: {fileID: 0}
   shooting: 0
   reloading: 0
-  upAnimations:
-  - RPGPlayer_weapon_still_up
-  - RPGPlayer_weapon_run_up
   animations:
   - 
   - 
@@ -346,7 +263,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3d6fd508ab85ea4e8b74f651c0edffd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  direction: 0
   speed: 5
   anim: {fileID: 0}
   animationClips:
@@ -358,9 +274,9 @@ MonoBehaviour:
   agachado: 0
   sneakImage: {fileID: 0}
   mainCamera: {fileID: 0}
-  sneakCameraSize: 7
-  transitionSpeed: 0.8
-  playerWalkSound: {fileID: 8300000, guid: 9215ffdfa6b7398408803569b8e62433, type: 3}
+  sneakCameraSize: 0
+  transitionSpeed: 0
+  playerWalkSound: {fileID: 0}
 --- !u!114 &5498851874853479113
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -388,7 +304,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mouseScroll: {x: 0, y: 0}
-  weaponsOnInventory: 0
+  weaponsOnInventory: 1
   currentWeapon: 0
   allWeapons:
   - {fileID: 5890338483293668179, guid: 338f1caa96630a84c94cbf4842b85418, type: 3}
@@ -414,7 +330,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
+  m_Constraints: 0
 --- !u!82 &3786859851667865240
 AudioSource:
   m_ObjectHideFlags: 0
@@ -511,89 +427,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &9129437885120220278
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5857497777866717721}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f683f2445180864f99f4775723b144f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  anim: {fileID: 0}
-  leftAnimations:
-  - RPGPlayer_idle_left
-  - RPGPlayer_walk_right
-  - RPGPlayer_walk_up
-  - RPGPlayer_walk_down
-  rightAnimations:
-  - RPGPlayer_idle_right
-  - RPGPlayer_walk_right
-  - RPGPlayer_walk_up
-  - RPGPlayer_walk_down
-  upAnimations:
-  - RPGPlayer_idle_up
-  - RPGPlayer_walk_right
-  - RPGPlayer_walk_up
-  - RPGPlayer_walk_down
-  downAnimations:
-  - RPGPlayer_idle
-  - RPGPlayer_walk_right
-  - RPGPlayer_walk_up
-  - RPGPlayer_walk_down
-  rotation: 0
-  facingDirection: 0
---- !u!114 &6572900915444594139
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5857497777866717721}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f683f2445180864f99f4775723b144f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  anim: {fileID: 0}
-  leftAnimations:
-  - RPGPlayer_idle_left
-  - RPGPlayer_walk_right
-  - RPGPlayer_walk_up
-  - RPGPlayer_walk_down
-  rightAnimations:
-  - RPGPlayer_idle_right
-  - RPGPlayer_walk_right
-  - RPGPlayer_walk_up
-  - RPGPlayer_walk_down
-  upAnimations:
-  - RPGPlayer_idle_up
-  - RPGPlayer_walk_right
-  - RPGPlayer_walk_up
-  - RPGPlayer_walk_down
-  downAnimations:
-  - RPGPlayer_idle
-  - RPGPlayer_walk_right
-  - RPGPlayer_walk_up
-  - RPGPlayer_walk_down
-  rotation: 0
-  facingDirection: 0
---- !u!114 &3605758090083129614
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5857497777866717721}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3467c74f301c2f843a3e01b148607389, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  appearSpeed: 23
 --- !u!1 &5857497778393324349
 GameObject:
   m_ObjectHideFlags: 0
@@ -605,6 +438,7 @@ GameObject:
   - component: {fileID: 5857497778393324348}
   - component: {fileID: 5857497778393324351}
   - component: {fileID: 5857497778393324350}
+  - component: {fileID: 3921460024783820312}
   m_Layer: 0
   m_Name: PlayerSprite
   m_TagString: Untagged
@@ -619,7 +453,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5857497778393324349}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 3.4883, y: 3.4883, z: 3.4883}
   m_Children: []
@@ -666,7 +500,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7668452354109393802, guid: 540944e2a10e77248bfc4ee6db048e95, type: 3}
+  m_Sprite: {fileID: 6224352090453100974, guid: c061ea9176cf5c7448448aea580197aa, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -696,3 +530,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!111 &3921460024783820312
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5857497778393324349}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations: []
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0

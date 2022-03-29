@@ -9,15 +9,12 @@ public class PlayerAttack : MonoBehaviour
     public Vector2 mousePosition;
 
 
-    #region Variables de disparo
     // =======================================
     // Variables para poder disparar =========
     public GameObject bullet;
     private int ammo;
     public AudioClip shootSound;
     public AudioClip reloadSound;
-    [HideInInspector]
-    public Quaternion rotationAngle;
     /// Tipos de munición
     [HideInInspector]
     private int ammoType;
@@ -26,17 +23,14 @@ public class PlayerAttack : MonoBehaviour
     
         /// Variables donde se guardan las balas a disparar al inicio del código
     private GameObject[] bulletRepository;
-    [HideInInspector]
-    public Bullet[] bulletRepositoryScripts;
+    private Bullet[] bulletRepositoryScripts;
 
         /// Variable donde se marcan las balas que se crearán al inicio del código
     public int bulletsToInit;
-    [HideInInspector]
-    public int actualBullet;
+    private int actualBullet;
     // =======================================
-    #endregion
 
-    #region Definitivas y pasivas
+
     // Habilidades definitivas y pasivas
     [Header("Habilidad definitiva")]
     public GameObject definitiveAttack;
@@ -46,7 +40,6 @@ public class PlayerAttack : MonoBehaviour
     private Animator definitiveAnim;
     [Header("Habilidad pasiva")]
     public GameObject passiveAbility;
-    #endregion
 
     // Stats del arma que estás usando, se actualizan al cambiar de arma
     [HideInInspector]
@@ -58,8 +51,6 @@ public class PlayerAttack : MonoBehaviour
 
     // Texto en el que aparece el número de balas
     public Text ammoText;
-    public Image weaponImage;
-    public Sprite meleeImage;
 
     /// Referencias a otros scripts del player
     private WeaponManager weaponManager;
@@ -72,9 +63,7 @@ public class PlayerAttack : MonoBehaviour
 
     // Animación
     [Header("Animación del ataque")]
-    public string[] upAnimations = new string[2];
     public List<string> animations;
-    private PlayerAnimations playerAnimations;
 
     // Lista de las armas disponibles
     [Header("Armas del personaje")]
@@ -88,10 +77,6 @@ public class PlayerAttack : MonoBehaviour
     // ============================
     // Modo de ataque
     private int attackMode = 0;
-        // Ataque cuepro a cuerpo
-    private MeleeAttack meleeAttack;
-
-    private PlayerMovement playerMovement;
 
     private int lastWeaponInserted;
     private bool weaponPicked;
@@ -106,10 +91,7 @@ public class PlayerAttack : MonoBehaviour
         ammoInventory = new int[(int)WeaponManager.AmmoTypes.LAST_NO_USE];
         currentAmmoValue = new int[ammoInventory.Length];
 
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-
-        definitiveAttack = gameManager.definitive;
-        passiveAbility = gameManager.passive;
+        GenerateBullets();
     }
 
     void Start()
@@ -117,27 +99,18 @@ public class PlayerAttack : MonoBehaviour
         // Ponemos el número de balas que tenemos en el texto
         ammoText.text = "" + ammo + " | " + ammoInventory[ammoType];
 
-
-        weaponImage.sprite = meleeImage;
-
-
         actualBullet = bulletsToInit;
 
         audioSource = transform.GetChild(1).GetComponent<AudioSource>();
 
         definitiveAnim = GameObject.Find("Definitive image").GetComponent<Animator>();
 
-
         weaponManager = GetComponent<WeaponManager>();
-        meleeAttack = GetComponentInChildren<MeleeAttack>();
-        playerMovement = GetComponent<PlayerMovement>();
-        playerAnimations = GetComponent<PlayerAnimations>();
-
 
         animations.Capacity = 2;
 
-
-        GenerateBullets();
+       // definitiveAttack = gameManager.definitive;
+       // passiveAbility = gameManager.passive;
 
         StartCoroutine(DefinitiveCharge());
     }
@@ -149,15 +122,10 @@ public class PlayerAttack : MonoBehaviour
             /// En esta parte creas el objeto de la bala, y lo haces hijo del jugador. También se desactiva para que no se vea 
             bulletRepository[i] = Instantiate(bullet, transform.position, Quaternion.identity);
             bulletRepository[i].transform.SetParent(this.gameObject.transform);
+            bulletRepository[i].SetActive(false);
 
             /// Aquí guardas el script de la bala que acabas de crear, para después no tener que hacer un GetComponent al disparar (y así ahorrar recursos)
             bulletRepositoryScripts[i] = bulletRepository[i].GetComponent<Bullet>();
-
-            /// Inicializar las referencias de la bala
-            bulletRepositoryScripts[i].InitBullet();
-
-            /// Inhabilitar la bala
-            bulletRepository[i].SetActive(false);
         }
     }
 
@@ -171,7 +139,7 @@ public class PlayerAttack : MonoBehaviour
         // Aquí calculas cuánto hay que rotar para que el objeto mire al mouse
         float distanceToRotate = getAngle(transform.position, mousePosition);
         // Aplicas la rotación
-        rotationAngle = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 0, distanceToRotate), 1);
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 0, distanceToRotate), 1);
 
         // Función que calcula cuánto necesitas rotar
         float getAngle(Vector2 position, Vector2 mousePosition)
@@ -192,12 +160,12 @@ public class PlayerAttack : MonoBehaviour
             switch (attackMode)
             {
                 case 0:// Puños
-                    meleeAttack.Attack();
+
                     break;
 
 
                 case 1:// Arma
-                    if (ammo <= 0 || (ammo <= 0 && ammoInventory[ammoType] <= 0) || weapons.Count <= 0) { return; }
+                    if (ammo <= 0 || (ammo <= 0 && ammoInventory[ammoType] <= 0)) { return; }
                     if (actualBullet <= 0)
                     {
                         actualBullet = bulletsToInit;
@@ -237,7 +205,7 @@ public class PlayerAttack : MonoBehaviour
         // Recargar
         if (Input.GetKeyDown(KeyCode.R) && !shooting)
         {
-            if (ammoInventory[ammoType] <= 0 || weapons.Count <= 0 || weapons[weaponManager.currentWeapon] == null) { return; }
+            if (ammoInventory[ammoType] <= 0) { return; }
 
             reloading = true;
             // Suma a ammo y resta a la munición que tengas, hasta que tengas el cargador lleno o se acabe la munición
@@ -267,7 +235,10 @@ public class PlayerAttack : MonoBehaviour
         // Cambiar el modo de ataque
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            ChangeAttackMode();
+            if (attackMode == 0)
+                attackMode = 1;
+            else
+                attackMode = 0;
         }
 
         #region Habilidad definitiva
@@ -282,8 +253,6 @@ public class PlayerAttack : MonoBehaviour
         #endregion
         #endregion
 
-
-
         if (weaponPicked)
         {
             weaponTimer += Time.deltaTime;
@@ -295,61 +264,9 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
-    void ChangeAttackMode()
-    {
-        if (attackMode == 0)
-        {
-            attackMode = 1;
-            ChangeWeapon(weaponManager.currentWeapon);
-        }
-        else
-        {
-            attackMode = 0;
-            ammoText.text = meleeAttack.meleeWeaponInfo.weaponName;
-            // Stats del arma
-            fireRate = meleeAttack.meleeWeaponInfo.attackRecoil;
-            shootSound = meleeAttack.meleeWeaponInfo.attackSound;
-            reloadSound = meleeAttack.meleeWeaponInfo.recoverSound;
-            bulletDamage = meleeAttack.meleeWeaponInfo.weaponDamage;
-
-            weaponImage.sprite = meleeImage;
-
-            animations[0] = meleeAttack.meleeWeaponInfo.animationNames[0];
-            animations[1] = meleeAttack.meleeWeaponInfo.animationNames[1];
-        }
-    }
-
-    private void LateUpdate()
-    {
-        if (weapons.Count > 0 && weaponManager.currentWeapon >= 0)
-        {
-            // Poner la animación en su dirección correspondente
-            switch (playerAnimations.facingDirection)
-            {
-                case PlayerMovement.Direction.DOWN:
-                    animations[0] = weapons[weaponManager.currentWeapon].downAnimations[0];
-                    animations[1] = weapons[weaponManager.currentWeapon].downAnimations[1];
-                    break;
-                case PlayerMovement.Direction.UP:
-                    animations[0] = upAnimations[0];
-                    animations[1] = upAnimations[1];
-                    break;
-                case PlayerMovement.Direction.RIGHT:
-                    animations[0] = weapons[weaponManager.currentWeapon].rightAnimations[0];
-                    animations[1] = weapons[weaponManager.currentWeapon].rightAnimations[1];
-                    break;
-                case PlayerMovement.Direction.LEFT:
-                    animations[0] = weapons[weaponManager.currentWeapon].leftAnimations[0];
-                    animations[1] = weapons[weaponManager.currentWeapon].leftAnimations[1];
-                    break;
-            }
-        }
-
-    }
     public void ChangeWeapon(int weaponID)
     {
-        if (weaponID >= weapons.Count || weaponID < 0 
-            || weapons.Count <= 0 || weapons[weaponID] == null) { return; }
+        if (weaponID > weapons.Capacity || weaponID < 0 || weapons.Capacity <= 0) { return; }
 
         GetWeaponStats(weaponID);
     }
@@ -365,9 +282,9 @@ public class PlayerAttack : MonoBehaviour
         // Sonidos
         shootSound = weapons[weaponID].fireSound;
         reloadSound = weapons[weaponID].reloadSound;
-
-        weaponImage.sprite = weapons[weaponID].weaponSprite;
-
+        // Animaciones
+        animations[0] = weapons[weaponID].animationNames[0];
+        animations[1] = weapons[weaponID].animationNames[1];
 
         for (int i = 0; i < bulletsToInit; i++)
         {
