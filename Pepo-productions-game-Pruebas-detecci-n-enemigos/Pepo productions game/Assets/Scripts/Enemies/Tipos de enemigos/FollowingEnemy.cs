@@ -17,6 +17,7 @@ public class FollowingEnemy : MonoBehaviour
     //Animación
     private Animator anim;
 
+
     void Start()
     {
         player = GameObject.Find("Player");

@@ -8,6 +8,9 @@ TagManager:
   - Aullador
   - AmmoBox
   - Weapon
+  - MeleeWeapon
+  - Infiltrado
+  - Roof
   layers:
   - Default
   - TransparentFX

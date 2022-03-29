@@ -53,9 +53,16 @@ MonoBehaviour:
   bulletSpeed: 25
   fireSound: {fileID: 8300000, guid: 723a2a148c94487478079bc53da3d592, type: 3}
   reloadSound: {fileID: 8300000, guid: cef0fa03af5b747f0abe82cde0b2bccc, type: 3}
-  animationNames:
-  - shoot_pistol
-  - shoot_pistol_run
+  weaponSprite: {fileID: 6769296415379653404, guid: 708ddec43b8f6aa45a48ddd4e1ac0d42, type: 3}
+  leftAnimations:
+  - RPGPlayer_pistol_still_left
+  - RPGPlayer_pistol_run_left
+  rightAnimations:
+  - RPGPlayer_pistol_still_right
+  - RPGPlayer_pistol_run_right
+  downAnimations:
+  - RPGPlayer_pistol_still_down
+  - RPGPlayer_pistol_run_down
   ammoType: 0
 --- !u!212 &-8726777480244800918
 SpriteRenderer:

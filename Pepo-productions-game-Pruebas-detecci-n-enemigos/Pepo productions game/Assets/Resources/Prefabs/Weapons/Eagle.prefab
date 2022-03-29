@@ -53,9 +53,16 @@ MonoBehaviour:
   bulletSpeed: 20
   fireSound: {fileID: 8300000, guid: 1241adc5ae3543d43ad86a8b175fac07, type: 3}
   reloadSound: {fileID: 8300000, guid: 65d4b10b34b5fae469f58d96469855af, type: 3}
-  animationNames:
-  - shoot_eagle
-  - shoot_eagle_run
+  weaponSprite: {fileID: 7623301405226226319, guid: 708ddec43b8f6aa45a48ddd4e1ac0d42, type: 3}
+  leftAnimations:
+  - RPGPlayer_eagle_still_left
+  - RPGPlayer_eagle_run_left
+  rightAnimations:
+  - RPGPlayer_eagle_still_right
+  - RPGPlayer_eagle_run_right
+  downAnimations:
+  - RPGPlayer_eagle_still_down
+  - RPGPlayer_eagle_run_down
   ammoType: 1
 --- !u!212 &-8904866923944654520
 SpriteRenderer:

@@ -53,9 +53,16 @@ MonoBehaviour:
   bulletSpeed: 40
   fireSound: {fileID: 8300000, guid: da6879da578df2f409cebc0c2162bd2d, type: 3}
   reloadSound: {fileID: 8300000, guid: 61a32e03339829c429f76488632021ce, type: 3}
-  animationNames:
-  - shoot_ak
-  - shoot_ak_run
+  weaponSprite: {fileID: -2217898423111697461, guid: 708ddec43b8f6aa45a48ddd4e1ac0d42, type: 3}
+  leftAnimations:
+  - RPGPlayer_ak_still_left
+  - RPGPlayer_ak_run_left
+  rightAnimations:
+  - RPGPlayer_ak_still_right
+  - RPGPlayer_ak_run_right
+  downAnimations:
+  - RPGPlayer_ak_still_down
+  - RPGPlayer_ak_run_down
   ammoType: 2
 --- !u!212 &-141696120534328115
 SpriteRenderer:
