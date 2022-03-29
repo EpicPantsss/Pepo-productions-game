@@ -74,8 +74,9 @@ public class Bullet : MonoBehaviour
             enemyHitted = true;
         }
 
-        if (!other.CompareTag("Player") && !other.CompareTag("Aullador"))
+        if (!other.CompareTag("Player") && !other.CompareTag("Aullador") && !other.CompareTag("Roof"))
         {
+            playerAttack.definitiveCharge += 5;
             ReturnToPlayer();
         }
     }
