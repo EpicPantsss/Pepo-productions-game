@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 [RequireComponent(typeof(AudioSource))]
 public class ConversationSystem : MonoBehaviour
 {
@@ -21,17 +22,21 @@ public class ConversationSystem : MonoBehaviour
 
     [Header("Velocidad del texto")]
     public float textSpeed;
-
-    private int currentLine;
+    [Header("Linea actual")]
+    public int currentLine;
     private bool textEnded;
 
     private bool onOptions;
+
+    private int currentOptions;
 
     private int originalTextSize;
 
     private AudioSource audioSource;
 
     bool endText;
+
+    private UnityAction buttonAction;
 
     void Start()
     {
@@ -45,7 +50,7 @@ public class ConversationSystem : MonoBehaviour
 
         //--------------styleText = Instantiate(text, textBox.transform);
 
-        optionsBox.enabled = false;
+        optionsBox.gameObject.SetActive(false);
 
         GetText(0);
         StartText(0);
@@ -90,7 +95,7 @@ public class ConversationSystem : MonoBehaviour
             }
         
         }
-        /*
+        
         optionsList = new string[optionsNumber][];
         for (int i = 0; i < optionsNumber; i++)
         {
@@ -129,7 +134,7 @@ public class ConversationSystem : MonoBehaviour
                 }
             }
         }
-        */
+        
     }
 
     void Update()
@@ -162,40 +167,63 @@ public class ConversationSystem : MonoBehaviour
     {
         audioSource.Play();
         text.text = "";
-        /*
+        
         if (textToShow[phrase][0] == '{')
         {
             for (int i = 0; i < textToShow[phrase].Length; i++) // Busca el número que esté cerca al '{' (para hacer más flexible la escritura de las conversaciones) - Números permitidos 0-9
+            { 
                 if (char.IsDigit(textToShow[phrase][i]))
-                    OptionChoose(textToShow[phrase][i]);
+                {
+                    string num = "";
+                    num += textToShow[phrase][i];
+                    OptionChoose(int.Parse(num));
+                    break;
+                }
+            }
         }
         else
-        */
             StartCoroutine(AppearWordsEffect(textToShow[phrase]));
     }
 
     private void OptionChoose(int optionsID)
     {
-        optionsBox.enabled = true;
-        for (int i = 0; i < optionsList[currentLine][optionsID].Length; i++)
+        onOptions = true;
+
+        optionsBox.gameObject.SetActive(true);
+
+
+        string num = "";
+        for (int i = 0; i < optionsList[currentOptions].Length; i++)
         {
+            num = "";///Vaciar la string para usarla otra vez
+
             // Creas tantos botones como opciones haya, unity ya lo sitúa en una buena posición por el componente de optionsBox
             Button newButton = Instantiate(optionButton, optionsBox.rectTransform);
 
-            newButton.onClick.AddListener(() => ButtonAction(int.Parse(optionsList[optionsID]
-                                                                        [
-                                                                        optionsList[optionsID][i].Length - 1
-                                                                        ]
-                                                                        )));
+
+            // Añadir la acción al botón
+            int optionLength = optionsList[currentOptions][i].Length - 2;
+            num += optionsList[currentOptions][i][optionLength];
+                /// Acción
+            buttonAction = () => ButtonAction(int.Parse(num));
+            newButton.onClick.AddListener(buttonAction);
+
 
             Text optionsText = newButton.GetComponentInChildren<Text>();
-            optionsText.text = optionsList[optionsID][i];
+            optionsText.text = optionsList[currentOptions][i];
         }
+        // Como ya se habrá elegido entre estas opciones, se pasa a la siguiente
+        if (currentOptions < optionsList.Length)
+            currentOptions++;
     }
 
-    private void ButtonAction(int textToShowNow)
+    public void ButtonAction(int textToShowNow)
     {
         currentLine = textToShowNow;
+        StartText(currentLine);
+
+        onOptions = false;
+        optionsBox.gameObject.SetActive(false);
     }
 
     IEnumerator AppearWordsEffect(string line)
@@ -204,7 +232,7 @@ public class ConversationSystem : MonoBehaviour
 
         for (int i = 0; i < line.Length; i++)
         {
-            /* //-----------------------------------------------------------------
+            /*
              * Parte en la que aplicas estilos al texto, no funciona correctamente
             if (line[i] == '#')
             {
