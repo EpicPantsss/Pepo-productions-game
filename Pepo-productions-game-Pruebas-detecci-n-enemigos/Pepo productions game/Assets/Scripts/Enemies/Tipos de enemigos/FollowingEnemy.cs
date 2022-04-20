@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(EnemyDamage))]
 [RequireComponent(typeof(EnemyDetection))]
+[RequireComponent(typeof(Rigidbody2D))]
 public class FollowingEnemy : MonoBehaviour
 {
     public float enemySpeed;
@@ -17,6 +19,8 @@ public class FollowingEnemy : MonoBehaviour
     //Animación
     private Animator anim;
 
+    private Rigidbody2D rb;
+
 
     void Start()
     {
@@ -25,6 +29,8 @@ public class FollowingEnemy : MonoBehaviour
         enemyDamage = GetComponent<EnemyDamage>();
 
         anim = GetComponentInChildren<Animator>();
+
+        rb = GetComponent<Rigidbody2D>();
     }
 
     void FixedUpdate()
@@ -47,21 +53,29 @@ public class FollowingEnemy : MonoBehaviour
             // =================
 
             // Con esto el enemigo se moverá hacia adelante
-            transform.Translate(Vector2.right * enemySpeed * Time.deltaTime);
+            rb.velocity = Vector2.right * enemySpeed * Time.deltaTime;
         }
 
         if (enemyDetection.playerJustUndetected)
         {
-            transform.Translate(Vector2.right * enemySpeed * Time.deltaTime);
+            rb.velocity = Vector2.right * enemySpeed * Time.deltaTime;
         }
 
-        if (enemyDetection.playerDetected || enemyDetection.playerJustUndetected)
+        if (enemyDetection.playerDetected && enemyDetection.playerJustUndetected)
         {
             anim.SetBool("Walking", true);
         }
         else
         {
             anim.SetBool("Walking", false);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            rb.velocity = new Vector2(0, 0);
         }
     }
 }
