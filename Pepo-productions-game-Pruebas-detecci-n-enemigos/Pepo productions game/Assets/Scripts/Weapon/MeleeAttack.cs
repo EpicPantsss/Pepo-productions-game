@@ -15,11 +15,14 @@ public class MeleeAttack : MonoBehaviour// COSAS POR MEJORAR ABAJO
     private Animator anim;
 
     private PlayerAnimations playerAnimations;
+    private PlayerDamage playerDamage;
+    private PlayerAttack playerAttack;
 
     private bool animationStarted;
 
     private Transform player;
 
+    private bool hasSanguinary;
 
     public MeleeWeaponInfo meleeWeaponInfo;
 
@@ -28,6 +31,11 @@ public class MeleeAttack : MonoBehaviour// COSAS POR MEJORAR ABAJO
         player = transform.parent;
 
         playerAnimations = player.gameObject.GetComponent<PlayerAnimations>();
+        playerDamage = player.gameObject.GetComponent<PlayerDamage>();
+        playerAttack = player.gameObject.GetComponent<PlayerAttack>();
+
+        if (playerAttack.passiveAbility.name == "Sanguinario")
+            hasSanguinary = true;
 
         triggerZone = GetComponent<BoxCollider2D>();
         triggerZone.enabled = false;
@@ -50,6 +58,9 @@ public class MeleeAttack : MonoBehaviour// COSAS POR MEJORAR ABAJO
             {
                 onRecoil = false;
                 animationStarted = false;
+
+                transform.SetParent(player);
+
                 timer = 0;
             }
         }
@@ -58,19 +69,19 @@ public class MeleeAttack : MonoBehaviour// COSAS POR MEJORAR ABAJO
         {
             case PlayerMovement.Direction.UP:
                 transform.rotation = new Quaternion(0, 0, 0, 0);
-                transform.position = new Vector2(transform.parent.position.x, transform.parent.position.y + 1);
+                transform.position = new Vector2(player.position.x, player.position.y + 1);
                 break;
             case PlayerMovement.Direction.DOWN:
                 transform.rotation = new Quaternion(0, 0, 0, 0);
-                transform.position = new Vector2(transform.parent.position.x, transform.parent.position.y - 1.7f);
+                transform.position = new Vector2(player.position.x, player.position.y - 1.7f);
                 break;
             case PlayerMovement.Direction.LEFT:
                 transform.rotation = new Quaternion(0, 0, -1, -1);
-                transform.position = new Vector2(transform.parent.position.x - 1, transform.parent.position.y);
+                transform.position = new Vector2(player.position.x - 1, player.position.y);
                 break;
             case PlayerMovement.Direction.RIGHT:
                 transform.rotation = new Quaternion(0, 0, 1, 1);
-                transform.position = new Vector2(transform.parent.position.x + 1.7f, transform.parent.position.y);
+                transform.position = new Vector2(player.position.x + 1.7f, player.position.y);
                 break;
         }
     }
@@ -80,7 +91,6 @@ public class MeleeAttack : MonoBehaviour// COSAS POR MEJORAR ABAJO
         // Activar la zona de ataque
         transform.SetParent(null);
         triggerZone.enabled = true;
-        transform.SetParent(player);
 
         anim.Play(meleeWeaponInfo.animationNames[0]);
 
@@ -88,5 +98,12 @@ public class MeleeAttack : MonoBehaviour// COSAS POR MEJORAR ABAJO
         recoil = meleeWeaponInfo.attackRecoil;
 
         onRecoil = true;
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Enemy") && hasSanguinary) {
+            playerDamage.IncreaseHP(playerAttack.bulletDamage);
+        }
     }
 }
