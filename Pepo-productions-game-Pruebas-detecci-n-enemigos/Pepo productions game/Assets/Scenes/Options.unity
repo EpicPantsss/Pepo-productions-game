@@ -1349,8 +1349,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0.0020294}
-  m_SizeDelta: {x: 800, y: 377.12}
+  m_AnchoredPosition: {x: 0, y: 0.00055003}
+  m_SizeDelta: {x: 800, y: 450}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1136439399
 MonoBehaviour:
@@ -1372,7 +1372,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a938975a9df1e5949946529e195cf1c4, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 330aa24bb89bffb48b7496d992c1bd43, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1645,6 +1645,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1718183592}
   - component: {fileID: 1718183591}
+  - component: {fileID: 1718183593}
   m_Layer: 0
   m_Name: GameManagerOptions
   m_TagString: Untagged
@@ -1678,6 +1679,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1718183593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1718183590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f61d4d65de0c39747882ea2bb50b9657, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1754103307
 GameObject:
   m_ObjectHideFlags: 0
@@ -2067,7 +2080,7 @@ GameObject:
   - component: {fileID: 2137527090}
   - component: {fileID: 2137527089}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Exit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2122,8 +2135,8 @@ MonoBehaviour:
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
-    m_HighlightedSprite: {fileID: 21300000, guid: c7d798d654e17d34d9b9d39171052ebc, type: 3}
-    m_PressedSprite: {fileID: 21300000, guid: 359b2cb0048de354790e51224223a926, type: 3}
+    m_HighlightedSprite: {fileID: 21300000, guid: 30c35a64ada36274fa3f9311c34ad162, type: 3}
+    m_PressedSprite: {fileID: 21300000, guid: 082ea2f9af379994fbdbfe9b39c14359, type: 3}
     m_SelectedSprite: {fileID: 0}
     m_DisabledSprite: {fileID: 0}
   m_AnimationTriggers:
@@ -2137,7 +2150,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1718183591}
+      - m_Target: {fileID: 1718183593}
         m_TargetAssemblyTypeName: OptionsMenu, Assembly-CSharp
         m_MethodName: EscenaMainMenu
         m_Mode: 1
@@ -2169,7 +2182,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 3b2340543b2bfc94daa02f0e1dd103bd, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 476af3304b796384390c9d7a9730394f, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

@@ -18,12 +18,21 @@ EditorBuildSettings:
     path: Assets/Scenes/WinScene.unity
     guid: 7c1df4736f213f8419a8c6f97f0f2391
   - enabled: 1
-    path: Assets/Scenes/PasivesMenu.unity
-    guid: d66573d1c7466b245acfbc417c253567
-  - enabled: 1
     path: Assets/Scenes/DeathScene.unity
     guid: 53380dd26cda5fd4e82c441e84eaeccc
   - enabled: 1
     path: Assets/Scenes/Level1.unity
     guid: 8e563392b88a10545b361935a47e0d3a
+  - enabled: 1
+    path: Assets/Scenes/ControlMenu.unity
+    guid: 4578a3fe9a2db7b489b77f0d5a78da19
+  - enabled: 1
+    path: Assets/Scenes/DefinitivesMenu.unity
+    guid: ace950a98df772a4995497698158ec74
+  - enabled: 1
+    path: Assets/Scenes/Intro.unity
+    guid: 507ae391a82a31e4fa91345a6b37876d
+  - enabled: 1
+    path: Assets/Scenes/PassivesMenu.unity
+    guid: 67e5f05f68096ae499f3e88c2f0ad705
   m_configObjects: {}

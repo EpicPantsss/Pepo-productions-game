@@ -45,11 +45,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponID: 0
   weaponName: Punch
-  weaponDamage: 3
-  attackRecoil: 1
+  weaponDamage: 1
+  attackRecoil: 0.2
   attackSpeed: 0.2
-  attackSound: {fileID: 8300000, guid: 95c5121390d728f4bb5085c4cfde8bcd, type: 3}
-  recoverSound: {fileID: 0}
-  animationNames:
-  - RPGPlayer_eagle_still_down
-  - RPGPlayer_eagle_still_right
+  attackSound: {fileID: 8300000, guid: 3a7aa28b91fd14243b5ce995e84289e7, type: 3}
+  recoverSound: {fileID: 8300000, guid: 95c5121390d728f4bb5085c4cfde8bcd, type: 3}
+  leftAnimations:
+  - RPGPlayer_punch_left
+  - RPGPlayer_punch_left
+  rightAnimations:
+  - RPGPlayer_punch_right
+  - RPGPlayer_punch_right
+  downAnimations:
+  - RPGPlayer_punch_down
+  - RPGPlayer_punch_down

@@ -51,7 +51,6 @@ public class MeleeAttack : MonoBehaviour// COSAS POR MEJORAR ABAJO
                 triggerZone.enabled = false;
             if (!animationStarted)// Empieza la animación de recuperación
             {
-                anim.Play(meleeWeaponInfo.animationNames[1]);
                 animationStarted = true;
             }
             if (timer > recoil)// Acaba el contador, y prepara las variables para poder volver a atacar
@@ -92,7 +91,21 @@ public class MeleeAttack : MonoBehaviour// COSAS POR MEJORAR ABAJO
         transform.SetParent(null);
         triggerZone.enabled = true;
 
-        anim.Play(meleeWeaponInfo.animationNames[0]);
+        switch (playerAnimations.facingDirection)
+        {
+            case PlayerMovement.Direction.LEFT:
+                anim.Play(meleeWeaponInfo.leftAnimations[1]);
+                break;
+            case PlayerMovement.Direction.UP:
+                anim.Play(playerAttack.upAnimations[0]);
+                break;
+            case PlayerMovement.Direction.RIGHT:
+                anim.Play(meleeWeaponInfo.rightAnimations[1]);
+                break;
+            case PlayerMovement.Direction.DOWN:
+                anim.Play(meleeWeaponInfo.downAnimations[1]);
+                break;
+        }
 
         // Para mejorar, esto no se tendria que poner aquí
         recoil = meleeWeaponInfo.attackRecoil;
@@ -102,8 +115,12 @@ public class MeleeAttack : MonoBehaviour// COSAS POR MEJORAR ABAJO
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Enemy") && hasSanguinary) {
-            playerDamage.IncreaseHP(playerAttack.bulletDamage);
+        if (other.CompareTag("Enemy")) {
+            //Suma a la carga de la definitiva
+            playerAttack.definitiveCharge += 5;
+
+            if (hasSanguinary)
+                playerDamage.IncreaseHP(playerAttack.bulletDamage);
         }
     }
 }

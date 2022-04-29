@@ -139,6 +139,10 @@ public class PlayerAttack : MonoBehaviour
 
         GenerateBullets();
 
+        attackMode = 1;
+        ChangeAttackMode();
+
+
         StartCoroutine(DefinitiveCharge());
     }
 
@@ -192,6 +196,8 @@ public class PlayerAttack : MonoBehaviour
             switch (attackMode)
             {
                 case 0:// Puños
+                    audioSource.clip = shootSound;
+                    audioSource.Play();
                     meleeAttack.Attack();
                     break;
 
@@ -265,7 +271,7 @@ public class PlayerAttack : MonoBehaviour
         }
 
         // Cambiar el modo de ataque
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q) && weapons.Count > 0)
         {
             ChangeAttackMode();
         }
@@ -313,9 +319,25 @@ public class PlayerAttack : MonoBehaviour
             bulletDamage = meleeAttack.meleeWeaponInfo.weaponDamage;
 
             weaponImage.sprite = meleeImage;
-
-            animations[0] = meleeAttack.meleeWeaponInfo.animationNames[0];
-            animations[1] = meleeAttack.meleeWeaponInfo.animationNames[1];
+            switch (playerAnimations.facingDirection)
+            {
+                case PlayerMovement.Direction.LEFT:
+                    animations[0] = meleeAttack.meleeWeaponInfo.leftAnimations[0];
+                    animations[1] = meleeAttack.meleeWeaponInfo.leftAnimations[1];
+                    break;
+                case PlayerMovement.Direction.RIGHT:
+                    animations[0] = meleeAttack.meleeWeaponInfo.rightAnimations[0];
+                    animations[1] = meleeAttack.meleeWeaponInfo.rightAnimations[1];
+                    break;
+                case PlayerMovement.Direction.DOWN:
+                    animations[0] = meleeAttack.meleeWeaponInfo.downAnimations[0];
+                    animations[1] = meleeAttack.meleeWeaponInfo.downAnimations[1];
+                    break;
+                case PlayerMovement.Direction.UP:
+                    animations[0] = upAnimations[0];
+                    animations[1] = upAnimations[1];
+                    break;
+            }
         }
     }
 
