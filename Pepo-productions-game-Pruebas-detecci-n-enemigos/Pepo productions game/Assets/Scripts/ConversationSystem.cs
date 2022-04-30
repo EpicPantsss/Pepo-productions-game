@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using UnityEngine.Events;
 [RequireComponent(typeof(AudioSource))]
 public class ConversationSystem : MonoBehaviour
 {
@@ -15,28 +14,26 @@ public class ConversationSystem : MonoBehaviour
     public Button optionButton;
     // private Text styleText;
 
-    [Header("Frases que dirá el personaje")]
+    [Header("Frases que dirï¿½ el personaje")]
     public List<string> textToShow;
-    public string[][] optionsList;// Aquí se guarda la lista con todas las opciones
+
+    public List<List<string>> optionsList = new List<List<string>>(); // Aquï¿½ se guarda la lista con todas las opciones
+    
     private List<string> optionsToChoose = new List<string>();
 
     [Header("Velocidad del texto")]
     public float textSpeed;
-    [Header("Linea actual")]
-    public int currentLine;
+
+    private int currentLine;
     private bool textEnded;
 
     private bool onOptions;
-
-    private int currentOptions;
 
     private int originalTextSize;
 
     private AudioSource audioSource;
 
     bool endText;
-
-    private UnityAction buttonAction;
 
     void Start()
     {
@@ -50,7 +47,7 @@ public class ConversationSystem : MonoBehaviour
 
         //--------------styleText = Instantiate(text, textBox.transform);
 
-        optionsBox.gameObject.SetActive(false);
+        optionsBox.enabled = false;
 
         GetText(0);
         StartText(0);
@@ -63,20 +60,20 @@ public class ConversationSystem : MonoBehaviour
 
         TextAsset t = Resources.Load("Phrases/text" + textID) as TextAsset;
 
-        // Diálogos
+        // Diï¿½logos
         string[] textList = t.text.Split('\n');
         
         bool optionsHere = false;
         int optionsNumber = 0;
-        int[] aux = new int[0];// Número de opciones a elegir
+        int[] aux = new int[0];// Nï¿½mero de opciones a elegir
         for (int i = 0; i < textList.Length; i++)
         {
-            if (textList[i] != "")// Si el texto está vacío no se guardará en la lista
+            if (textList[i] != "")// Si el texto estï¿½ vacï¿½o no se guardarï¿½ en la lista
             {
                 if (!optionsHere)
-                    textToShow.Add(textList[i]);// Añadir los diálogos a la lista
+                    textToShow.Add(textList[i]);// Aï¿½adir los diï¿½logos a la lista
 
-                // Comprobar que no se añada ningún texto de las opciones
+                // Comprobar que no se aï¿½ada ningï¿½n texto de las opciones
                 if (textList[i][0] == '{')
                 {
                     optionsHere = true;
@@ -95,22 +92,24 @@ public class ConversationSystem : MonoBehaviour
             }
         
         }
-        
-        optionsList = new string[optionsNumber][];
+      
+        optionsList.Capacity = optionsNumber;
+        List<string> auxList = new List<string>();
         for (int i = 0; i < optionsNumber; i++)
         {
-            optionsList[i] = new string[aux[i]];
+            optionsList.Add(auxList);
+            for (int j = 0; j < aux[i]; j++)
+                optionsList[i].Add("");
         }
 
         optionsNumber = 0;
-        int aux2 = 0;
         // Opciones
             /// Guardar las opciones en listas para organizarlas
         for (int i = 0; i < textList.Length; i++)
         {
             if (textList[i][0] == '{')
             {
-                i++; /// Pasamos a la siguiente línea, para supuestamente empezar a guardar el texto de las opciones
+                i++; /// Pasamos a la siguiente lï¿½nea, para supuestamente empezar a guardar el texto de las opciones
 
                 while (i <= textList.Length)/// Para evitar un bucle infinito o salirte del array
                 {
@@ -120,8 +119,8 @@ public class ConversationSystem : MonoBehaviour
                     }
                     else
                     {
-                        /// Si se encuentra el '}', se romperá el bucle y se añadirán las opciones a la 
-                        /// lista, y se limpiará el vector con el texto de las opciones para poder 
+                        /// Si se encuentra el '}', se romperï¿½ el bucle y se aï¿½adirï¿½n las opciones a la 
+                        /// lista, y se limpiarï¿½ el vector con el texto de las opciones para poder 
                         /// volverlo a usar
                         for (int j = 0; j < optionsToChoose.Count; j++)
                             optionsList[optionsNumber][j] = optionsToChoose[j];
@@ -130,11 +129,11 @@ public class ConversationSystem : MonoBehaviour
                         break; 
                     }
 
-                    i++; /// Sumará hasta encontrar el '}'
+                    i++; /// Sumarï¿½ hasta encontrar el '}'
                 }
             }
         }
-        
+        */
     }
 
     void Update()
@@ -167,21 +166,15 @@ public class ConversationSystem : MonoBehaviour
     {
         audioSource.Play();
         text.text = "";
-        
+        /*
         if (textToShow[phrase][0] == '{')
         {
-            for (int i = 0; i < textToShow[phrase].Length; i++) // Busca el número que esté cerca al '{' (para hacer más flexible la escritura de las conversaciones) - Números permitidos 0-9
-            { 
+            for (int i = 0; i < textToShow[phrase].Length; i++) // Busca el nï¿½mero que estï¿½ cerca al '{' (para hacer mï¿½s flexible la escritura de las conversaciones) - Nï¿½meros permitidos 0-9
                 if (char.IsDigit(textToShow[phrase][i]))
-                {
-                    string num = "";
-                    num += textToShow[phrase][i];
-                    OptionChoose(int.Parse(num));
-                    break;
-                }
-            }
+                    OptionChoose(textToShow[phrase][i]);
         }
         else
+        */
             StartCoroutine(AppearWordsEffect(textToShow[phrase]));
     }
 
@@ -193,37 +186,37 @@ public class ConversationSystem : MonoBehaviour
 
 
         string num = "";
-        for (int i = 0; i < optionsList[currentOptions].Length; i++)
+        for (int i = 0; i < optionsList[currentOptions].Count; i++)
         {
-            num = "";///Vaciar la string para usarla otra vez
+            // Creas tantos botones como opciones haya, unity ya lo sitï¿½a en una buena posiciï¿½n por el componente de optionsBox
+            Button newButton = new Button; 
+            Instantiate(optionButton, optionsBox.rectTransform);
 
-            // Creas tantos botones como opciones haya, unity ya lo sitúa en una buena posición por el componente de optionsBox
-            Button newButton = Instantiate(optionButton, optionsBox.rectTransform);
 
-
-            // Añadir la acción al botón
+            // Aï¿½adir la acciï¿½n al botï¿½n
             int optionLength = optionsList[currentOptions][i].Length - 2;
             num += optionsList[currentOptions][i][optionLength];
-                /// Acción
+                /// Acciï¿½n
             buttonAction = () => ButtonAction(int.Parse(num));
             newButton.onClick.AddListener(buttonAction);
+                /// Quitar el nï¿½mero del texto
+            string optionText = "";
+            for (int j = 0; j < optionsList[currentOptions][i].Length - 4; j++)
+                optionText += optionsList[currentOptions][i][j];
 
 
+            // Ponerle el texto correspondiente al botï¿½n
             Text optionsText = newButton.GetComponentInChildren<Text>();
-            optionsText.text = optionsList[currentOptions][i];
+            optionsText.text = optionText;
         }
-        // Como ya se habrá elegido entre estas opciones, se pasa a la siguiente
-        if (currentOptions < optionsList.Length)
+        // Como ya se habrï¿½ elegido entre estas opciones, se pasa a la siguiente
+        if (currentOptions < optionsList.Count)
             currentOptions++;
     }
 
-    public void ButtonAction(int textToShowNow)
+    private void ButtonAction(int textToShowNow)
     {
         currentLine = textToShowNow;
-        StartText(currentLine);
-
-        onOptions = false;
-        optionsBox.gameObject.SetActive(false);
     }
 
     IEnumerator AppearWordsEffect(string line)
@@ -232,7 +225,7 @@ public class ConversationSystem : MonoBehaviour
 
         for (int i = 0; i < line.Length; i++)
         {
-            /*
+            /* //-----------------------------------------------------------------
              * Parte en la que aplicas estilos al texto, no funciona correctamente
             if (line[i] == '#')
             {
