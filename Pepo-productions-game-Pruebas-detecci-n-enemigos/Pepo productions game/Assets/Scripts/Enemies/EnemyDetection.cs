@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+[RequireComponent(typeof(StopEnemy))]
 public class EnemyDetection : MonoBehaviour
 {
     public float detectionRadius = 10.0f;
