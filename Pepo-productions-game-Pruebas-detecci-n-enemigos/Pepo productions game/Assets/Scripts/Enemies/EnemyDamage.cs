@@ -91,10 +91,9 @@ public class EnemyDamage : MonoBehaviour
             spriteRenderer.enabled = false;
             
             timer += Time.deltaTime;
-            if (timer > 1.5f)
-            {
+            
                 Destroy(gameObject);
-            }
+            
         }
 
         if (called)

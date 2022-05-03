@@ -6,9 +6,9 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
     
-    public void EscenaPassivas()
+    public void Play()
     {
-        SceneManager.LoadScene("PassivesMenu");
+        SceneManager.LoadScene("SampleScene");
     }
     public void EscenaOpciones()
     {
