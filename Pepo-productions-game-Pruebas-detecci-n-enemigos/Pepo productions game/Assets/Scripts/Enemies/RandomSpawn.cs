@@ -34,9 +34,9 @@ public class RandomSpawn : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "MainCamera")
+        if (collision.tag != "MainCamera")
         {
-            cantRespawn = true;
+            cantRespawn = false;
         }
     }
 }

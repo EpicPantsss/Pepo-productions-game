@@ -48,11 +48,6 @@ public class EnemyDamage : MonoBehaviour
         playerAttack = player.GetComponent<PlayerAttack>();
         playerDamage = player.GetComponent<PlayerDamage>();
 
-        if (playerAttack.passiveAbility.name == "Sanguinario")
-        {
-            hasSanguinary = true;
-        }
-
         hasPatrolScript = enemyDetection.hasPatrolScript;
     }
 
@@ -91,7 +86,6 @@ public class EnemyDamage : MonoBehaviour
             spriteRenderer.enabled = false;
             
             timer += Time.deltaTime;
-            
                 Destroy(gameObject);
             
         }

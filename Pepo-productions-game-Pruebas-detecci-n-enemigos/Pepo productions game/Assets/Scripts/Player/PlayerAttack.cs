@@ -23,13 +23,13 @@ public class PlayerAttack : MonoBehaviour
     private int ammoType;
     private int[] ammoInventory;
     private int[] currentAmmoValue;
-    
-        /// Variables donde se guardan las balas a disparar al inicio del código
+
+    /// Variables donde se guardan las balas a disparar al inicio del código
     private GameObject[] bulletRepository;
     [HideInInspector]
     public Bullet[] bulletRepositoryScripts;
 
-        /// Variable donde se marcan las balas que se crearán al inicio del código
+    /// Variable donde se marcan las balas que se crearán al inicio del código
     public int bulletsToInit;
     [HideInInspector]
     public int actualBullet;
@@ -88,7 +88,7 @@ public class PlayerAttack : MonoBehaviour
     // ============================
     // Modo de ataque
     private int attackMode = 0;
-        // Ataque cuepro a cuerpo
+    // Ataque cuepro a cuerpo
     private MeleeAttack meleeAttack;
 
     private PlayerMovement playerMovement;
@@ -101,7 +101,7 @@ public class PlayerAttack : MonoBehaviour
         bulletRepository = new GameObject[bulletsToInit];
         bulletRepositoryScripts = new Bullet[bulletsToInit];
 
-       // gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        // gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 
         ammoInventory = new int[(int)WeaponManager.AmmoTypes.LAST_NO_USE];
         currentAmmoValue = new int[ammoInventory.Length];
@@ -370,7 +370,7 @@ public class PlayerAttack : MonoBehaviour
     }
     public void ChangeWeapon(int weaponID)
     {
-        if (weaponID >= weapons.Count || weaponID < 0 
+        if (weaponID >= weapons.Count || weaponID < 0
             || weapons.Count <= 0 || weapons[weaponID] == null) { return; }
 
         GetWeaponStats(weaponID);
