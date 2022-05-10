@@ -1,9 +1,16 @@
 fileFormatVersion: 2
 <<<<<<< HEAD
+<<<<<<< Updated upstream
 guid: bbadd998d915f3e4d858f81a2faa0590
 =======
 guid: d8538fc29a7735b4c82c66290281e962
 >>>>>>> main
+=======
+guid: d8538fc29a7735b4c82c66290281e962
+=======
+guid: bbadd998d915f3e4d858f81a2faa0590
+>>>>>>> parent of 2547e7d... Merge remote-tracking branch 'origin/main' into main
+>>>>>>> Stashed changes
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
