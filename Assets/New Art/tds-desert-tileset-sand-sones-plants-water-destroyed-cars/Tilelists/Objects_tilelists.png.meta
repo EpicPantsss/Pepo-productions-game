@@ -1,4 +1,5 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: ff3da50be74ae0443954974743e6d8ac
 TextureImporter:
   internalIDToNameTable:
@@ -1028,6 +1029,11 @@ TextureImporter:
   - first:
       213: 1691052860124432135
     second: Objects_tilelists_341
+=======
+guid: 64ea74c4fd55d5740b69aa7daa604a4e
+TextureImporter:
+  internalIDToNameTable: []
+>>>>>>> main
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -1067,7 +1073,11 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
+<<<<<<< HEAD
   spriteMode: 2
+=======
+  spriteMode: 1
+>>>>>>> main
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -1101,6 +1111,7 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+<<<<<<< HEAD
   - serializedVersion: 3
     buildTarget: Standalone
     maxTextureSize: 2048
@@ -8298,6 +8309,11 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+=======
+  spriteSheet:
+    serializedVersion: 2
+    sprites: []
+>>>>>>> main
     outline: []
     physicsShape: []
     bones: []

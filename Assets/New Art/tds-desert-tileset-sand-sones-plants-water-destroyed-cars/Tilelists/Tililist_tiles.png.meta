@@ -1,4 +1,5 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: 77578f2beba5c374582ee3a6fe887a99
 TextureImporter:
   internalIDToNameTable:
@@ -158,6 +159,11 @@ TextureImporter:
   - first:
       213: -3156142233660345262
     second: Tililist_tiles_51
+=======
+guid: c5febcde644e0c34e962d39eec1f88b0
+TextureImporter:
+  internalIDToNameTable: []
+>>>>>>> main
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -197,7 +203,11 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
+<<<<<<< HEAD
   spriteMode: 2
+=======
+  spriteMode: 1
+>>>>>>> main
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -231,6 +241,7 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+<<<<<<< HEAD
   - serializedVersion: 3
     buildTarget: Standalone
     maxTextureSize: 2048
@@ -1338,6 +1349,11 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+=======
+  spriteSheet:
+    serializedVersion: 2
+    sprites: []
+>>>>>>> main
     outline: []
     physicsShape: []
     bones: []
