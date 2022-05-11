@@ -1,16 +1,9 @@
 fileFormatVersion: 2
 <<<<<<< HEAD
-<<<<<<< Updated upstream
 guid: c54acd9f77a20574cb28552a6f82ceaa
 =======
 guid: a5d17cc4c9e67a443a695bfd5ee2be63
 >>>>>>> main
-=======
-guid: a5d17cc4c9e67a443a695bfd5ee2be63
-=======
-guid: c54acd9f77a20574cb28552a6f82ceaa
->>>>>>> parent of 2547e7d... Merge remote-tracking branch 'origin/main' into main
->>>>>>> Stashed changes
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
