@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 [RequireComponent(typeof(Rigidbody2D))]
 public class EnemyDamage : MonoBehaviour
 {
@@ -30,6 +31,10 @@ public class EnemyDamage : MonoBehaviour
     private PlayerAttack playerAttack;
     private PlayerDamage playerDamage;
 
+    public Text text;
+    public float startingKills = 0;
+    public float currentKills = 0;  
+
     private bool hasSanguinary;
 
     private void Start()
@@ -49,6 +54,8 @@ public class EnemyDamage : MonoBehaviour
         playerDamage = player.GetComponent<PlayerDamage>();
 
         hasPatrolScript = enemyDetection.hasPatrolScript;
+
+        currentKills = startingKills;
     }
 
     private void Update()
@@ -86,6 +93,8 @@ public class EnemyDamage : MonoBehaviour
             spriteRenderer.enabled = false;
             
             timer += Time.deltaTime;
+
+            currentKills = +1;
                 Destroy(gameObject);
             
         }
