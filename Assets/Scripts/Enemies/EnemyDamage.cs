@@ -95,7 +95,9 @@ public class EnemyDamage : MonoBehaviour
             timer += Time.deltaTime;
 
             currentKills = +1;
-                Destroy(gameObject);
+
+            ScoreManager.instance.AddPoint();
+            Destroy(gameObject);
             
         }
 
@@ -143,6 +145,16 @@ public class EnemyDamage : MonoBehaviour
         if (other.CompareTag("Infiltrado"))
         {
             GetComponent<StopEnemy>().stop = true;
+        }
+
+        if (other.CompareTag("Bullet"))
+        {
+            enemyHP--;
+            if (enemyHP <= 0)
+            {
+                ScoreManager.instance.AddPoint();
+                Destroy(gameObject);
+            }
         }
     }
     private void OnTriggerExit2D(Collider2D other)

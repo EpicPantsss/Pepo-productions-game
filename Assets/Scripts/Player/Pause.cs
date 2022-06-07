@@ -37,12 +37,14 @@ public class Pause : MonoBehaviour
     {
         Time.timeScale = 0f;
         IsPaused = true;
+        Cursor.visible = true;
     }
     public void ResumeGame(GameObject idk)
     {
         Time.timeScale = 1f;
         idk.SetActive(false);
         IsPaused = false;
+        Cursor.visible = false;
     }
 
     public void Restart(GameObject idk)

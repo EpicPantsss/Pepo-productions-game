@@ -50,6 +50,7 @@ public class PlayerDamage : MonoBehaviour
             if (playerHP <= 0)
             {
                 SceneManager.LoadScene("DeathScene");
+                Cursor.visible = true;
             }
             hpImage.fillAmount = playerHP * 0.1f;
             //damaged = true;
