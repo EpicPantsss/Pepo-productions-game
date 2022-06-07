@@ -120,6 +120,7 @@ public class EnemyDamage : MonoBehaviour
                 audioSource.Play();
                 spriteRenderer.enabled = false;
                 death = true;
+                ScoreManager.instance.AddPoint();
             }
             called = true;
             damaged = true;
