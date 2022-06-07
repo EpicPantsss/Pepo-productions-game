@@ -19,10 +19,6 @@ public class PlayerAnimations : MonoBehaviour
     [Header("Attack-4")]
     [Header("RunU-2 RunD-3")]
     [Header("Still-0 Run-1")]
-    public string[] leftAnimations = new string[4];
-    public string[] rightAnimations = new string[4];
-    public string[] upAnimations = new string[4];
-    public string[] downAnimations = new string[4];
 
     private float timer;
     public float rotation;
@@ -74,33 +70,25 @@ public class PlayerAnimations : MonoBehaviour
     }
     void Update()
     {
-        if (!animationStarted)
+        if (playerMovement.walking && !playerAttack.shooting && !animationStarted)
         {
-            rotation = playerAttack.rotationAngle.z * 360;
-            // Ratón a la derecha
-            if (rotation < 145 && rotation >= -145)
-            {
-                facingDirection = PlayerMovement.Direction.RIGHT;
-                GetMovementAnimations(leftAnimations);
-            }
-            // Ratón abajo
-            if (rotation > -345 && rotation <= -145)
-            {
-                facingDirection = PlayerMovement.Direction.DOWN;
-                GetMovementAnimations(downAnimations);
-            }
-            // Ratón a la izquierda
-            if (rotation < -345 || rotation >= 345)
-            {
-                facingDirection = PlayerMovement.Direction.LEFT;
-                GetMovementAnimations(rightAnimations);
-            }
-            // Ratón arriba
-            if (rotation < 345 && rotation >= 145)
-            {
-                facingDirection = PlayerMovement.Direction.UP;
-                GetMovementAnimations(upAnimations);
-            }
+            anim.Play("Player_walk");
+        }
+        else if (!playerAttack.shooting && !playerMovement.walking && !animationStarted)
+        {
+            anim.Play("Player_idle");
+        }
+
+        if (Input.GetKey(KeyCode.Mouse0) && !playerMovement.walking)
+        {
+            anim.Play(playerAttack.animations[0]);
+            animationStarted = true;
+        }
+        else if (Input.GetKey(KeyCode.Mouse0) && playerMovement.walking && !animationStarted)
+        {
+            anim.Play(playerAttack.animations[1]);
+            animationStarted = true;
+            timer = 0;
         }
 
 
@@ -137,3 +125,4 @@ public class PlayerAnimations : MonoBehaviour
         }
     }
 }
+
