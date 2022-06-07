@@ -63,12 +63,15 @@ public class PlayerMovement : MonoBehaviour
         // Control de inputs
         if (Input.GetKey(KeyCode.D))
         {
+            if (Input.GetKey(KeyCode.D)) { transform.rotation = Quaternion.Euler(0, 0, transform.rotation.z + 90); };
             rb.velocity = new Vector2(speed, rb.velocity.y);
             direction = Direction.RIGHT;
+            
             horizontalKeyPressed = KeyCode.D;
         }
         if (Input.GetKey(KeyCode.A))
         {
+            if (Input.GetKey(KeyCode.A)) {transform.rotation = Quaternion.Euler(0, 0, transform.rotation.z - 90); };
             rb.velocity = new Vector2(-speed, rb.velocity.y);
             direction = Direction.LEFT;
             horizontalKeyPressed = KeyCode.A;
@@ -76,11 +79,13 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKey(KeyCode.W))
         {
             rb.velocity = new Vector2(rb.velocity.x, speed);
+            if (Input.GetKey(KeyCode.W)) { transform.rotation = Quaternion.Euler(0, 0, transform.rotation.z - 180); };
             direction = Direction.UP;
             verticalKeyPressed = KeyCode.W;
         }
         if (Input.GetKey(KeyCode.S))
         {
+            if (Input.GetKey(KeyCode.S)) { transform.rotation = Quaternion.Euler(0, 0, 0); };
             rb.velocity = new Vector2(rb.velocity.x, -speed);
             direction = Direction.DOWN;
             verticalKeyPressed = KeyCode.S;
